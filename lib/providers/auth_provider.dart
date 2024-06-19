@@ -4,9 +4,12 @@ import 'dart:convert';
 
 class AuthProvider with ChangeNotifier {
   String? _token;
+  String? _role;
   String? get token => _token;
+  String? get role => _role;
 
   bool get isAuthenticated => _token != null;
+  bool get isAdmin => _role == 'admin';
 
   Future<void> login(String email, String password) async {
     final response = await http.post(
@@ -24,6 +27,7 @@ class AuthProvider with ChangeNotifier {
 
     if (response.statusCode == 200) {
       _token = data['token'];
+      _role = data['role']; // Ensure the role is correctly set
       notifyListeners();
     } else {
       throw Exception(data['message']);
@@ -52,7 +56,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateProfile(String firstName, String lastName, String tel) async {
+  Future<void> updateProfile(String firstName, String lastName, String bio, String profilePicture) async {
     final response = await http.put(
       Uri.parse('http://localhost:5000/api/users/profile'),
       headers: {
@@ -62,7 +66,8 @@ class AuthProvider with ChangeNotifier {
       body: jsonEncode(<String, String>{
         'first_name': firstName,
         'last_name': lastName,
-        'tel': tel,
+        'bio': bio,
+        'profile_picture': profilePicture,
       }),
     );
 
@@ -75,6 +80,7 @@ class AuthProvider with ChangeNotifier {
 
   void logout() {
     _token = null;
+    _role = null;
     notifyListeners();
   }
 }

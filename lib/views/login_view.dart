@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import 'update_profile_view.dart';
+import 'admin_landing_view.dart';
+import 'user_landing_view.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -20,10 +21,18 @@ class _LoginViewState extends State<LoginView> {
         _emailController.text,
         _passwordController.text,
       );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => UpdateProfileView()),
-      );
+
+      if (Provider.of<AuthProvider>(context, listen: false).isAdmin) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminLandingView()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => UserLandingView()),
+        );
+      }
     } catch (e) {
       setState(() {
         _message = e.toString();
