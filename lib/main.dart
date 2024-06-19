@@ -34,18 +34,13 @@ class MyApp extends StatelessWidget {
               '/user': (context) => UserLandingView(),
             },
             onGenerateRoute: (settings) {
-              if (auth.isAuthenticated) {
-                if (auth.isAdmin && settings.name == '/admin') {
-                  return MaterialPageRoute(builder: (context) => AdminLandingView());
-                } else if (!auth.isAdmin && settings.name == '/user') {
-                  return MaterialPageRoute(builder: (context) => UserLandingView());
-                }
-                // Redirect non-admins trying to access admin page
-                if (!auth.isAdmin && settings.name == '/admin') {
-                  return MaterialPageRoute(builder: (context) => UserLandingView());
-                }
+              if (!auth.isAuthenticated) {
+                return MaterialPageRoute(builder: (context) => LoginView());
               }
-              return MaterialPageRoute(builder: (context) => LoginView());
+              if (auth.isAuthenticated && settings.name == '/admin' && !auth.isAdmin) {
+                return MaterialPageRoute(builder: (context) => UserLandingView());
+              }
+              return null;
             },
           );
         },
