@@ -55,6 +55,8 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Register'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -160,7 +162,7 @@ class _RegisterViewState extends State<RegisterView> {
                   child: ElevatedButton(
                     onPressed: _register,
                     child: Text(
-                      'Inscription',
+                      'Register',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
@@ -184,10 +186,10 @@ class _RegisterViewState extends State<RegisterView> {
                 SizedBox(height: 20.0),
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/login');
+                    Navigator.pushReplacementNamed(context, '/');
                   },
                   child: Text(
-                    'Pas de compte ? Inscription',
+                    'Already have an account? Login',
                     style: TextStyle(
                       color: Colors.orange,
                       decoration: TextDecoration.underline,

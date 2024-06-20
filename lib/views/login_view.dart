@@ -43,6 +43,11 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Login'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -114,7 +119,7 @@ class _LoginViewState extends State<LoginView> {
                   child: ElevatedButton(
                     onPressed: _login,
                     child: Text(
-                      'Connexion',
+                      'Login',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold,
@@ -141,7 +146,7 @@ class _LoginViewState extends State<LoginView> {
                     Navigator.pushNamed(context, '/register');
                   },
                   child: Text(
-                    'Pas de compte ? Inscription',
+                    'No account? Register',
                     style: TextStyle(
                       color: Colors.orange,
                       decoration: TextDecoration.underline,

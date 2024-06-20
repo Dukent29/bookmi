@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'update_profile_view.dart';
+import 'announce_view.dart';
 
 class AdminLandingView extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class _AdminLandingViewState extends State<AdminLandingView> {
   final List<Widget> _widgetOptions = <Widget>[
     Text('Aujourd\'hui Page'),
     Text('Calendrier Page'),
-    Text('Annonces Page'),
+    AnnounceView(), // Add the AnnounceView here
     Text('Messages Page'),
     UpdateProfileView(),
   ];

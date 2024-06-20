@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../models/property.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _token;
   String? _role;
+
   String? get token => _token;
   String? get role => _role;
 
@@ -82,5 +84,21 @@ class AuthProvider with ChangeNotifier {
     _token = null;
     _role = null;
     notifyListeners();
+  }
+
+  // Property CRUD methods
+  Future<void> addProperty(Property property) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:5000/api/properties/add-property'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode(property.toJson()),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to add property');
+    }
   }
 }
