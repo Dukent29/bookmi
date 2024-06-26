@@ -30,7 +30,7 @@ class _LoginViewState extends State<LoginView> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => UserLandingView()),
+          MaterialPageRoute(builder: (context) => UserLandingView(userId: Provider.of<AuthProvider>(context, listen: false).userId ?? '')),
         );
       }
     } catch (e) {

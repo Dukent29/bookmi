@@ -7,6 +7,7 @@ import 'views/update_profile_view.dart';
 import 'views/admin_landing_view.dart';
 import 'views/user_landing_view.dart';
 import 'views/add_property_view.dart';
+import 'views/search_properties_view.dart'; // Import the search view
 
 void main() {
   runApp(MyApp());
@@ -17,19 +18,24 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => AuthProvider(),
-      child: MaterialApp(
-        title: 'Bookmi',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => LoginView(),
-          '/register': (context) => RegisterView(),
-          '/update_profile': (context) => UpdateProfileView(),
-          '/admin': (context) => AdminLandingView(),
-          '/user': (context) => UserLandingView(),
-          '/add_property': (context) => AddPropertyView(),
+      child: Consumer<AuthProvider>(
+        builder: (context, authProvider, child) {
+          return MaterialApp(
+            title: 'Bookmi',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            initialRoute: '/',
+            routes: {
+              '/': (context) => LoginView(),
+              '/register': (context) => RegisterView(),
+              '/update_profile': (context) => UpdateProfileView(),
+              '/admin': (context) => AdminLandingView(),
+              '/user': (context) => UserLandingView(userId: authProvider.userId ?? ''),
+              '/add_property': (context) => AddPropertyView(),
+              '/search_properties': (context) => SearchPropertiesView(), // Add the search route
+            },
+          );
         },
       ),
     );

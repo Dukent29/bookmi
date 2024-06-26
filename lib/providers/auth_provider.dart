@@ -6,9 +6,11 @@ import '../models/property.dart';
 class AuthProvider with ChangeNotifier {
   String? _token;
   String? _role;
+  String? _userId;
 
   String? get token => _token;
   String? get role => _role;
+  String? get userId => _userId;
 
   bool get isAuthenticated => _token != null;
   bool get isAdmin => _role == 'admin';
@@ -30,6 +32,7 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       _token = data['token'];
       _role = data['role']; // Ensure the role is correctly set
+      _userId = data['userId']; // Assuming you get the user ID from the response
       notifyListeners();
     } else {
       throw Exception(data['message']);
@@ -83,6 +86,7 @@ class AuthProvider with ChangeNotifier {
   void logout() {
     _token = null;
     _role = null;
+    _userId = null;
     notifyListeners();
   }
 
@@ -99,6 +103,24 @@ class AuthProvider with ChangeNotifier {
 
     if (response.statusCode != 201) {
       throw Exception('Failed to add property');
+    }
+  }
+
+  // Search properties
+  Future<List<Property>> searchProperties({required String city, required String country}) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/properties/search?city=$city&country=$country'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((item) => Property.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load properties');
     }
   }
 }

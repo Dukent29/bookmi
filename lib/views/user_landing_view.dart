@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'update_profile_view.dart';
+import 'search_properties_view.dart'; // Import the search view
 
 class UserLandingView extends StatefulWidget {
+  final String userId;
+
+  UserLandingView({required this.userId});
+
   @override
   _UserLandingViewState createState() => _UserLandingViewState();
 }
@@ -17,9 +22,13 @@ class _UserLandingViewState extends State<UserLandingView> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (index == 4) {
+      Navigator.pushNamed(context, '/search_properties');
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override
@@ -48,6 +57,10 @@ class _UserLandingViewState extends State<UserLandingView> {
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search', // Add the search label
           ),
         ],
         currentIndex: _selectedIndex,

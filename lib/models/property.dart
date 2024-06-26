@@ -35,21 +35,21 @@ class Property {
 
   factory Property.fromJson(Map<String, dynamic> json) {
     return Property(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      address: json['address'],
-      city: json['city'],
-      state: json['state'],
-      country: json['country'],
-      zipCode: json['zip_code'],
-      pricePerNight: json['price_per_night'].toDouble(),
-      maxGuests: json['max_guests'],
-      numBedrooms: json['num_bedrooms'],
-      numBathrooms: json['num_bathrooms'],
-      amenities: json['amenities'],
-      createdAt: DateTime.parse(json['created_at']),
-      updatedAt: DateTime.parse(json['updated_at']),
+      id: json['id'] ?? 0,
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      address: json['address'] ?? '',
+      city: json['city'] ?? '',
+      state: json['state'] ?? '',
+      country: json['country'] ?? '',
+      zipCode: json['zip_code'] ?? '',
+      pricePerNight: double.tryParse(json['price_per_night'].toString()) ?? 0.0,
+      maxGuests: json['max_guests'] ?? 0,
+      numBedrooms: json['num_bedrooms'] ?? 0,
+      numBathrooms: json['num_bathrooms'] ?? 0,
+      amenities: json['amenities'] ?? '',
+      createdAt: DateTime.parse(json['created_at'] ?? DateTime.now().toIso8601String()),
+      updatedAt: DateTime.parse(json['updated_at'] ?? DateTime.now().toIso8601String()),
     );
   }
 

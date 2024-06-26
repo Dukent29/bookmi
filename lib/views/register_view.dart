@@ -32,7 +32,9 @@ class _RegisterViewState extends State<RegisterView> {
         _passwordController.text,
       );
 
-      if (Provider.of<AuthProvider>(context, listen: false).isAdmin) {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      if (authProvider.isAdmin) {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => AdminLandingView()),
@@ -40,7 +42,7 @@ class _RegisterViewState extends State<RegisterView> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => UserLandingView()),
+          MaterialPageRoute(builder: (context) => UserLandingView(userId: authProvider.userId ?? '')),
         );
       }
     } catch (e) {
