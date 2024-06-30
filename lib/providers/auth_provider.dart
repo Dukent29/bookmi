@@ -31,8 +31,8 @@ class AuthProvider with ChangeNotifier {
 
     if (response.statusCode == 200) {
       _token = data['token'];
-      _role = data['role']; // Ensure the role is correctly set
-      _userId = data['userId']; // Assuming you get the user ID from the response
+      _role = data['role'];
+      _userId = data['userId'];
       notifyListeners();
     } else {
       throw Exception(data['message']);
@@ -55,13 +55,14 @@ class AuthProvider with ChangeNotifier {
     final data = jsonDecode(response.body);
 
     if (response.statusCode == 201) {
-      await login(email, password); // Automatically login after registration
+      await login(email, password);
     } else {
       throw Exception(data['message']);
     }
   }
 
-  Future<void> updateProfile(String firstName, String lastName, String bio, String profilePicture) async {
+  Future<void> updateProfile(String firstName, String lastName, String bio,
+      String profilePicture) async {
     final response = await http.put(
       Uri.parse('http://localhost:5000/api/users/profile'),
       headers: {
@@ -90,7 +91,23 @@ class AuthProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Property CRUD methods
+  Future<List<Property>> searchProperties({required String address}) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/properties/search?address=$address'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((item) => Property.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load properties');
+    }
+  }
+
   Future<void> addProperty(Property property) async {
     final response = await http.post(
       Uri.parse('http://localhost:5000/api/properties/add-property'),
@@ -106,21 +123,30 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  // Search properties
-  Future<List<Property>> searchProperties({required String city, required String country}) async {
-    final response = await http.get(
-      Uri.parse('http://localhost:5000/api/properties/search?city=$city&country=$country'),
+  Future<void> createBooking({
+    required int propertyId,
+    required String startDate,
+    required String endDate,
+  }) async {
+    print('Creating booking for propertyId: $propertyId, startDate: $startDate, endDate: $endDate'); // Debugging
+    final response = await http.post(
+      Uri.parse('http://localhost:5000/api/bookings/book'),
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $_token',
       },
+      body: jsonEncode({
+        'property_id': propertyId,
+        'start_date': startDate,
+        'end_date': endDate,
+      }),
     );
 
-    if (response.statusCode == 200) {
-      List<dynamic> data = jsonDecode(response.body);
-      return data.map((item) => Property.fromJson(item)).toList();
-    } else {
-      throw Exception('Failed to load properties');
+    print('Response status: ${response.statusCode}'); // Debugging
+    print('Response body: ${response.body}'); // Debugging
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create booking');
     }
   }
 }

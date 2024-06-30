@@ -73,137 +73,137 @@ class _RegisterViewState extends State<RegisterView> {
             padding: EdgeInsets.symmetric(horizontal: 45.0),
             child: Column(
               children: <Widget>[
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins',
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Book',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      TextSpan(
-                        text: 'mi',
-                        style: TextStyle(color: Colors.orange),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Container(
-                  width: double.infinity,
-                  child: TextField(
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                      labelText: 'Username',
-                      labelStyle: TextStyle(fontFamily: 'Poppins'),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Container(
-                  width: double.infinity,
-                  child: TextField(
-                    controller: _emailController,
-                    decoration: InputDecoration(
-                      labelText: 'Email',
-                      labelStyle: TextStyle(fontFamily: 'Poppins'),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Container(
-                  width: double.infinity,
-                  child: TextField(
-                    controller: _passwordController,
-                    decoration: InputDecoration(
-                      labelText: 'Password',
-                      labelStyle: TextStyle(fontFamily: 'Poppins'),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                    ),
-                    obscureText: true,
-                  ),
-                ),
-                SizedBox(height: 10.0),
-                Container(
-                  width: double.infinity,
-                  child: TextField(
-                    controller: _confirmPasswordController,
-                    decoration: InputDecoration(
-                      labelText: 'Confirm Password',
-                      labelStyle: TextStyle(fontFamily: 'Poppins'),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                    ),
-                    obscureText: true,
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Container(
-                  width: double.infinity, // Make the button full width
-                  child: ElevatedButton(
-                    onPressed: _register,
-                    child: Text(
-                      'Register',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white, // Set the text color to white
-                      ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      padding: EdgeInsets.symmetric(vertical: 20.0), // Padding top and bottom
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  _message,
-                  style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
-                ),
-                SizedBox(height: 20.0),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushReplacementNamed(context, '/');
-                  },
-                  child: Text(
-                    'Already have an account? Login',
-                    style: TextStyle(
-                      color: Colors.orange,
-                      decoration: TextDecoration.underline,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                ),
-              ],
+            RichText(
+            text: TextSpan(
+              style: TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+            children: <TextSpan>[
+              TextSpan(
+                text: 'Book',
+                style: TextStyle(color: Colors.white),
+              ),
+              TextSpan(
+                text: 'mi',
+                style: TextStyle(color: Colors.orange),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Container(
+          width: double.infinity,
+          child: TextField(
+            controller: _usernameController,
+            decoration: InputDecoration(
+              labelText: 'Username',
+              labelStyle: TextStyle(fontFamily: 'Poppins'),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              filled: true,
+              fillColor: Colors.grey[200],
             ),
           ),
         ),
+        SizedBox(height: 10.0),
+        Container(
+          width: double.infinity,
+          child: TextField(
+            controller: _emailController,
+            decoration: InputDecoration(
+              labelText: 'Email',
+              labelStyle: TextStyle(fontFamily: 'Poppins'),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              filled: true,
+              fillColor: Colors.grey[200],
+            ),
+          ),
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          width: double.infinity,
+          child: TextField(
+            controller: _passwordController,
+            decoration: InputDecoration(
+              labelText: 'Password',
+              labelStyle: TextStyle(fontFamily: 'Poppins'),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              filled: true,
+              fillColor: Colors.grey[200],
+            ),
+            obscureText: true,
+          ),
+        ),
+        SizedBox(height: 10.0),
+        Container(
+          width: double.infinity,
+          child: TextField(
+            controller: _confirmPasswordController,
+            decoration: InputDecoration(
+              labelText: 'Confirm Password',
+              labelStyle: TextStyle(fontFamily: 'Poppins'),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+              filled: true,
+              fillColor: Colors.grey[200],
+            ),
+            obscureText: true,
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Container(
+          width: double.infinity, // Make the button full width
+          child: ElevatedButton(
+            onPressed: _register,
+            child: Text(
+              'Register',
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.bold,
+                color: Colors.white, // Set the text color to white
+              ),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.orange,
+              padding: EdgeInsets.symmetric(vertical: 20.0), // Padding top and bottom
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.0),
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: 20.0),
+        Text(
+            _message,
+        style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
       ),
+      SizedBox(height: 20.0),
+      GestureDetector(
+        onTap: () {
+          Navigator.pushReplacementNamed(context, '/');
+        },
+        child: Text(
+          'Already have an account? Login',
+          style: TextStyle(
+            color: Colors.orange,
+            decoration: TextDecoration.underline,
+            fontFamily: 'Poppins',
+          ),
+        ),
+      ),
+      ],
+    ),
+    ),
+    ),
+    ),
     );
   }
 }
