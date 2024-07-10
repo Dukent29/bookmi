@@ -8,6 +8,7 @@ import 'views/admin_landing_view.dart';
 import 'views/user_landing_view.dart';
 import 'views/add_property_view.dart';
 import 'views/search_properties_view.dart'; // Import the search view
+import 'views/block_dates_view.dart'; // Import the block dates view
 
 void main() {
   runApp(MyApp());

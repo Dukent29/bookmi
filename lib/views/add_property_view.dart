@@ -9,19 +9,21 @@ class AddPropertyView extends StatefulWidget {
 }
 
 class _AddPropertyViewState extends State<AddPropertyView> {
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _stateController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _zipCodeController = TextEditingController();
-  final TextEditingController _pricePerNightController = TextEditingController();
-  final TextEditingController _maxGuestsController = TextEditingController();
-  final TextEditingController _numBedroomsController = TextEditingController();
-  final TextEditingController _numBathroomsController = TextEditingController();
-  final TextEditingController _amenitiesController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _stateController = TextEditingController();
+  final _countryController = TextEditingController();
+  final _zipCodeController = TextEditingController();
+  final _pricePerNightController = TextEditingController();
+  final _maxGuestsController = TextEditingController();
+  final _numBedroomsController = TextEditingController();
+  final _numBathroomsController = TextEditingController();
+  final _amenitiesController = TextEditingController();
 
+  int _currentStep = 0;
   String _message = '';
 
   Future<void> _addProperty() async {
@@ -55,6 +57,63 @@ class _AddPropertyViewState extends State<AddPropertyView> {
     }
   }
 
+  List<Step> _getSteps() {
+    return [
+      Step(
+        title: Text('Details'),
+        content: Column(
+          children: [
+            buildTextField(_titleController, 'Title'),
+            SizedBox(height: 10.0),
+            buildTextField(_descriptionController, 'Description'),
+          ],
+        ),
+        isActive: _currentStep >= 0,
+      ),
+      Step(
+        title: Text('Location'),
+        content: Column(
+          children: [
+            buildTextField(_addressController, 'Address'),
+            SizedBox(height: 10.0),
+            buildTextField(_cityController, 'City'),
+            SizedBox(height: 10.0),
+            buildTextField(_stateController, 'State'),
+            SizedBox(height: 10.0),
+            buildTextField(_countryController, 'Country'),
+            SizedBox(height: 10.0),
+            buildTextField(_zipCodeController, 'Zip Code'),
+          ],
+        ),
+        isActive: _currentStep >= 1,
+      ),
+      Step(
+        title: Text('Pricing'),
+        content: Column(
+          children: [
+            buildTextField(_pricePerNightController, 'Price Per Night', TextInputType.number),
+            SizedBox(height: 10.0),
+            buildTextField(_maxGuestsController, 'Max Guests', TextInputType.number),
+          ],
+        ),
+        isActive: _currentStep >= 2,
+      ),
+      Step(
+        title: Text('Amenities'),
+        content: Column(
+          children: [
+            buildTextField(_numBedroomsController, 'Number of Bedrooms', TextInputType.number),
+            SizedBox(height: 10.0),
+            buildTextField(_numBathroomsController, 'Number of Bathrooms', TextInputType.number),
+            SizedBox(height: 10.0),
+            buildTextField(_amenitiesController, 'Amenities'),
+          ],
+        ),
+        isActive: _currentStep >= 3,
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,79 +133,61 @@ class _AddPropertyViewState extends State<AddPropertyView> {
         child: Center(
           child: SingleChildScrollView(
             padding: EdgeInsets.symmetric(horizontal: 45.0),
-            child: Column(
-              children: <Widget>[
-                RichText(
-                  text: TextSpan(
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins',
-                    ),
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: 'Add',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      TextSpan(
-                        text: ' Property',
-                        style: TextStyle(color: Colors.orange),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.0),
-                buildTextField(_titleController, 'Title'),
-                SizedBox(height: 10.0),
-                buildTextField(_descriptionController, 'Description'),
-                SizedBox(height: 10.0),
-                buildTextField(_addressController, 'Address'),
-                SizedBox(height: 10.0),
-                buildTextField(_cityController, 'City'),
-                SizedBox(height: 10.0),
-                buildTextField(_stateController, 'State'),
-                SizedBox(height: 10.0),
-                buildTextField(_countryController, 'Country'),
-                SizedBox(height: 10.0),
-                buildTextField(_zipCodeController, 'Zip Code'),
-                SizedBox(height: 10.0),
-                buildTextField(_pricePerNightController, 'Price Per Night', TextInputType.number),
-                SizedBox(height: 10.0),
-                buildTextField(_maxGuestsController, 'Max Guests', TextInputType.number),
-                SizedBox(height: 10.0),
-                buildTextField(_numBedroomsController, 'Number of Bedrooms', TextInputType.number),
-                SizedBox(height: 10.0),
-                buildTextField(_numBathroomsController, 'Number of Bathrooms', TextInputType.number),
-                SizedBox(height: 10.0),
-                buildTextField(_amenitiesController, 'Amenities'),
-                SizedBox(height: 20.0),
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _addProperty,
-                    child: Text(
-                      'Add Property',
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: <Widget>[
+                  RichText(
+                    text: TextSpan(
                       style: TextStyle(
-                        fontFamily: 'Poppins',
+                        fontSize: 24.0,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        fontFamily: 'Poppins',
                       ),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      padding: EdgeInsets.symmetric(vertical: 20.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5.0),
-                      ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'Add',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        TextSpan(
+                          text: ' Property',
+                          style: TextStyle(color: Colors.orange),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-                SizedBox(height: 20.0),
-                Text(
-                  _message,
-                  style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
-                ),
-              ],
+                  SizedBox(height: 20.0),
+                  Stepper(
+                    steps: _getSteps(),
+                    currentStep: _currentStep,
+                    onStepContinue: () {
+                      if (_currentStep < _getSteps().length - 1) {
+                        setState(() {
+                          _currentStep += 1;
+                        });
+                      } else {
+                        if (_formKey.currentState!.validate()) {
+                          _addProperty();
+                        }
+                      }
+                    },
+                    onStepCancel: () {
+                      if (_currentStep > 0) {
+                        setState(() {
+                          _currentStep -= 1;
+                        });
+                      }
+                    },
+                  ),
+                  if (_message.isNotEmpty) ...[
+                    Text(
+                      _message,
+                      style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
+                    ),
+                    SizedBox(height: 20.0),
+                  ],
+                ],
+              ),
             ),
           ),
         ),

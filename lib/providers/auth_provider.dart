@@ -149,4 +149,81 @@ class AuthProvider with ChangeNotifier {
       throw Exception('Failed to create booking');
     }
   }
+
+  Future<List<Property>> fetchProperties() async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/properties'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      print('Properties fetched: $data'); // Debugging
+      return data.map((item) => Property.fromJson(item)).toList();
+    } else {
+      print('Failed to fetch properties: ${response.body}'); // Debugging
+      throw Exception('Failed to load properties');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchBookingsByProperties(List<int> propertyIds) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:5000/api/bookings/properties'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode({'property_ids': propertyIds}),
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to load bookings');
+    }
+  }
+
+  Future<List<Map<String, dynamic>>> fetchBookings(int propertyId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/bookings/property/$propertyId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to load bookings');
+    }
+  }
+
+  Future<void> blockDates({
+    required int propertyId,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:5000/api/blocked-dates/blockDate'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode({
+        'property_id': propertyId,
+        'start_date': startDate.toIso8601String(),
+        'end_date': endDate.toIso8601String(),
+      }),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to block dates');
+    }
+  }
 }

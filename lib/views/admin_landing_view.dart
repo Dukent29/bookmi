@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import 'update_profile_view.dart';
 import 'announce_view.dart';
+import 'booking_list.dart';
 
 class AdminLandingView extends StatefulWidget {
   @override
@@ -10,22 +13,31 @@ class AdminLandingView extends StatefulWidget {
 class _AdminLandingViewState extends State<AdminLandingView> {
   int _selectedIndex = 0;
 
-  final List<Widget> _widgetOptions = <Widget>[
-    Text('Aujourd\'hui Page'),
-    Text('Calendrier Page'),
-    AnnounceView(), // Add the AnnounceView here
-    Text('Messages Page'),
-    UpdateProfileView(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+  @override
+  void initState() {
+    super.initState();
+    // Retrieve and store the property ID for the admin
   }
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    final propertyId = 42; // Replace this with actual logic to get the property ID
+
+    final List<Widget> _widgetOptions = <Widget>[
+      Text('Aujourd\'hui Page'),
+      BookingListPage(propertyId: propertyId), // Pass the propertyId here
+      AnnounceView(),
+      Text('Messages Page'),
+      UpdateProfileView(),
+    ];
+
+    void _onItemTapped(int index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Admin Dashboard'),
