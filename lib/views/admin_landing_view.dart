@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import 'update_profile_view.dart';
 import 'announce_view.dart';
-import 'booking_list.dart';
+import 'booking/booking_list.dart';
 
 class AdminLandingView extends StatefulWidget {
   @override

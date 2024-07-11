@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/property.dart';
+import '../models/property_photo.dart';
+import '../models/review.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _token;
@@ -160,12 +162,44 @@ class AuthProvider with ChangeNotifier {
     );
 
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
-      print('Properties fetched: $data'); // Debugging
+      List<dynamic> data = jsonDecode(response.body);
       return data.map((item) => Property.fromJson(item)).toList();
     } else {
-      print('Failed to fetch properties: ${response.body}'); // Debugging
       throw Exception('Failed to load properties');
+    }
+  }
+
+  Future<List<PropertyPhoto>> fetchPropertyPhotos(int propertyId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/property-photos/$propertyId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((item) => PropertyPhoto.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load property photos');
+    }
+  }
+
+  Future<List<Review>> fetchReviews(int propertyId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/reviews/property/$propertyId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((item) => Review.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load reviews');
     }
   }
 

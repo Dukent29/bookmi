@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/property.dart';
+import '../../models/property.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import 'custom_date_picker.dart';
+import '../../providers/auth_provider.dart';
+import '../custom_date_picker.dart';
 
 class CreateBookingView extends StatefulWidget {
   final Property property;

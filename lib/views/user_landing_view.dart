@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'decouvrir_page.dart';
 import 'update_profile_view.dart';
 import 'search_properties_view.dart'; // Import the search view
 
@@ -15,57 +16,69 @@ class _UserLandingViewState extends State<UserLandingView> {
   int _selectedIndex = 0;
 
   final List<Widget> _widgetOptions = <Widget>[
-    Text('Decouvrir Page'),
-    Text('Home Page'),
+    DecouvrirPage(), // Display the DecouvrirPage here
+    SearchPropertiesView(), // Display the SearchPropertiesView here
     Text('Favoris Page'),
     UpdateProfileView(),
   ];
 
   void _onItemTapped(int index) {
-    if (index == 4) {
-      Navigator.pushNamed(context, '/search_properties');
-    } else {
-      setState(() {
-        _selectedIndex = index;
-      });
-    }
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Dashboard'),
+        title: Text('user dashboard'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF000000), Color(0xFF292A32)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.explore),
-            label: 'Decouvrir',
+      bottomNavigationBar: Container(
+        margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0), // Margin for top, right, left, and bottom
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10.0), // Border radius
+          child: BottomNavigationBar(
+            type: BottomNavigationBarType.fixed, // Ensures all items are displayed
+            backgroundColor: Colors.grey[900], // Background color
+            unselectedItemColor: Colors.white, // Color of unselected items
+            selectedItemColor: Colors.amber[800], // Color of selected item
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.explore),
+                label: 'Decouvrir',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.favorite),
+                label: 'Favoris',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favoris',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search', // Add the search label
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber[800],
-        onTap: _onItemTapped,
+        ),
       ),
     );
   }

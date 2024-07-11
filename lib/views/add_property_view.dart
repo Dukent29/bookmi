@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import '../models/property.dart';
+import '../../providers/auth_provider.dart';
+import '../../models/property.dart';
 
 class AddPropertyView extends StatefulWidget {
   @override

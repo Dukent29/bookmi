@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import 'admin_landing_view.dart';
-import 'user_landing_view.dart';
+import '../../providers/auth_provider.dart';
+import '../admin_landing_view.dart';
+import '../user_landing_view.dart';
 
 class RegisterView extends StatefulWidget {
   @override

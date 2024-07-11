@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart'; // Update the import here
 import '../models/property.dart';
-import 'create_booking_view.dart'; // Import the booking view
+import 'property_detail_page.dart'; // Import the property detail page
 
 class SearchPropertiesView extends StatefulWidget {
   @override
@@ -21,7 +21,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
 
       setState(() {
         _properties = properties;
-        _message = properties.isEmpty ? 'No properties found' : '';
+        _message = properties.isEmpty ? 'Appartement non trouvable' : '';
       });
     } catch (e) {
       setState(() {
@@ -51,6 +51,9 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
             ElevatedButton(
               onPressed: _searchProperties,
               child: Text('Search'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.orange, // Background color
+              ),
             ),
             SizedBox(height: 16.0),
             if (_message.isNotEmpty) ...[
@@ -65,17 +68,20 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                 itemCount: _properties.length,
                 itemBuilder: (context, index) {
                   final property = _properties[index];
-                  return ListTile(
-                    title: Text(property.title),
-                    subtitle: Text(property.address),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateBookingView(property: property),
-                        ),
-                      );
-                    },
+                  return Card(
+                    color: Colors.grey[850],
+                    child: ListTile(
+                      title: Text(property.title, style: TextStyle(color: Colors.white)),
+                      subtitle: Text(property.address, style: TextStyle(color: Colors.white70)),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PropertyDetailPage(property: property),
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
               ),
