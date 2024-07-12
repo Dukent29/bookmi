@@ -4,6 +4,7 @@ class Booking {
   final String startDate;
   final String endDate;
   final double totalPrice;
+  final int numPeople; // Add this line
 
   Booking({
     required this.id,
@@ -11,6 +12,7 @@ class Booking {
     required this.startDate,
     required this.endDate,
     required this.totalPrice,
+    required this.numPeople, // Add this line
   });
 
   factory Booking.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class Booking {
       startDate: json['start_date'],
       endDate: json['end_date'],
       totalPrice: json['total_price'].toDouble(),
+      numPeople: json['num_people'], // Add this line
     );
   }
 }

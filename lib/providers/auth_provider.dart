@@ -129,8 +129,9 @@ class AuthProvider with ChangeNotifier {
     required int propertyId,
     required String startDate,
     required String endDate,
+    required int numPeople, // Add this line
   }) async {
-    print('Creating booking for propertyId: $propertyId, startDate: $startDate, endDate: $endDate'); // Debugging
+    print('Creating booking for propertyId: $propertyId, startDate: $startDate, endDate: $endDate, numPeople: $numPeople'); // Debugging
     final response = await http.post(
       Uri.parse('http://localhost:5000/api/bookings/book'),
       headers: {
@@ -141,13 +142,14 @@ class AuthProvider with ChangeNotifier {
         'property_id': propertyId,
         'start_date': startDate,
         'end_date': endDate,
+        'num_people': numPeople, // Add this line
       }),
     );
 
     print('Response status: ${response.statusCode}'); // Debugging
     print('Response body: ${response.body}'); // Debugging
 
-    if (response.statusCode != 201) {
+    if (response.statusCode != 200) {
       throw Exception('Échec de la création de la réservation');
     }
   }
@@ -177,6 +179,8 @@ class AuthProvider with ChangeNotifier {
         'Authorization': 'Bearer $_token',
       },
     );
+    print(response.statusCode);
+    print('http://localhost:5000/api/property-photos/$propertyId');
 
     if (response.statusCode == 200) {
       List<dynamic> data = jsonDecode(response.body);
@@ -184,7 +188,25 @@ class AuthProvider with ChangeNotifier {
     } else {
       throw Exception('Échec du chargement des photos de la propriété');
     }
+
   }
+  Future<String> fetchPropertyPhotoUrl(int propertyId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/property-photos/$propertyId/returnpicture'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      // Assuming the response contains the URL to the photo
+      return jsonDecode(response.body)['url'];
+    } else {
+      throw Exception('Échec du chargement des photos de la propriété');
+    }
+  }
+
 
   Future<List<Review>> fetchReviews(int propertyId) async {
     final response = await http.get(

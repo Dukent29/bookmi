@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
             title: 'Bookmi',
             theme: ThemeData(
               primarySwatch: Colors.blue,
-              scaffoldBackgroundColor: Colors.transparent, // Make scaffold background transparent
+              scaffoldBackgroundColor:Color(0xEFEFEF), // Make scaffold background transparent
             ),
             home: Stack(
               children: [

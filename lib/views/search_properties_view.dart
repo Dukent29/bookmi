@@ -1,9 +1,10 @@
+// views/booking/search_properties_view.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import '../models/property.dart';
-import 'property_detail_page.dart';
-import '/widgets/searchBar.dart';
+import '../../providers/auth_provider.dart';  // Adjusted the import paths
+import '../../models/property.dart';          // Adjusted the import paths
+import 'property_detail_page.dart';          // Adjusted the import paths
+import '../../widgets/searchBar.dart';        // Adjusted the import paths
 
 class SearchPropertiesView extends StatefulWidget {
   @override
@@ -28,7 +29,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
       });
     } catch (e) {
       setState(() {
-        _message = 'Échec du chargement des propriétés: ${e.toString()}';
+        _message = 'Failed to load properties: ${e.toString()}';
       });
     }
   }
@@ -43,7 +44,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home/Rechercher ...'),
+        title: Text('Home/Search Properties'),
         actions: [
           IconButton(
             icon: Icon(Icons.notifications),
@@ -126,7 +127,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Propriétés récemment ajoutées',
+              'Recently Added Properties',
               style: TextStyle(fontSize: 24, color: Colors.black),
             ),
             SizedBox(height: 16.0),
@@ -184,7 +185,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                                             style: TextStyle(color: Colors.white70)),
                                         Text('1.8 km',
                                             style: TextStyle(color: Colors.white70)),
-                                        Text('${property.pricePerNight}€/nuit',
+                                        Text('${property.pricePerNight}€/night',
                                             style: TextStyle(color: Colors.white70)),
                                       ],
                                     ),
@@ -210,7 +211,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                                           ),
                                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                                         ),
-                                        child: Text('Réserver maintenant', style: TextStyle(color: Colors.white)),
+                                        child: Text('Book Now', style: TextStyle(color: Colors.white)),
                                       ),
                                     ],
                                   ),
