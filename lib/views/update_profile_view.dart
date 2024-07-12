@@ -36,9 +36,17 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Update Profile'),
-      ),
+        appBar: AppBar(
+          title: Text('Modifier profile'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.notifications),
+              onPressed: () {
+                // Handle notification icon tap
+              },
+            ),
+          ], // Set the background color to black
+        ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(

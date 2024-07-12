@@ -24,6 +24,14 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Decouvrir'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {
+              // Handle notification icon tap
+            },
+          ),
+        ],
       ),
       body: FutureBuilder<List<Property>>(
         future: _propertiesFuture,
@@ -49,19 +57,26 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
   }
 }
 
-class PropertyCard extends StatelessWidget {
+class PropertyCard extends StatefulWidget {
   final Property property;
 
   const PropertyCard({required this.property});
 
   @override
+  _PropertyCardState createState() => _PropertyCardState();
+}
+
+class _PropertyCardState extends State<PropertyCard> {
+  bool _hovering = false;
+
+  @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => PropertyDetailPage(property: property),
+            builder: (context) => PropertyDetailPage(property: widget.property),
           ),
         );
       },
@@ -73,7 +88,6 @@ class PropertyCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Replace the image with a placeholder for now
               Container(
                 height: 150,
                 color: Colors.grey,
@@ -87,12 +101,12 @@ class PropertyCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          property.title,
+                          widget.property.title,
                           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
                         ),
-                        Text(property.address, style: TextStyle(color: Colors.white70)),
+                        Text(widget.property.address, style: TextStyle(color: Colors.white70)),
                         Text('1.8 km', style: TextStyle(color: Colors.white70)),
-                        Text('${property.pricePerNight}€/nuit', style: TextStyle(color: Colors.white70)),
+                        Text('${widget.property.pricePerNight}€/nuit', style: TextStyle(color: Colors.white70)),
                       ],
                     ),
                   ),
@@ -100,23 +114,49 @@ class PropertyCard extends StatelessWidget {
                     children: [
                       Icon(Icons.star_border, color: Colors.white),
                       SizedBox(height: 8.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => CreateBookingView(property: property),
+                      MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        onEnter: (_) => setState(() => _hovering = true),
+                        onExit: (_) => setState(() => _hovering = false),
+                        child: AnimatedScale(
+                          scale: _hovering ? 1.05 : 1.0,
+                          duration: Duration(milliseconds: 200),
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CreateBookingView(property: widget.property),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFFF7B818), // Background color
+                              textStyle: TextStyle(color: Colors.white), // Text color
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20.0),
+                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              elevation: 0,
+                              shadowColor: Colors.transparent,
                             ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Color.fromRGBO(99, 99, 99, 0.2),
+                                    offset: Offset(0, 2),
+                                    blurRadius: 8,
+                                  ),
+                                ],
+                              ),
+                              child: Text(
+                                'Réserver maintenant',
+                                style: TextStyle(color: Colors.white), // Ensures the text color is white
+                              ),
+                            ),
                           ),
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
                         ),
-                        child: Text('Réserver maintenant'),
                       ),
                     ],
                   ),

@@ -202,6 +202,22 @@ class AuthProvider with ChangeNotifier {
       throw Exception('Failed to load reviews');
     }
   }
+  Future<List<Property>> fetchRecentlyAddedProperties() async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/properties/recently-added'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      List<dynamic> data = jsonDecode(response.body);
+      return data.map((item) => Property.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load recently added properties');
+    }
+  }
 
   Future<List<Map<String, dynamic>>> fetchBookingsByProperties(List<int> propertyIds) async {
     final response = await http.post(
