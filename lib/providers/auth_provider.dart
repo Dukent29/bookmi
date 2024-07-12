@@ -106,7 +106,7 @@ class AuthProvider with ChangeNotifier {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((item) => Property.fromJson(item)).toList();
     } else {
-      throw Exception('Failed to load properties');
+      throw Exception('Échec du chargement des propriétés');
     }
   }
 
@@ -121,7 +121,7 @@ class AuthProvider with ChangeNotifier {
     );
 
     if (response.statusCode != 201) {
-      throw Exception('Failed to add property');
+      throw Exception('Échec de l\'ajout de la propriété');
     }
   }
 
@@ -148,7 +148,7 @@ class AuthProvider with ChangeNotifier {
     print('Response body: ${response.body}'); // Debugging
 
     if (response.statusCode != 201) {
-      throw Exception('Failed to create booking');
+      throw Exception('Échec de la création de la réservation');
     }
   }
 
@@ -165,7 +165,7 @@ class AuthProvider with ChangeNotifier {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((item) => Property.fromJson(item)).toList();
     } else {
-      throw Exception('Failed to load properties');
+      throw Exception('Échec du chargement des propriétés');
     }
   }
 
@@ -182,7 +182,7 @@ class AuthProvider with ChangeNotifier {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((item) => PropertyPhoto.fromJson(item)).toList();
     } else {
-      throw Exception('Failed to load property photos');
+      throw Exception('Échec du chargement des photos de la propriété');
     }
   }
 
@@ -199,7 +199,7 @@ class AuthProvider with ChangeNotifier {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((item) => Review.fromJson(item)).toList();
     } else {
-      throw Exception('Failed to load reviews');
+      throw Exception('Échec du chargement des avis');
     }
   }
   Future<List<Property>> fetchRecentlyAddedProperties() async {
@@ -215,7 +215,21 @@ class AuthProvider with ChangeNotifier {
       List<dynamic> data = jsonDecode(response.body);
       return data.map((item) => Property.fromJson(item)).toList();
     } else {
-      throw Exception('Failed to load recently added properties');
+      throw Exception('Échec du chargement des propriétés récemment ajoutées');
+    }
+  }
+  Future<void> updatePropertyStatusToFavoris(int propertyId) async {
+    final response = await http.put(
+      Uri.parse('http://localhost:5000/api/properties/status/favoris'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode({'id': propertyId}),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update property status to favoris');
     }
   }
 
@@ -233,7 +247,7 @@ class AuthProvider with ChangeNotifier {
       final List<dynamic> data = jsonDecode(response.body);
       return data.cast<Map<String, dynamic>>();
     } else {
-      throw Exception('Failed to load bookings');
+      throw Exception('Échec du chargement des réservations');
     }
   }
 
@@ -250,7 +264,7 @@ class AuthProvider with ChangeNotifier {
       final List<dynamic> data = jsonDecode(response.body);
       return data.cast<Map<String, dynamic>>();
     } else {
-      throw Exception('Failed to load bookings');
+      throw Exception('Échec du chargement des réservations');
     }
   }
 
@@ -273,7 +287,7 @@ class AuthProvider with ChangeNotifier {
     );
 
     if (response.statusCode != 201) {
-      throw Exception('Failed to block dates');
+      throw Exception('Échec du blocage des dates');
     }
   }
 }

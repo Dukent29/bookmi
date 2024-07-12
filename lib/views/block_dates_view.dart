@@ -35,11 +35,11 @@ class _BlockDatesViewState extends State<BlockDatesView> {
         endDate: _endDate!,
       );
       setState(() {
-        _message = 'Dates blocked successfully';
+        _message = 'Dates bloquées avec succès';
       });
     } catch (e) {
       setState(() {
-        _message = 'Failed to block dates: ${e.toString()}';
+        _message = 'Échec du blocage des dates: ${e.toString()}';
       });
     }
   }

@@ -34,11 +34,11 @@ class _CreateBookingViewState extends State<CreateBookingView> {
         endDate: DateFormat('yyyy-MM-dd').format(_endDate!),
       );
       setState(() {
-        _message = 'Booking created successfully';
+        _message = 'Réservation créée avec succès';
       });
     } catch (e) {
       setState(() {
-        _message = 'Failed to create booking: ${e.toString()}';
+        _message = 'Échec de la réservation: ${e.toString()}';
       });
     }
   }
