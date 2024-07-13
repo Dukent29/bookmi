@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
 import '../../providers/auth_provider.dart';
 import '../../models/property.dart';
 
@@ -25,6 +27,21 @@ class _AddPropertyViewState extends State<AddPropertyView> {
 
   int _currentStep = 0;
   String _message = '';
+  List<Uint8List> _images = [];
+
+  Future<void> _pickImages() async {
+    final picker = ImagePicker();
+    final pickedFiles = await picker.pickMultiImage();
+
+    if (pickedFiles != null) {
+      final images = await Future.wait(
+        pickedFiles.map((file) => file.readAsBytes()).toList(),
+      );
+      setState(() {
+        _images = images;
+      });
+    }
+  }
 
   Future<void> _addProperty() async {
     try {
@@ -46,7 +63,10 @@ class _AddPropertyViewState extends State<AddPropertyView> {
         updatedAt: DateTime.now(),
       );
 
-      await Provider.of<AuthProvider>(context, listen: false).addProperty(property);
+      await Provider.of<AuthProvider>(context, listen: false).addProperty(
+        property: property,
+        images: _images,
+      );
       setState(() {
         _message = 'Property added successfully';
       });
@@ -107,6 +127,20 @@ class _AddPropertyViewState extends State<AddPropertyView> {
             buildTextField(_numBathroomsController, 'Number of Bathrooms', TextInputType.number),
             SizedBox(height: 10.0),
             buildTextField(_amenitiesController, 'Amenities'),
+            SizedBox(height: 10.0),
+            ElevatedButton(
+              onPressed: _pickImages,
+              child: Text('Pick Images'),
+            ),
+            if (_images.isNotEmpty)
+              Wrap(
+                children: _images.map((image) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.memory(image, height: 100, width: 100),
+                  );
+                }).toList(),
+              ),
           ],
         ),
         isActive: _currentStep >= 3,

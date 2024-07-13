@@ -4,6 +4,9 @@ import 'dart:convert';
 import '../models/property.dart';
 import '../models/property_photo.dart';
 import '../models/review.dart';
+import 'dart:typed_data';
+import 'package:http_parser/http_parser.dart';
+
 
 class AuthProvider with ChangeNotifier {
   String? _token;
@@ -110,18 +113,39 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> addProperty(Property property) async {
-    final response = await http.post(
-      Uri.parse('http://localhost:5000/api/properties/add-property'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $_token',
-      },
-      body: jsonEncode(property.toJson()),
-    );
+  Future<void> addProperty({
+    required Property property,
+    required List<Uint8List> images,
+  }) async {
+    final uri = Uri.parse('http://localhost:5000/api/properties/add-property-with-images');
+    final request = http.MultipartRequest('POST', uri)
+      ..headers['Authorization'] = 'Bearer $_token'
+      ..fields['title'] = property.title
+      ..fields['description'] = property.description
+      ..fields['address'] = property.address
+      ..fields['city'] = property.city
+      ..fields['state'] = property.state
+      ..fields['country'] = property.country
+      ..fields['zip_code'] = property.zipCode
+      ..fields['price_per_night'] = property.pricePerNight.toString()
+      ..fields['max_guests'] = property.maxGuests.toString()
+      ..fields['num_bedrooms'] = property.numBedrooms.toString()
+      ..fields['num_bathrooms'] = property.numBathrooms.toString()
+      ..fields['amenities'] = property.amenities;
+
+    for (var i = 0; i < images.length; i++) {
+      request.files.add(http.MultipartFile.fromBytes(
+        'property_photos',
+        images[i],
+        filename: 'image$i.jpg',
+        contentType: MediaType('image', 'jpeg'),
+      ));
+    }
+
+    final response = await request.send();
 
     if (response.statusCode != 201) {
-      throw Exception('Échec de l\'ajout de la propriété');
+      throw Exception('Failed to add property with images');
     }
   }
 
@@ -192,16 +216,15 @@ class AuthProvider with ChangeNotifier {
   }
   Future<String> fetchPropertyPhotoUrl(int propertyId) async {
     final response = await http.get(
-      Uri.parse('http://localhost:5000/api/property-photos/$propertyId/returnpicture'),
+      Uri.parse('http://localhost:5000/api/properties/$propertyId/returnpicture'),
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': 'Bearer $_token',
       },
     );
 
     if (response.statusCode == 200) {
-      // Assuming the response contains the URL to the photo
-      return jsonDecode(response.body)['url'];
+      // Construct the URL to access the image
+      return 'http://localhost:5000/api/properties/$propertyId/returnpicture';
     } else {
       throw Exception('Échec du chargement des photos de la propriété');
     }

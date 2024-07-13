@@ -149,133 +149,143 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                 itemCount: _properties.length,
                 itemBuilder: (context, index) {
                   final property = _properties[index];
-                  return Card(
-                    color: Colors.grey[850],
-                    margin: EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PropertyDetailPage(property: property),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            FutureBuilder<String>(
-                              future: Provider.of<AuthProvider>(context, listen: false)
-                                  .fetchPropertyPhotoUrl(property.id),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return Container(
-                                    height: 150,
-                                    color: Colors.grey,
-                                    child: Center(child: CircularProgressIndicator()),
-                                  );
-                                } else if (snapshot.hasError) {
-                                  return Container(
-                                    height: 150,
-                                    color: Colors.grey,
-                                    child: Center(child: Icon(Icons.error, size: 50, color: Colors.red)),
-                                  );
-                                } else if (snapshot.hasData) {
-                                  final photoUrl = snapshot.data!;
-                                  return Image.network(
-                                    photoUrl,
-                                    height: 150,
-                                    width: double.infinity,
-                                    fit: BoxFit.cover,
-                                  );
-                                } else {
-                                  return Container(
-                                    height: 150,
-                                    color: Colors.grey,
-                                    child: Center(child: Icon(Icons.image, size: 50, color: Colors.white)),
-                                  );
-                                }
-                              },
-                            ),
-                            SizedBox(height: 8.0),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        property.title,
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                      Text(property.address,
-                                          style: TextStyle(color: Colors.white70)),
-                                      Text('1.8 km',
-                                          style: TextStyle(color: Colors.white70)),
-                                      Text('${property.pricePerNight}€/nuit',
-                                          style: TextStyle(color: Colors.white70)),
-                                    ],
-                                  ),
-                                ),
-                                Column(
-                                  children: [
-                                    Consumer<AuthProvider>(
-                                      builder: (context, authProvider, child) {
-                                        return IconButton(
-                                          icon: Icon(Icons.star_border, color: Colors.white),
-                                          onPressed: () async {
-                                            try {
-                                              await authProvider.updatePropertyStatusToFavoris(property.id);
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(content: Text('Property added to favoris')),
-                                              );
-                                            } catch (e) {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(content: Text('Failed to update property status')),
-                                              );
-                                            }
-                                          },
-                                        );
-                                      },
-                                    ),
-                                    SizedBox(height: 8.0),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => CreateBookingView(property: property),
-                                          ),
-                                        );
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.orange,
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(20.0),
-                                        ),
-                                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                      ),
-                                      child: Text('Réserver maintenant'),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
+                  return PropertyCard(property: property);
                 },
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class PropertyCard extends StatelessWidget {
+  final Property property;
+
+  const PropertyCard({required this.property});
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: Colors.grey[850],
+      margin: EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PropertyDetailPage(property: property),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              FutureBuilder<String>(
+                future: Provider.of<AuthProvider>(context, listen: false).fetchPropertyPhotoUrl(property.id),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                      height: 150,
+                      color: Colors.grey,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Container(
+                      height: 150,
+                      color: Colors.grey,
+                      child: Center(child: Icon(Icons.error, size: 50, color: Colors.red)),
+                    );
+                  } else if (snapshot.hasData) {
+                    final photoUrl = snapshot.data!;
+                    return Image.network(
+                      photoUrl,
+                      height: 150,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    );
+                  } else {
+                    return Container(
+                      height: 150,
+                      color: Colors.grey,
+                      child: Center(child: Icon(Icons.image, size: 50, color: Colors.white)),
+                    );
+                  }
+                },
+              ),
+              SizedBox(height: 8.0),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          property.title,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        Text(property.address,
+                            style: TextStyle(color: Colors.white70)),
+                        Text('1.8 km',
+                            style: TextStyle(color: Colors.white70)),
+                        Text('${property.pricePerNight}€/nuit',
+                            style: TextStyle(color: Colors.white70)),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      Consumer<AuthProvider>(
+                        builder: (context, authProvider, child) {
+                          return IconButton(
+                            icon: Icon(Icons.star_border, color: Colors.white),
+                            onPressed: () async {
+                              try {
+                                await authProvider.updatePropertyStatusToFavoris(property.id);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Property added to favoris')),
+                                );
+                              } catch (e) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Failed to update property status')),
+                                );
+                              }
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(height: 8.0),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CreateBookingView(property: property),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        ),
+                        child: Text('Réserver maintenant'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

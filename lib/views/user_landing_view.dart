@@ -50,7 +50,7 @@ class _UserLandingViewState extends State<UserLandingView> {
           borderRadius: BorderRadius.circular(10.0), // Border radius
           child: BottomNavigationBar(
             type: BottomNavigationBarType.fixed, // Ensures all items are displayed
-            backgroundColor: Color(0x4AFFFFFF), // Background color
+            backgroundColor: Color(0x4AD52525), // Background color
             unselectedItemColor: Colors.white, // Color of unselected items
             selectedItemColor: Colors.amber[800], // Color of selected item
             items: const <BottomNavigationBarItem>[
