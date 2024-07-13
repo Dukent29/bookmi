@@ -16,9 +16,12 @@ class PropertyDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(property.title),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        title: Text(
+          property.title,
+          style: TextStyle(color: Colors.white), // Set title color to white
+        ),
+        backgroundColor: Colors.transparent, // Make AppBar transparent
+        elevation: 0, // Remove shadow under AppBar
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -27,15 +30,41 @@ class PropertyDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Image Thumbnail
-              Container(
-                width: double.infinity,
-                height: 200,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/istockphoto-1365649825-612x612.jpg'), // Use the image thumbnail
-                    fit: BoxFit.cover,
-                  ),
-                ),
+              FutureBuilder<String>(
+                future: Provider.of<AuthProvider>(context, listen: false)
+                    .fetchPropertyPhotoUrl(property.id),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Container(
+                      width: double.infinity,
+                      height: 200,
+                      color: Colors.grey,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Container(
+                      width: double.infinity,
+                      height: 200,
+                      color: Colors.grey,
+                      child: Center(child: Icon(Icons.error, size: 50, color: Colors.red)),
+                    );
+                  } else if (snapshot.hasData) {
+                    final photoUrl = snapshot.data!;
+                    return Image.network(
+                      photoUrl,
+                      width: double.infinity,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    );
+                  } else {
+                    return Container(
+                      width: double.infinity,
+                      height: 200,
+                      color: Colors.grey,
+                      child: Center(child: Icon(Icons.image, size: 50, color: Colors.white)),
+                    );
+                  }
+                },
               ),
               SizedBox(height: 16),
               // Title

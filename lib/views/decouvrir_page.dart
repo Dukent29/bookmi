@@ -53,110 +53,125 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        title: Text('Decouvrir'),
+        title: Text(
+          'Decouvrir',
+          style: TextStyle(color: Colors.white), // Set title color to white
+        ),
+        backgroundColor: Colors.transparent, // Make AppBar transparent
+        elevation: 0, // Remove shadow under AppBar
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: Icon(Icons.notifications, color: Colors.white), // Set icon color to white
             onPressed: () {
               // Handle notification icon tap
             },
           ),
         ],
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomSearchBar(onSearchCompleted: _onSearchCompleted),
-            SizedBox(height: 16.0),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Recently Added button tap
-                      setState(() {
-                        _properties = _recentlyAddedProperties;
-                      });
-                    },
-                    child: Text('Recently Added'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF292A32), Color(0xFF000000)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomSearchBar(onSearchCompleted: _onSearchCompleted),
+              SizedBox(height: 16.0),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle Recently Added button tap
+                        setState(() {
+                          _properties = _recentlyAddedProperties;
+                        });
+                      },
+                      child: Text('Recently Added'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange,
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
                     ),
-                  ),
-                  SizedBox(width: 8.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Top Rates button tap
-                    },
-                    child: Text('Top Rates 🔥'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[850],
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                    SizedBox(width: 8.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle Top Rates button tap
+                      },
+                      child: Text('Top Rates 🔥'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[850],
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
                     ),
-                  ),
-                  SizedBox(width: 8.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Best Offers button tap
-                    },
-                    child: Text('Best Offers'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[850],
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                    SizedBox(width: 8.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle Best Offers button tap
+                      },
+                      child: Text('Best Offers'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[850],
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
                     ),
-                  ),
-                  SizedBox(width: 8.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Handle Popular button tap
-                    },
-                    child: Text('Popular'),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey[850],
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
+                    SizedBox(width: 8.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Handle Popular button tap
+                      },
+                      child: Text('Popular'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.grey[850],
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20.0),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 16.0),
-            Expanded(
-              child: _properties.isEmpty
-                  ? Center(child: Text('No properties found'))
-                  : ListView.builder(
-                itemCount: _properties.length,
-                itemBuilder: (context, index) {
-                  final property = _properties[index];
-                  return PropertyCard(property: property);
-                },
+              SizedBox(height: 16.0),
+              Expanded(
+                child: _properties.isEmpty
+                    ? Center(child: Text('No properties found'))
+                    : ListView.builder(
+                  itemCount: _properties.length,
+                  itemBuilder: (context, index) {
+                    final property = _properties[index];
+                    return PropertyCard(property: property);
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
+
   }
 }
 
@@ -168,7 +183,7 @@ class PropertyCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey[850],
+      color: Color(0x57707070),
       margin: EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () {
