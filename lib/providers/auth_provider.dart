@@ -338,26 +338,22 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<List<Booking>> getBookingsByUser(String userId) async {
-    try {
-      final response = await http.get(
-        Uri.parse('http://localhost:5000/api/bookings/guest/$userId'), // This route should match
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $_token',
-        },
-      );
+    print('Fetching bookings for userId: $userId'); // Debug statement
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/bookings/guest/$userId'), // This route should match
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
 
-      if (response.statusCode == 200) {
-        final data = jsonDecode(response.body) as List;
-        print('Bookings data: $data'); // Debugging line
-        return data.map((json) => Booking.fromJson(json)).toList();
-      } else {
-        print('Failed to load bookings: ${response.statusCode}'); // Debugging line
-        throw Exception('Failed to load bookings');
-      }
-    } catch (e) {
-      print('Error loading bookings: $e'); // Debugging line
-      throw e;
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body) as List;
+      print('Bookings data: $data'); // Debugging line
+      return data.map((json) => Booking.fromJson(json)).toList();
+    } else {
+      print('Failed to load bookings: ${response.statusCode}'); // Debugging line
+      throw Exception('Failed to load bookings');
     }
   }
 

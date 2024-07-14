@@ -7,6 +7,10 @@ import 'property_detail_page.dart';
 import 'booking/create_booking_view.dart';
 
 class DecouvrirPage extends StatefulWidget {
+  final String userId;
+
+  DecouvrirPage({required this.userId});
+
   @override
   _DecouvrirPageState createState() => _DecouvrirPageState();
 }
@@ -37,7 +41,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
     try {
       final properties = await Provider.of<AuthProvider>(context, listen: false).fetchProperties();
       setState(() {
-        _recentlyAddedProperties = properties.take(3).toList(); // Limit to 3 properties
+        _recentlyAddedProperties = properties.take(3).toList();
       });
     } catch (e) {
       // Handle error
@@ -57,13 +61,13 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
       appBar: AppBar(
         title: Text(
           'Decouvrir',
-          style: TextStyle(color: Colors.white), // Set title color to white
+          style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Colors.transparent, // Make AppBar transparent
-        elevation: 0, // Remove shadow under AppBar
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications, color: Colors.white), // Set icon color to white
+            icon: Icon(Icons.notifications, color: Colors.white),
             onPressed: () {
               // Handle notification icon tap
             },
@@ -91,7 +95,6 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // Handle Recently Added button tap
                         setState(() {
                           _properties = _recentlyAddedProperties;
                         });
@@ -162,7 +165,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                   itemCount: _properties.length,
                   itemBuilder: (context, index) {
                     final property = _properties[index];
-                    return PropertyCard(property: property);
+                    return PropertyCard(property: property, userId: widget.userId);
                   },
                 ),
               ),
@@ -171,14 +174,14 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
         ),
       ),
     );
-
   }
 }
 
 class PropertyCard extends StatelessWidget {
   final Property property;
+  final String userId;
 
-  const PropertyCard({required this.property});
+  const PropertyCard({required this.property, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -190,7 +193,7 @@ class PropertyCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PropertyDetailPage(property: property),
+              builder: (context) => PropertyDetailPage(property: property, userId: userId),
             ),
           );
         },
@@ -281,7 +284,7 @@ class PropertyCard extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CreateBookingView(property: property),
+                              builder: (context) => CreateBookingView(property: property, userId: userId),
                             ),
                           );
                         },

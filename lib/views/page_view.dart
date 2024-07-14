@@ -4,8 +4,9 @@ import 'booking/create_booking_view.dart';
 
 class PropertyDetailPage extends StatefulWidget {
   final Property property;
+  final String userId; // Add userId
 
-  const PropertyDetailPage({required this.property});
+  const PropertyDetailPage({required this.property, required this.userId}); // Update constructor
 
   @override
   _PropertyDetailPageState createState() => _PropertyDetailPageState();
@@ -59,6 +60,6 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
   }
 
   Widget _buildBookingForm() {
-    return CreateBookingView(property: widget.property);
+    return CreateBookingView(property: widget.property, userId: widget.userId); // Pass userId to CreateBookingView
   }
 }

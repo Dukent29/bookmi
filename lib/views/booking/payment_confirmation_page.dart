@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'my_bookings_page.dart';
 
 class PaymentConfirmationPage extends StatelessWidget {
+  final String userId;
+
+  PaymentConfirmationPage({required this.userId});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +27,7 @@ class PaymentConfirmationPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MyBookingsPage()),
+                  MaterialPageRoute(builder: (context) => MyBookingsPage(userId: userId, guestId: '',)),
                 );
               },
               child: Text('View My Bookings'),

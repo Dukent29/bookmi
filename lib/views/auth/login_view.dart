@@ -22,6 +22,8 @@ class _LoginViewState extends State<LoginView> {
         _passwordController.text,
       );
 
+      final userId = Provider.of<AuthProvider>(context, listen: false).userId;
+
       if (Provider.of<AuthProvider>(context, listen: false).isAdmin) {
         Navigator.pushReplacement(
           context,
@@ -30,7 +32,7 @@ class _LoginViewState extends State<LoginView> {
       } else {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => UserLandingView(userId: Provider.of<AuthProvider>(context, listen: false).userId ?? '')),
+          MaterialPageRoute(builder: (context) => UserLandingView(userId: userId ?? '')),
         );
       }
     } catch (e) {

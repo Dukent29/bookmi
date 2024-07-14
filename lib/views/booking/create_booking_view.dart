@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dart:convert';
+import 'dart:convert'; // Add this import
 import '../../models/property.dart';
-import '../../models/booking.dart';
+import '../../models/booking.dart'; // Add this import
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../search_properties_view.dart';
-import 'payment_review_page.dart';
+import 'payment_review_page.dart'; // Add this import
 
 class CreateBookingView extends StatefulWidget {
   final Property property;
+  final String userId; // Add userId
 
-  CreateBookingView({required this.property});
+  CreateBookingView({required this.property, required this.userId}); // Update constructor
 
   @override
   _CreateBookingViewState createState() => _CreateBookingViewState();
@@ -60,7 +61,7 @@ class _CreateBookingViewState extends State<CreateBookingView> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => PaymentReviewPage(booking: booking),
+          builder: (context) => PaymentReviewPage(booking: booking, userId: widget.userId), // Pass userId
         ),
       );
     } catch (e) {
@@ -112,7 +113,7 @@ class _CreateBookingViewState extends State<CreateBookingView> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SearchPropertiesView(),
+                    builder: (context) => SearchPropertiesView(userId: '',),
                   ),
                 );
               },

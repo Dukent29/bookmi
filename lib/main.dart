@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
                     '/admin': (context) => AdminLandingView(),
                     '/user': (context) => UserLandingView(userId: authProvider.userId ?? ''),
                     '/add_property': (context) => AddPropertyView(),
-                    '/search_properties': (context) => SearchPropertiesView(), // Add the search route
+                    '/search_properties': (context) => SearchPropertiesView(userId: '',), // Add the search route
                   },
                 ),
               ],

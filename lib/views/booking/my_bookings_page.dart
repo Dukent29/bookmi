@@ -4,25 +4,18 @@ import '../../models/booking.dart';
 import '../../providers/auth_provider.dart';
 import 'booking_details_page.dart';
 
-class MyBookingsPage extends StatelessWidget {
+class MyBookingsPage extends StatefulWidget {
+  final String guestId;
+
+  MyBookingsPage({required this.guestId, required String userId});
+
+  @override
+  _MyBookingsPageState createState() => _MyBookingsPageState();
+}
+
+class _MyBookingsPageState extends State<MyBookingsPage> {
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final userId = authProvider.userId;
-
-    if (userId == null) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('My Bookings'),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-        ),
-        body: Center(
-          child: Text('User ID is null. Please log in again.'),
-        ),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('My Bookings'),
@@ -30,12 +23,12 @@ class MyBookingsPage extends StatelessWidget {
         elevation: 0,
       ),
       body: FutureBuilder<List<Booking>>(
-        future: authProvider.getBookingsByUser(userId),
+        future: Provider.of<AuthProvider>(context, listen: false).getBookingsByUser(widget.guestId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Failed to load bookings: ${snapshot.error}'));
+            return Center(child: Text('Failed to load bookings'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('No bookings found'));
           }

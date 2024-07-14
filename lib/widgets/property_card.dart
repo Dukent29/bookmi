@@ -20,7 +20,7 @@ class PropertyCard extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PropertyDetailPage(property: property),
+              builder: (context) => PropertyDetailPage(property: property, userId: '',),
             ),
           );
         },
@@ -82,7 +82,7 @@ class PropertyCard extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CreateBookingView(property: property),
+                              builder: (context) => CreateBookingView(property: property, userId: '',),
                             ),
                           );
                         },

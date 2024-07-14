@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'decouvrir_page.dart';
 import 'update_profile_view.dart';
+import 'booking/my_bookings_page.dart'; // Import MyBookingsPage
 import 'search_properties_view.dart'; // Import the search view
 
 class UserLandingView extends StatefulWidget {
@@ -14,13 +15,18 @@ class UserLandingView extends StatefulWidget {
 
 class _UserLandingViewState extends State<UserLandingView> {
   int _selectedIndex = 0;
+  late List<Widget> _widgetOptions;
 
-  final List<Widget> _widgetOptions = <Widget>[
-    DecouvrirPage(), // Display the DecouvrirPage here
-    SearchPropertiesView(), // Display the SearchPropertiesView here
-    Text('Favoris Page'),
-    UpdateProfileView(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _widgetOptions = <Widget>[
+      DecouvrirPage(userId: '',), // Display the DecouvrirPage here
+      SearchPropertiesView(userId: widget.userId), // Pass userId to SearchPropertiesView
+      MyBookingsPage(guestId: widget.userId, userId: '',), // Pass userId to MyBookingsPage as guestId
+      UpdateProfileView(),
+    ];
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -63,8 +69,8 @@ class _UserLandingViewState extends State<UserLandingView> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite),
-                label: 'Favoris',
+                icon: Icon(Icons.book),
+                label: 'Reservations', // Update icon and label for reservations
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),

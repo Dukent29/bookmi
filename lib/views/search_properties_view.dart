@@ -1,12 +1,15 @@
-// views/booking/search_properties_view.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../providers/auth_provider.dart';  // Adjusted the import paths
-import '../../models/property.dart';          // Adjusted the import paths
-import 'property_detail_page.dart';          // Adjusted the import paths
-import '../../widgets/searchBar.dart';        // Adjusted the import paths
+import '../../providers/auth_provider.dart';
+import '../../models/property.dart';
+import 'property_detail_page.dart';
+import '../../widgets/searchBar.dart';
 
 class SearchPropertiesView extends StatefulWidget {
+  final String userId; // Add this line
+
+  SearchPropertiesView({required this.userId}); // Update constructor
+
   @override
   _SearchPropertiesViewState createState() => _SearchPropertiesViewState();
 }
@@ -152,7 +155,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PropertyDetailPage(property: property),
+                              builder: (context) => PropertyDetailPage(property: property, userId: widget.userId), // Pass userId
                             ),
                           );
                         },
@@ -199,7 +202,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                              builder: (context) => PropertyDetailPage(property: property),
+                                              builder: (context) => PropertyDetailPage(property: property, userId: widget.userId), // Pass userId
                                             ),
                                           );
                                         },

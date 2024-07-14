@@ -1,4 +1,3 @@
-// views/property_detail_page.dart
 import 'package:flutter/material.dart';
 import '../models/property.dart';
 import '../models/review.dart';
@@ -8,8 +7,9 @@ import 'package:provider/provider.dart';
 
 class PropertyDetailPage extends StatelessWidget {
   final Property property;
+  final String userId; // Add this line
 
-  const PropertyDetailPage({required this.property});
+  const PropertyDetailPage({required this.property, required this.userId}); // Update constructor
 
   @override
   Widget build(BuildContext context) {
@@ -157,7 +157,7 @@ class PropertyDetailPage extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => CreateBookingView(property: property),
+                builder: (context) => CreateBookingView(property: property, userId: userId), // Pass userId
               ),
             );
           },

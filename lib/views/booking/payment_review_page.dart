@@ -3,12 +3,13 @@ import 'package:provider/provider.dart';
 import '../../models/booking.dart';
 import '../../models/property.dart';
 import '../../providers/auth_provider.dart';
-import 'payment_page.dart';
+import 'payment_confirmation_page.dart'; // Add this import
 
 class PaymentReviewPage extends StatelessWidget {
   final Booking booking;
+  final String userId;
 
-  PaymentReviewPage({required this.booking});
+  PaymentReviewPage({required this.booking, required this.userId});
 
   @override
   Widget build(BuildContext context) {
@@ -65,15 +66,43 @@ class PaymentReviewPage extends StatelessWidget {
                     Text('Check-in: ${booking.startDate}', style: TextStyle(fontSize: 16)),
                     Text('Check-out: ${booking.endDate}', style: TextStyle(fontSize: 16)),
                     Text('Number of guests: ${booking.numPeople}', style: TextStyle(fontSize: 16)),
+                    Divider(),
+                    Text('Select Payment Method', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                    DropdownButton<String>(
+                      value: 'Credit Card',
+                      onChanged: (String? newValue) {
+                        // Update payment method here
+                      },
+                      items: <String>['Credit Card', 'PayPal', 'Bank Transfer']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
                     Spacer(),
                     ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => PaymentPage(booking: booking),
-                          ),
-                        );
+                      onPressed: () async {
+                        try {
+                          await Provider.of<AuthProvider>(context, listen: false).createPayment(
+                            bookingId: booking.id,
+                            amount: booking.totalPrice,
+                            paymentMethod: 'Credit Card',
+                            paymentStatus: 'Completed',
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Payment successful!')),
+                          );
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => PaymentConfirmationPage(userId: userId)),
+                          );
+                        } catch (e) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Payment failed: ${e.toString()}')),
+                          );
+                        }
                       },
                       child: Text('Proceed to Payment'),
                     ),
