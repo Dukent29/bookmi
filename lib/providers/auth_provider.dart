@@ -7,6 +7,7 @@ import '../models/review.dart';
 import 'dart:typed_data';
 import 'package:http_parser/http_parser.dart';
 import '../models/booking.dart';
+import '../models/payment.dart';
 
 
 class AuthProvider with ChangeNotifier {
@@ -381,6 +382,32 @@ class AuthProvider with ChangeNotifier {
 
     if (response.statusCode != 201) {
       throw Exception('Échec du blocage des dates');
+    }
+  }
+
+  //payment method
+  Future<void> createPayment({
+    required int bookingId,
+    required double amount,
+    required String paymentMethod,
+    required String paymentStatus,
+  }) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:5000/api/payments'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode({
+        'booking_id': bookingId,
+        'amount': amount,
+        'payment_method': paymentMethod,
+        'payment_status': paymentStatus,
+      }),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to create payment');
     }
   }
 }

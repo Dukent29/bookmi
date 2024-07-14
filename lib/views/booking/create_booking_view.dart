@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert'; // Add this import
 import '../../models/property.dart';
+import '../../models/booking.dart'; // Add this import
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../search_properties_view.dart';
-import '../booking/my_bookings_page.dart'; // Add this import
+import 'payment_page.dart'; // Add this import
 
 class CreateBookingView extends StatefulWidget {
   final Property property;
@@ -20,7 +21,7 @@ class CreateBookingView extends StatefulWidget {
 class _CreateBookingViewState extends State<CreateBookingView> {
   DateTime? _startDate;
   DateTime? _endDate;
-  int _numPeople = 1;  // Add this line
+  int _numPeople = 1;
   String _message = '';
 
   Future<void> _createBooking() async {
@@ -36,20 +37,31 @@ class _CreateBookingViewState extends State<CreateBookingView> {
         propertyId: widget.property.id,
         startDate: DateFormat('yyyy-MM-dd').format(_startDate!),
         endDate: DateFormat('yyyy-MM-dd').format(_endDate!),
-        numPeople: _numPeople,  // Add this line
+        numPeople: _numPeople,
+      );
+
+      final bookingData = jsonDecode(response);
+      final bookingId = bookingData['bookingId'];
+
+      final booking = Booking(
+        id: bookingId,
+        propertyId: widget.property.id,
+        startDate: _startDate.toString(),
+        endDate: _endDate.toString(),
+        totalPrice: widget.property.pricePerNight * (_endDate!.difference(_startDate!).inDays + 1),
+        numPeople: _numPeople,
       );
 
       setState(() {
         _message = 'Booking created successfully';
       });
 
-      // Navigate to MyBookingsPage
-      Navigator.pushAndRemoveUntil(
+      // Navigate to PaymentPage
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MyBookingsPage(),
+          builder: (context) => PaymentPage(booking: booking),
         ),
-            (Route<dynamic> route) => false,
       );
     } catch (e) {
       setState(() {
@@ -81,7 +93,7 @@ class _CreateBookingViewState extends State<CreateBookingView> {
               Text('Selected dates: ${DateFormat('yyyy-MM-dd').format(_startDate!)} - ${DateFormat('yyyy-MM-dd').format(_endDate!)}'),
             SizedBox(height: 16.0),
             TextField(
-              decoration: InputDecoration(labelText: 'Number of People'),  // Add this block
+              decoration: InputDecoration(labelText: 'Number of People'),
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {
