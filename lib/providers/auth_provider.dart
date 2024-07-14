@@ -115,6 +115,22 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  Future<Map<String, dynamic>> getPropertyById(int propertyId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/properties/$propertyId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body) as Map<String, dynamic>;
+    } else {
+      throw Exception('propriete introuvable');
+    }
+  }
+
   Future<void> addProperty({
     required Property property,
     required List<Uint8List> images,

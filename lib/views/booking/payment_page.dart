@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../models/booking.dart';
 import 'package:provider/provider.dart';
+import '../../models/booking.dart';
 import '../../providers/auth_provider.dart';
+import 'payment_confirmation_page.dart';
 
 class PaymentPage extends StatefulWidget {
   final Booking booking;
@@ -13,41 +14,20 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-  String _paymentMethod = 'Credit Card'; // Example payment method
-  String _paymentStatus = 'Pending';
-  String _message = '';
-
-  Future<void> _makePayment() async {
-    try {
-      await Provider.of<AuthProvider>(context, listen: false).createPayment(
-        bookingId: widget.booking.id,
-        amount: widget.booking.totalPrice,
-        paymentMethod: _paymentMethod,
-        paymentStatus: _paymentStatus,
-      );
-
-      setState(() {
-        _message = 'Payment successful';
-      });
-    } catch (e) {
-      setState(() {
-        _message = 'Payment failed: ${e.toString()}';
-      });
-    }
-  }
+  String _paymentMethod = 'Credit Card';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment for Booking ID: ${widget.booking.id}'),
+        title: Text('Payment'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Total Price: \$${widget.booking.totalPrice.toStringAsFixed(2)}'),
-            SizedBox(height: 16.0),
+            Text('Select Payment Method', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             DropdownButton<String>(
               value: _paymentMethod,
               onChanged: (String? newValue) {
@@ -63,17 +43,31 @@ class _PaymentPageState extends State<PaymentPage> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 16.0),
+            Spacer(),
             ElevatedButton(
-              onPressed: _makePayment,
-              child: Text('Make Payment'),
+              onPressed: () async {
+                try {
+                  await Provider.of<AuthProvider>(context, listen: false).createPayment(
+                    bookingId: widget.booking.id,
+                    amount: widget.booking.totalPrice,
+                    paymentMethod: _paymentMethod,
+                    paymentStatus: 'Completed',
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Payment successful!')),
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => PaymentConfirmationPage()),
+                  );
+                } catch (e) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Payment failed: ${e.toString()}')),
+                  );
+                }
+              },
+              child: Text('Confirm Payment'),
             ),
-            SizedBox(height: 16.0),
-            if (_message.isNotEmpty)
-              Text(
-                _message,
-                style: TextStyle(color: _message.contains('failed') ? Colors.red : Colors.green),
-              ),
           ],
         ),
       ),

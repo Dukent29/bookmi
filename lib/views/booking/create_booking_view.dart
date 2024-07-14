@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dart:convert'; // Add this import
+import 'dart:convert';
 import '../../models/property.dart';
-import '../../models/booking.dart'; // Add this import
+import '../../models/booking.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../search_properties_view.dart';
-import 'payment_page.dart'; // Add this import
+import 'payment_review_page.dart';
 
 class CreateBookingView extends StatefulWidget {
   final Property property;
@@ -56,11 +56,11 @@ class _CreateBookingViewState extends State<CreateBookingView> {
         _message = 'Booking created successfully';
       });
 
-      // Navigate to PaymentPage
+      // Navigate to PaymentReviewPage
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => PaymentPage(booking: booking),
+          builder: (context) => PaymentReviewPage(booking: booking),
         ),
       );
     } catch (e) {
