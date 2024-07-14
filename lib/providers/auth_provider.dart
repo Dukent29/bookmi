@@ -6,6 +6,7 @@ import '../models/property_photo.dart';
 import '../models/review.dart';
 import 'dart:typed_data';
 import 'package:http_parser/http_parser.dart';
+import '../models/booking.dart';
 
 
 class AuthProvider with ChangeNotifier {
@@ -149,11 +150,11 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> createBooking({
+  Future<String> createBooking({
     required int propertyId,
     required String startDate,
     required String endDate,
-    required int numPeople, // Add this line
+    required int numPeople,
   }) async {
     print('Creating booking for propertyId: $propertyId, startDate: $startDate, endDate: $endDate, numPeople: $numPeople'); // Debugging
     final response = await http.post(
@@ -166,7 +167,7 @@ class AuthProvider with ChangeNotifier {
         'property_id': propertyId,
         'start_date': startDate,
         'end_date': endDate,
-        'num_people': numPeople, // Add this line
+        'num_people': numPeople,
       }),
     );
 
@@ -174,8 +175,10 @@ class AuthProvider with ChangeNotifier {
     print('Response body: ${response.body}'); // Debugging
 
     if (response.statusCode != 200) {
-      throw Exception('Échec de la création de la réservation');
+      throw Exception('Failed to create booking');
     }
+
+    return response.body;
   }
 
   Future<List<Property>> fetchProperties() async {
@@ -295,6 +298,51 @@ class AuthProvider with ChangeNotifier {
       throw Exception('Échec du chargement des réservations');
     }
   }
+  //detail booking
+  Future<Booking> getBookingById(int bookingId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/bookings/$bookingId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      if (data.isNotEmpty) {
+        return Booking.fromJson(data[0]); // Assuming the first element is the booking
+      } else {
+        throw Exception('No booking found');
+      }
+    } else {
+      throw Exception('Failed to load booking');
+    }
+  }
+
+  Future<List<Booking>> getBookingsByUser(String userId) async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://localhost:5000/api/bookings/guest/$userId'), // This route should match
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $_token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as List;
+        print('Bookings data: $data'); // Debugging line
+        return data.map((json) => Booking.fromJson(json)).toList();
+      } else {
+        print('Failed to load bookings: ${response.statusCode}'); // Debugging line
+        throw Exception('Failed to load bookings');
+      }
+    } catch (e) {
+      print('Error loading bookings: $e'); // Debugging line
+      throw e;
+    }
+  }
 
   Future<List<Map<String, dynamic>>> fetchBookings(int propertyId) async {
     final response = await http.get(
@@ -336,3 +384,4 @@ class AuthProvider with ChangeNotifier {
     }
   }
 }
+

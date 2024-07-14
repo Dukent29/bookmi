@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../models/property.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/custom_date_picker.dart';
 import '../search_properties_view.dart';
+import '../booking/my_bookings_page.dart'; // Add this import
 
 class CreateBookingView extends StatefulWidget {
   final Property property;
@@ -30,15 +32,25 @@ class _CreateBookingViewState extends State<CreateBookingView> {
     }
 
     try {
-      await Provider.of<AuthProvider>(context, listen: false).createBooking(
+      final response = await Provider.of<AuthProvider>(context, listen: false).createBooking(
         propertyId: widget.property.id,
         startDate: DateFormat('yyyy-MM-dd').format(_startDate!),
         endDate: DateFormat('yyyy-MM-dd').format(_endDate!),
         numPeople: _numPeople,  // Add this line
       );
+
       setState(() {
         _message = 'Booking created successfully';
       });
+
+      // Navigate to MyBookingsPage
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyBookingsPage(),
+        ),
+            (Route<dynamic> route) => false,
+      );
     } catch (e) {
       setState(() {
         _message = 'Booking failed: ${e.toString()}';
@@ -56,7 +68,6 @@ class _CreateBookingViewState extends State<CreateBookingView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
         title: Text('Create Booking for ${widget.property.title}'),
       ),

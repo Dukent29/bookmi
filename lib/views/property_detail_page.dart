@@ -1,5 +1,4 @@
 // views/property_detail_page.dart
-
 import 'package:flutter/material.dart';
 import '../models/property.dart';
 import '../models/review.dart';
