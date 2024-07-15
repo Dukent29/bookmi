@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'providers/auth_provider.dart';
-import 'views/auth/login_view.dart';
-import 'views/auth/register_view.dart';
+import 'views/auth/login_view.dart' as login_view;
+import 'views/auth/register_view.dart' as register_view;
 import 'views/update_profile_view.dart';
 import 'views/admin_landing_view.dart';
 import 'views/user_landing_view.dart';
@@ -24,35 +25,36 @@ class MyApp extends StatelessWidget {
             title: 'Bookmi',
             theme: ThemeData(
               primarySwatch: Colors.blue,
-              scaffoldBackgroundColor:Color(0xFF000000), // Make scaffold background transparent
+              scaffoldBackgroundColor: Color(0x0),
             ),
-            home: Stack(
-              children: [
-                // Background gradient
-                Container(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF000000), Color(0xFF292A32)],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+            initialRoute: '/',
+            routes: {
+              '/': (context) => login_view.LoginView(),
+              '/register': (context) => register_view.RegisterView(),
+              '/update_profile': (context) => UpdateProfileView(),
+              '/admin': (context) => AdminLandingView(),
+              '/user': (context) => UserLandingView(userId: '',),
+              '/add_property': (context) => AddPropertyView(),
+              '/search_properties': (context) => SearchPropertiesView(userId: '',),
+            },
+            builder: (context, child) {
+              return Stack(
+                children: [
+                  // Background gradient
+                  Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF000000), Color(0xFF292A32)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
                     ),
                   ),
-                ),
-                // Main content
-                MaterialApp(
-                  initialRoute: '/',
-                  routes: {
-                    '/': (context) => LoginView(),
-                    '/register': (context) => RegisterView(),
-                    '/update_profile': (context) => UpdateProfileView(),
-                    '/admin': (context) => AdminLandingView(),
-                    '/user': (context) => UserLandingView(userId: authProvider.userId ?? ''),
-                    '/add_property': (context) => AddPropertyView(),
-                    '/search_properties': (context) => SearchPropertiesView(userId: '',), // Add the search route
-                  },
-                ),
-              ],
-            ),
+                  // Main content
+                  child!,
+                ],
+              );
+            },
           );
         },
       ),

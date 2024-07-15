@@ -22,7 +22,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   path: ^1.8.0
   carousel_slider: ^4.0.0
-  shared_preferences: ^2.0.6
+  shared_preferences: ^2.0.9
 
 dev_dependencies:
   flutter_test:

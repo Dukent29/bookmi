@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/property.dart';
 import '../models/property_photo.dart';
 import '../models/review.dart';
@@ -8,7 +9,6 @@ import 'dart:typed_data';
 import 'package:http_parser/http_parser.dart';
 import '../models/booking.dart';
 import '../models/payment.dart';
-
 
 class AuthProvider with ChangeNotifier {
   String? _token;
@@ -39,8 +39,12 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       _token = data['token'];
       _role = data['role'];
-      _userId = data['userId'];
+      _userId = data['userId'].toString();  // Ensure userId is a string
       notifyListeners();
+
+      // Save userId in shared preferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('userId', _userId!);
     } else {
       throw Exception(data['message']);
     }
@@ -68,6 +72,16 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  void logout() async {
+    _token = null;
+    _role = null;
+    _userId = null;
+    notifyListeners();
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('userId');
+  }
+
   Future<void> updateProfile(String firstName, String lastName, String bio,
       String profilePicture) async {
     final response = await http.put(
@@ -91,12 +105,6 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  void logout() {
-    _token = null;
-    _role = null;
-    _userId = null;
-    notifyListeners();
-  }
 
   Future<List<Property>> searchProperties({required String address}) async {
     final response = await http.get(
@@ -374,6 +382,24 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //fetch users propertys bookings
+  Future<List<Map<String, dynamic>>> fetchBookingsByUserProperties(String userId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/bookings/user/$userId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to load bookings');
+    }
+  }
+
   Future<void> blockDates({
     required int propertyId,
     required DateTime startDate,
@@ -423,4 +449,3 @@ class AuthProvider with ChangeNotifier {
     }
   }
 }
-

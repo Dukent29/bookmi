@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../providers/auth_provider.dart';
 import '../admin_landing_view.dart';
 import '../user_landing_view.dart';
@@ -37,7 +38,7 @@ class _LoginViewState extends State<LoginView> {
       }
     } catch (e) {
       setState(() {
-        _message = e.toString();
+        _message = 'Failed to login: ${e.toString()}';
       });
     }
   }
