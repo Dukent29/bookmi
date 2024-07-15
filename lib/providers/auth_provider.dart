@@ -455,6 +455,63 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //blocking dates
+  Future<void> addBlockedDate({
+    required int propertyId,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    final response = await http.post(
+      Uri.parse('http://localhost:5000/api/blocked-dates/blockDate'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode({
+        'property_id': propertyId,
+        'start_date': startDate.toIso8601String(),
+        'end_date': endDate.toIso8601String(),
+      }),
+    );
+
+    if (response.statusCode != 201) {
+      throw Exception('Failed to add blocked date');
+    }
+  }
+
+  //fetch to display blocked date
+  Future<List<Map<String, dynamic>>> getBlockedDates(int propertyId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/blocked-dates/$propertyId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to fetch blocked dates');
+    }
+  }
+
+  //unblocking dates
+  Future<void> unblockDate(int blockedDateId) async {
+    final response = await http.delete(
+      Uri.parse('http://localhost:5000/api/blocked-dates/unblock/$blockedDateId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to unblock date');
+    }
+  }
+
 
   Future<void> blockDates({
     required int propertyId,

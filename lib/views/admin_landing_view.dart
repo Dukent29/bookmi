@@ -4,6 +4,7 @@ import '../views/update_profile_view.dart';
 import '../views/announce_view.dart';
 import '../views/booking/booking_list.dart';
 import '../views/actualite_page.dart';
+import '../views/edit_calendar.dart';
 
 class AdminLandingView extends StatefulWidget {
   @override
@@ -29,11 +30,9 @@ class _AdminLandingViewState extends State<AdminLandingView> {
 
   @override
   Widget build(BuildContext context) {
-    final propertyId = 42; // Replace this with actual logic to get the property ID
-
     final List<Widget> _widgetOptions = <Widget>[
       ActualitePage(userId: _userId), // Pass userId to ActualitePage
-      BookingListPage(propertyId: propertyId), // Pass the propertyId here
+      EditCalendarPage(), // Navigate to EditCalendarPage
       AnnounceView(),
       Text('Messages Page'),
       UpdateProfileView(),
