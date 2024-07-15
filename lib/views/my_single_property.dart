@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
+import '../models/property.dart';
+import 'edit_property_page.dart';
 
 class MySingleProperty extends StatefulWidget {
   final int propertyId;
@@ -53,7 +55,7 @@ class _MySinglePropertyState extends State<MySingleProperty> {
           } else if (!snapshot.hasData) {
             return Center(child: Text('No property details found'));
           } else {
-            final property = snapshot.data!;
+            final property = Property.fromJson(snapshot.data!);
             return SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -99,27 +101,32 @@ class _MySinglePropertyState extends State<MySingleProperty> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          property['title'] ?? '',
+                          property.title,
                           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 10),
-                        Text(property['description'] ?? ''),
+                        Text(property.description),
                         SizedBox(height: 10),
-                        Text('Address: ${property['address']}, ${property['city']}, ${property['country']}'),
+                        Text('Address: ${property.address}, ${property.city}, ${property.country}'),
                         SizedBox(height: 10),
-                        Text('Price per night: \$${property['price_per_night'] ?? 0}'),
+                        Text('Price per night: \$${property.pricePerNight}'),
                         SizedBox(height: 10),
-                        Text('Max guests: ${property['max_guests'] ?? 0}'),
+                        Text('Max guests: ${property.maxGuests}'),
                         SizedBox(height: 10),
-                        Text('Bedrooms: ${property['num_bedrooms'] ?? 0}'),
+                        Text('Bedrooms: ${property.numBedrooms}'),
                         SizedBox(height: 10),
-                        Text('Bathrooms: ${property['num_bathrooms'] ?? 0}'),
+                        Text('Bathrooms: ${property.numBathrooms}'),
                         SizedBox(height: 10),
-                        Text('Amenities: ${property['amenities'] ?? ''}'),
+                        Text('Amenities: ${property.amenities}'),
                         SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {
-                            // Navigate to modify property page (to be implemented)
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditPropertyPage(property: property),
+                              ),
+                            );
                           },
                           child: Text('Modifier mon annonce'),
                           style: ElevatedButton.styleFrom(

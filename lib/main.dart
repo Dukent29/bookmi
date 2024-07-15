@@ -1,3 +1,4 @@
+import 'package:bookmi_app/models/property.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'providers/auth_provider.dart';
@@ -9,6 +10,7 @@ import 'views/user_landing_view.dart';
 import 'views/add_property_view.dart';
 import 'views/search_properties_view.dart';
 import 'views/my_single_property.dart';
+import 'views/edit_property_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
               '/add_property': (context) => AddPropertyView(),
               '/search_properties': (context) => SearchPropertiesView(userId: authProvider.userId ?? ''),
               '/property_details': (context) => MySingleProperty(propertyId: ModalRoute.of(context)?.settings.arguments as int),
+              '/edit_property': (context) => EditPropertyPage(property: ModalRoute.of(context)?.settings.arguments as Property),
             },
             builder: (context, child) {
               return Stack(

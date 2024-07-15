@@ -343,6 +343,24 @@ class AuthProvider with ChangeNotifier {
     }
   }
   //detail booking
+
+  //edit property
+  Future<void> updateProperty(int propertyId, Map<String, dynamic> updateData) async {
+    final response = await http.put(
+      Uri.parse('http://localhost:5000/api/properties/$propertyId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode(updateData),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update property');
+    }
+  }
+
+  //get booking by id if (need to edit or display in single page with all infos)
   Future<Booking> getBookingById(int bookingId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/bookings/$bookingId'),
@@ -401,7 +419,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  //fetch users propertys bookings
+  //fetch users' properties' bookings
   Future<List<Map<String, dynamic>>> fetchBookingsByUserProperties(String userId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/bookings/user/$userId'),

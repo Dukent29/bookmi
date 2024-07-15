@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:image_picker/image_picker.dart';
-import 'dart:typed_data';
-import '../../providers/auth_provider.dart';
-import '../../models/property.dart';
+import '../providers/auth_provider.dart';
+import '../models/property.dart';
 
-class AddPropertyView extends StatefulWidget {
+class EditPropertyPage extends StatefulWidget {
+  final Property property;
+
+  EditPropertyPage({required this.property});
+
   @override
-  _AddPropertyViewState createState() => _AddPropertyViewState();
+  _EditPropertyPageState createState() => _EditPropertyPageState();
 }
 
-class _AddPropertyViewState extends State<AddPropertyView> {
+class _EditPropertyPageState extends State<EditPropertyPage> {
   final _formKey = GlobalKey<FormState>();
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -27,26 +29,28 @@ class _AddPropertyViewState extends State<AddPropertyView> {
 
   int _currentStep = 0;
   String _message = '';
-  List<Uint8List> _images = [];
 
-  Future<void> _pickImages() async {
-    final picker = ImagePicker();
-    final pickedFiles = await picker.pickMultiImage();
-
-    if (pickedFiles != null) {
-      final images = await Future.wait(
-        pickedFiles.map((file) => file.readAsBytes()).toList(),
-      );
-      setState(() {
-        _images = images;
-      });
-    }
+  @override
+  void initState() {
+    super.initState();
+    _titleController.text = widget.property.title;
+    _descriptionController.text = widget.property.description;
+    _addressController.text = widget.property.address;
+    _cityController.text = widget.property.city;
+    _stateController.text = widget.property.state;
+    _countryController.text = widget.property.country;
+    _zipCodeController.text = widget.property.zipCode;
+    _pricePerNightController.text = widget.property.pricePerNight.toString();
+    _maxGuestsController.text = widget.property.maxGuests.toString();
+    _numBedroomsController.text = widget.property.numBedrooms.toString();
+    _numBathroomsController.text = widget.property.numBathrooms.toString();
+    _amenitiesController.text = widget.property.amenities;
   }
 
-  Future<void> _addProperty() async {
+  Future<void> _updateProperty() async {
     try {
       final property = Property(
-        id: 0,
+        id: widget.property.id,
         title: _titleController.text,
         description: _descriptionController.text,
         address: _addressController.text,
@@ -59,28 +63,30 @@ class _AddPropertyViewState extends State<AddPropertyView> {
         numBedrooms: int.parse(_numBedroomsController.text),
         numBathrooms: int.parse(_numBathroomsController.text),
         amenities: _amenitiesController.text,
-        createdAt: DateTime.now(),
+        createdAt: widget.property.createdAt,
         updatedAt: DateTime.now(),
       );
 
-      await Provider.of<AuthProvider>(context, listen: false).addProperty(
-        property: property,
-        images: _images,
+      await Provider.of<AuthProvider>(context, listen: false).updateProperty(
+        property.id,
+        property.toJson(),
       );
       setState(() {
-        _message = 'Propriété ajoutée avec succès';
+        _message = 'Propriété mise à jour avec succès';
       });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Property updated successfully')));
     } catch (e) {
       setState(() {
         _message = e.toString();
       });
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Échec de la mise à jour de la propriété: $e')));
     }
   }
 
   List<Step> _getSteps() {
     return [
       Step(
-        title: Text('Détails'),
+        title: Text('Details'),
         content: Column(
           children: [
             buildTextField(_titleController, 'Titre'),
@@ -127,20 +133,6 @@ class _AddPropertyViewState extends State<AddPropertyView> {
             buildTextField(_numBathroomsController, 'Nombre de salles de bains', TextInputType.number),
             SizedBox(height: 10.0),
             buildTextField(_amenitiesController, 'Agréments'),
-            SizedBox(height: 10.0),
-            ElevatedButton(
-              onPressed: _pickImages,
-              child: Text('Choisir des images'),
-            ),
-            if (_images.isNotEmpty)
-              Wrap(
-                children: _images.map((image) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Image.memory(image, height: 100, width: 100),
-                  );
-                }).toList(),
-              ),
           ],
         ),
         isActive: _currentStep >= 3,
@@ -152,7 +144,7 @@ class _AddPropertyViewState extends State<AddPropertyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ajouter une propriété'),
+        title: Text('Modifier la propriété'),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -180,12 +172,12 @@ class _AddPropertyViewState extends State<AddPropertyView> {
                       ),
                       children: <TextSpan>[
                         TextSpan(
-                          text: 'Ajouter',
+                          text: 'Modifier',
                           style: TextStyle(color: Colors.white),
                         ),
                         TextSpan(
                           text: ' Propriété',
-                          style: TextStyle(color: Colors.orange),
+                          style: TextStyle(color: Color(0xFFF7B818)),
                         ),
                       ],
                     ),
@@ -201,7 +193,7 @@ class _AddPropertyViewState extends State<AddPropertyView> {
                         });
                       } else {
                         if (_formKey.currentState!.validate()) {
-                          _addProperty();
+                          _updateProperty();
                         }
                       }
                     },
@@ -216,7 +208,7 @@ class _AddPropertyViewState extends State<AddPropertyView> {
                   if (_message.isNotEmpty) ...[
                     Text(
                       _message,
-                      style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
+                      style: TextStyle(color: Colors.green, fontFamily: 'Poppins'),
                     ),
                     SizedBox(height: 20.0),
                   ],
