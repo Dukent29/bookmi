@@ -400,6 +400,25 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //if admin wants to see his/properties
+  Future<List<Map<String, dynamic>>> fetchMyProperties(String userId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/properties/my-properties/$userId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.cast<Map<String, dynamic>>();
+    } else {
+      throw Exception('Failed to load properties');
+    }
+  }
+
+
   Future<void> blockDates({
     required int propertyId,
     required DateTime startDate,
