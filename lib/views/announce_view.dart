@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../providers/auth_provider.dart';
 import 'add_property_view.dart';
+import 'my_single_property.dart';
 
 class AnnounceView extends StatefulWidget {
   @override
@@ -78,6 +79,14 @@ class _AnnounceViewState extends State<AnnounceView> {
                           'Location: ${property['city']}, ${property['country']}',
                           style: TextStyle(color: Colors.white),
                         ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MySingleProperty(propertyId: property['id']),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },

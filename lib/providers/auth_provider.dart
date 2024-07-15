@@ -242,6 +242,7 @@ class AuthProvider with ChangeNotifier {
     }
 
   }
+
   Future<String> fetchPropertyPhotoUrl(int propertyId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/properties/$propertyId/returnpicture'),
@@ -257,7 +258,6 @@ class AuthProvider with ChangeNotifier {
       throw Exception('Échec du chargement des photos de la propriété');
     }
   }
-
 
   Future<List<Review>> fetchReviews(int propertyId) async {
     final response = await http.get(
@@ -275,6 +275,7 @@ class AuthProvider with ChangeNotifier {
       throw Exception('Échec du chargement des avis');
     }
   }
+
   Future<List<Property>> fetchRecentlyAddedProperties() async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/properties/recently-added'),
@@ -291,6 +292,7 @@ class AuthProvider with ChangeNotifier {
       throw Exception('Échec du chargement des propriétés récemment ajoutées');
     }
   }
+
   Future<void> updatePropertyStatusToFavoris(int propertyId) async {
     final response = await http.put(
       Uri.parse('http://localhost:5000/api/properties/status/favoris'),
@@ -321,6 +323,23 @@ class AuthProvider with ChangeNotifier {
       return data.cast<Map<String, dynamic>>();
     } else {
       throw Exception('Échec du chargement des réservations');
+    }
+  }
+
+  //fetch properties detail (one by one)
+  Future<Map<String, dynamic>> fetchPropertyDetails(int propertyId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/properties/$propertyId/details'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load property details');
     }
   }
   //detail booking
