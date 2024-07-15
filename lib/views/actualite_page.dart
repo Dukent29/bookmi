@@ -75,7 +75,7 @@ class _ActualitePageState extends State<ActualitePage> {
                             style: TextStyle(color: Colors.white),
                           ),
                           subtitle: Text(
-                            'Guest ID: ${booking['guest_id']}\nFrom: ${booking['start_date']}\nTo: ${booking['end_date']}\nProperty: ${booking['property_title']}',
+                            'Guest: ${booking['guest_username']}\nFrom: ${booking['start_date']}\nTo: ${booking['end_date']}\nProperty: ${booking['property_title']}',
                             style: TextStyle(color: Colors.white),
                           ),
                         ),
