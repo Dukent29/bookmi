@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/property.dart';
 import '../models/review.dart';
 import '../providers/auth_provider.dart';
 import 'booking/create_booking_view.dart';
-import 'package:provider/provider.dart';
 
 class PropertyDetailPage extends StatelessWidget {
   final Property property;
@@ -17,7 +17,7 @@ class PropertyDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           property.title,
-          style: TextStyle(color: Colors.white), // Set title color to white
+          style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold), // Set title color to white and font to Poppins
         ),
         backgroundColor: Colors.transparent, // Make AppBar transparent
         elevation: 0, // Remove shadow under AppBar
@@ -69,49 +69,77 @@ class PropertyDetailPage extends StatelessWidget {
               // Title
               Text(
                 property.title,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
               ),
               Divider(color: Colors.grey[400]), // Divider
               SizedBox(height: 8),
               // Price
-              Text(
-                'Price per night: \$${property.pricePerNight}',
-                style: TextStyle(fontSize: 20, color: Colors.orange),
+              RichText(
+                text: TextSpan(
+                  text: 'Price per night: ',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: '\€${property.pricePerNight}',
+                      style: TextStyle(fontSize: 18, color: Color(0xFFF7B818), fontFamily: 'Poppins'),
+                    ),
+                  ],
+                ),
               ),
               Divider(color: Colors.grey[400]), // Divider
               SizedBox(height: 16),
               // Description
               Text(
-                property.description,
-                style: TextStyle(fontSize: 16),
+                'Description: ${property.description}',
+                style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white),
               ),
               Divider(color: Colors.grey[400]), // Divider
               SizedBox(height: 16),
-              // Number of Bedrooms
-              Text(
-                'Number of Bedrooms: ${property.numBedrooms}',
-                style: TextStyle(fontSize: 16),
-              ),
-              Divider(color: Colors.grey[400]), // Divider
-              SizedBox(height: 8),
-              // Maximum Guests
-              Text(
-                'Maximum Guests: ${property.maxGuests}',
-                style: TextStyle(fontSize: 16),
+              // Number of Bedrooms and Maximum Guests
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Bedrooms',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
+                      ),
+                      Text(
+                        '${property.numBedrooms}',
+                        style: TextStyle(fontSize: 16, color: Color(0xFFF7B818), fontFamily: 'Poppins'),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Guests',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
+                      ),
+                      Text(
+                        '${property.maxGuests}',
+                        style: TextStyle(fontSize: 16, color: Color(0xFFF7B818), fontFamily: 'Poppins'),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               Divider(color: Colors.grey[400]), // Divider
               SizedBox(height: 8),
               // Amenities
               Text(
                 'Amenities: ${property.amenities}',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white),
               ),
               Divider(color: Colors.grey[400]), // Divider
               SizedBox(height: 16),
               // Reviews Section
               Text(
                 'Reviews:',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
               ),
               // Fetch and display reviews
               FutureBuilder<List<Review>>(
@@ -120,17 +148,17 @@ class PropertyDetailPage extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Failed to load reviews'));
+                    return Center(child: Text('Failed to load reviews', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No reviews found'));
+                    return Center(child: Text('No reviews found', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)));
                   }
 
                   final reviews = snapshot.data!;
                   return Column(
                     children: reviews.map((review) {
                       return ListTile(
-                        title: Text(review.comment),
-                        subtitle: Text('Guest ID: ${review.guestId}'),
+                        title: Text(review.comment, style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+                        subtitle: Text('Guest ID: ${review.guestId}', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
                       );
                     }).toList(),
                   );
@@ -163,7 +191,7 @@ class PropertyDetailPage extends StatelessWidget {
           },
           child: Text(
             'Réserver maintenant',
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white, fontFamily: 'Poppins'),
           ),
         ),
       ),

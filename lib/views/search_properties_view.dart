@@ -164,11 +164,23 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 150,
-                                color: Colors.grey,
-                                child: Center(
-                                    child: Icon(Icons.image, size: 50, color: Colors.white)),
+                              FutureBuilder<String>(
+                                future: Provider.of<AuthProvider>(context, listen: false)
+                                    .fetchPropertyPhotoUrl(property.id),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState == ConnectionState.waiting) {
+                                    return Center(child: CircularProgressIndicator());
+                                  } else if (snapshot.hasError) {
+                                    return Icon(Icons.error, color: Colors.red);
+                                  } else {
+                                    return Image.network(
+                                      snapshot.data!,
+                                      width: double.infinity,
+                                      height: 150,
+                                      fit: BoxFit.cover,
+                                    );
+                                  }
+                                },
                               ),
                               SizedBox(height: 8.0),
                               Row(

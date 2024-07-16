@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../models/booking.dart';
 import '../../providers/auth_provider.dart';
-import 'booking_details_page.dart';
+import 'my_booking_detail_page.dart';
 
 class MyBookingsPage extends StatefulWidget {
   final String guestId;
@@ -14,63 +15,192 @@ class MyBookingsPage extends StatefulWidget {
 }
 
 class _MyBookingsPageState extends State<MyBookingsPage> {
+  String _selectedFilter = 'Bookings'; // Variable to track the selected filter
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Bookings'),
+        title: Text('My Bookings', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: FutureBuilder<List<Booking>>(
-        future: Provider.of<AuthProvider>(context, listen: false).getBookingsByUser(widget.guestId),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            print('Error: ${snapshot.error}'); // Debugging line
-            return Center(child: Text('Failed to load bookings'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            print('No bookings found'); // Debugging line
-            return Center(child: Text('No bookings found'));
-          }
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedFilter = 'Bookings';
+                      });
+                    },
+                    child: Text('Bookings'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _selectedFilter == 'Bookings' ? Colors.orange : Colors.grey[850],
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    ),
+                  ),
+                  SizedBox(width: 8.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedFilter = 'Past';
+                      });
+                    },
+                    child: Text('Past'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _selectedFilter == 'Past' ? Colors.orange : Colors.grey[850],
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    ),
+                  ),
+                  SizedBox(width: 8.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        _selectedFilter = 'Canceled';
+                      });
+                    },
+                    child: Text('Canceled'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: _selectedFilter == 'Canceled' ? Colors.orange : Colors.grey[850],
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<Booking>>(
+              future: Provider.of<AuthProvider>(context, listen: false).getBookingsByUser(widget.guestId),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (snapshot.hasError) {
+                  return Center(child: Text('Failed to load bookings', style: TextStyle(color: Colors.white)));
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return Center(child: Text('No bookings found', style: TextStyle(color: Colors.white)));
+                }
 
-          final bookings = snapshot.data!;
-          print('Bookings received: $bookings'); // Debugging line
-          return ListView.builder(
-            itemCount: bookings.length,
-            itemBuilder: (context, index) {
-              final booking = bookings[index];
-              return Card(
-                color: Colors.grey[800]?.withOpacity(0.5), // Semi-transparent card
-                child: ListTile(
-                  title: Text(
-                    'Booking ID: ${booking.id}',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  subtitle: Text(
-                    'Property: ${booking.propertyTitle}\n'
-                        'Address: ${booking.propertyAddress}, ${booking.propertyCity}, ${booking.propertyCountry}\n'
-                        'From: ${booking.startDate}\n'
-                        'To: ${booking.endDate}\n'
-                        'Total Price: \$${booking.totalPrice}\n'
-                        'Number of People: ${booking.numPeople}\n'
-                        'Amenities: ${booking.propertyAmenities}',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => BookingDetailPage(booking: booking),
+                final bookings = snapshot.data!;
+                final filteredBookings = bookings.where((booking) {
+                  if (_selectedFilter == 'Bookings') {
+                    return booking.status == 'active';
+                  } else if (_selectedFilter == 'Past') {
+                    return DateTime.parse(booking.endDate).isBefore(DateTime.now());
+                  } else if (_selectedFilter == 'Canceled') {
+                    return booking.status == 'cancelled';
+                  }
+                  return false;
+                }).toList();
+
+                return ListView.builder(
+                  itemCount: filteredBookings.length,
+                  itemBuilder: (context, index) {
+                    final booking = filteredBookings[index];
+                    return Card(
+                      color: Colors.grey[850],
+                      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: ListTile(
+                        leading: FutureBuilder<String>(
+                          future: Provider.of<AuthProvider>(context, listen: false)
+                              .fetchPropertyPhotoUrl(booking.propertyId),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Icon(Icons.error, color: Colors.red);
+                            } else {
+                              return Image.network(snapshot.data!, width: 90, height: 130, fit: BoxFit.cover);
+                            }
+                          },
+                        ),
+                        title: Text(
+                          booking.propertyTitle,
+                          style: TextStyle(
+                            color: Color(0xFFF7B818),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              booking.propertyAddress,
+                              style: TextStyle(color: Colors.white, fontSize: 12, fontFamily: 'Poppins'),
+                            ),
+                            SizedBox(height: 4.0),
+                            RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: 'Stay: ',
+                                    style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                  TextSpan(
+                                    text:
+                                    '${DateFormat('yyyy-MM-dd').format(DateTime.parse(booking.startDate))} - ${DateFormat('yyyy-MM-dd').format(DateTime.parse(booking.endDate))}',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 4.0),
+                            Text(
+                              'Price: \$${booking.totalPrice.toStringAsFixed(2)}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ],
+                        ),
+                        trailing: Icon(
+                          Icons.chevron_right,
+                          color: Color(0xFFF7B818),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MyBookingDetailPage(booking: booking),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },
-                ),
-              );
-            },
-          );
-        },
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -22,6 +22,7 @@ class AuthProvider with ChangeNotifier {
   bool get isAuthenticated => _token != null;
   bool get isAdmin => _role == 'admin';
 
+  //login/connexion
   Future<void> login(String email, String password) async {
     final response = await http.post(
       Uri.parse('http://localhost:5000/api/users/login'),
@@ -50,6 +51,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //register/inscription
   Future<void> register(String username, String email, String password) async {
     final response = await http.post(
       Uri.parse('http://localhost:5000/api/users/register'),
@@ -72,6 +74,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //log out
   void logout() async {
     _token = null;
     _role = null;
@@ -82,6 +85,7 @@ class AuthProvider with ChangeNotifier {
     await prefs.remove('userId');
   }
 
+  //edit user infos
   Future<void> updateProfile(String firstName, String lastName, String bio,
       String profilePicture) async {
     final response = await http.put(
@@ -105,7 +109,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-
+  // search function
   Future<List<Property>> searchProperties({required String address}) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/properties/search?address=$address'),
@@ -123,6 +127,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //fetch properties by id(mostly used to display property in a singlr detail page)
   Future<Map<String, dynamic>> getPropertyById(int propertyId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/properties/$propertyId'),
@@ -139,6 +144,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //create/add property
   Future<void> addProperty({
     required Property property,
     required List<Uint8List> images,
@@ -175,6 +181,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //create bookings
   Future<String> createBooking({
     required int propertyId,
     required String startDate,
@@ -206,6 +213,7 @@ class AuthProvider with ChangeNotifier {
     return response.body;
   }
 
+  //display and properties on user interface
   Future<List<Property>> fetchProperties() async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/properties'),
@@ -223,6 +231,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //display and photo properties (only)
   Future<List<PropertyPhoto>> fetchPropertyPhotos(int propertyId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/property-photos/$propertyId'),
@@ -243,6 +252,7 @@ class AuthProvider with ChangeNotifier {
 
   }
 
+  //display and photo properties and their data
   Future<String> fetchPropertyPhotoUrl(int propertyId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/properties/$propertyId/returnpicture'),
@@ -259,6 +269,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //for displaying reviews
   Future<List<Review>> fetchReviews(int propertyId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/reviews/property/$propertyId'),
@@ -276,6 +287,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //for search purpose and display properties recently added or created
   Future<List<Property>> fetchRecentlyAddedProperties() async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/properties/recently-added'),
@@ -293,6 +305,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //update propertis determinr if there is promotion
   Future<void> updatePropertyStatusToFavoris(int propertyId) async {
     final response = await http.put(
       Uri.parse('http://localhost:5000/api/properties/status/favoris'),
@@ -308,6 +321,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //fetch bookings done on certain property (general)
   Future<List<Map<String, dynamic>>> fetchBookingsByProperties(List<int> propertyIds) async {
     final response = await http.post(
       Uri.parse('http://localhost:5000/api/bookings/properties'),
@@ -342,7 +356,6 @@ class AuthProvider with ChangeNotifier {
       throw Exception('Failed to load property details');
     }
   }
-  //detail booking
 
   //edit property
   Future<void> updateProperty(int propertyId, Map<String, dynamic> updateData) async {
@@ -382,8 +395,8 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //fetch own bookings
   Future<List<Booking>> getBookingsByUser(String userId) async {
-    print('Fetching bookings for userId: $userId'); // Debug statement
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/bookings/guest/$userId'), // This route should match
       headers: {
@@ -394,15 +407,56 @@ class AuthProvider with ChangeNotifier {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body) as List;
-      print('Bookings data: $data'); // Debugging line
+
       return data.map((json) => Booking.fromJson(json)).toList();
     } else {
-      print('Failed to load bookings: ${response.statusCode}'); // Debugging line
+
       throw Exception('Failed to load bookings');
     }
   }
 
+  //cancel user's booking
+  Future<void> cancelBooking(int bookingId) async {
+    final response = await http.put(
+      Uri.parse('http://localhost:5000/api/bookings/cancel/$bookingId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
 
+    if (response.statusCode != 200) {
+      throw Exception('Failed to cancel booking');
+    }
+  }
+
+  //update my booking
+  Future<void> updateBooking({
+    required int bookingId,
+    required DateTime startDate,
+    required DateTime endDate,
+    required int numPeople,
+  }) async {
+    final url = 'http://localhost:5000/api/bookings/my-booking/$bookingId';
+    final response = await http.put(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+      body: jsonEncode({
+        'start_date': startDate.toIso8601String(),
+        'end_date': endDate.toIso8601String(),
+        'num_people': numPeople,
+      }),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to update booking');
+    }
+  }
+
+  // fetch bookings to display to admin page (non-used)
   Future<List<Map<String, dynamic>>> fetchBookings(int propertyId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/bookings/property/$propertyId'),
@@ -513,7 +567,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-
+  //block date(if admin)
   Future<void> blockDates({
     required int propertyId,
     required DateTime startDate,
