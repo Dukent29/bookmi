@@ -1,6 +1,7 @@
-import 'package:bookmi_app/models/property.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'models/property.dart';
 import 'providers/auth_provider.dart';
 import 'views/auth/login_view.dart' as login_view;
 import 'views/auth/register_view.dart' as register_view;
@@ -12,11 +13,19 @@ import 'views/search_properties_view.dart';
 import 'views/my_single_property.dart';
 import 'views/edit_property_page.dart';
 
-void main() {
-  runApp(MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final prefs = await SharedPreferences.getInstance();
+  final userId = prefs.getString('userId') ?? '';
+
+  runApp(MyApp(userId: userId));
 }
 
 class MyApp extends StatelessWidget {
+  final String userId;
+
+  MyApp({required this.userId});
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -35,9 +44,9 @@ class MyApp extends StatelessWidget {
               '/register': (context) => register_view.RegisterView(),
               '/update_profile': (context) => UpdateProfileView(),
               '/admin': (context) => AdminLandingView(),
-              '/user': (context) => UserLandingView(userId: authProvider.userId ?? ''),
+              '/user': (context) => UserLandingView(userId: userId),
               '/add_property': (context) => AddPropertyView(),
-              '/search_properties': (context) => SearchPropertiesView(userId: authProvider.userId ?? ''),
+              '/search_properties': (context) => SearchPropertiesView(userId: userId),
               '/property_details': (context) => MySingleProperty(propertyId: ModalRoute.of(context)?.settings.arguments as int),
               '/edit_property': (context) => EditPropertyPage(property: ModalRoute.of(context)?.settings.arguments as Property),
             },

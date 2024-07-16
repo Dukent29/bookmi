@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'decouvrir_page.dart';
 import 'update_profile_view.dart';
 import 'booking/my_bookings_page.dart'; // Import MyBookingsPage
@@ -21,9 +22,9 @@ class _UserLandingViewState extends State<UserLandingView> {
   void initState() {
     super.initState();
     _widgetOptions = <Widget>[
-      DecouvrirPage(userId: '',), // Display the DecouvrirPage here
+      DecouvrirPage(userId: widget.userId), // Display the DecouvrirPage here
       SearchPropertiesView(userId: widget.userId), // Pass userId to SearchPropertiesView
-      MyBookingsPage(guestId: widget.userId, userId: '',), // Pass userId to MyBookingsPage as guestId
+      MyBookingsPage(guestId: widget.userId), // Pass userId to MyBookingsPage as guestId
       UpdateProfileView(),
     ];
   }

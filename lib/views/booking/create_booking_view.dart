@@ -47,10 +47,26 @@ class _CreateBookingViewState extends State<CreateBookingView> {
       final booking = Booking(
         id: bookingId,
         propertyId: widget.property.id,
+        guestId: int.parse(widget.userId),
         startDate: _startDate.toString(),
         endDate: _endDate.toString(),
         totalPrice: widget.property.pricePerNight * (_endDate!.difference(_startDate!).inDays + 1),
         numPeople: _numPeople,
+        status: 'active', // You might want to set the status dynamically
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        propertyTitle: widget.property.title,
+        propertyDescription: widget.property.description,
+        propertyAddress: widget.property.address,
+        propertyCity: widget.property.city,
+        propertyState: widget.property.state,
+        propertyCountry: widget.property.country,
+        propertyZipCode: widget.property.zipCode,
+        propertyPricePerNight: widget.property.pricePerNight,
+        propertyMaxGuests: widget.property.maxGuests,
+        propertyNumBedrooms: widget.property.numBedrooms,
+        propertyNumBathrooms: widget.property.numBathrooms,
+        propertyAmenities: widget.property.amenities,
       );
 
       setState(() {

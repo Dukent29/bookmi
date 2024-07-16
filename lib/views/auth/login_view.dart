@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../providers/auth_provider.dart';
 import '../admin_landing_view.dart';
 import '../user_landing_view.dart';
@@ -38,7 +37,7 @@ class _LoginViewState extends State<LoginView> {
       }
     } catch (e) {
       setState(() {
-        _message = 'Failed to login: ${e.toString()}';
+        _message = 'Échec de la connexion: ${e.toString()}';
       });
     }
   }
@@ -47,7 +46,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login'),
+        title: Text('Se connecter'),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

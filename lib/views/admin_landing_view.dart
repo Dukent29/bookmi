@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../views/update_profile_view.dart';
 import '../views/announce_view.dart';
-import '../views/booking/booking_list.dart';
 import '../views/actualite_page.dart';
 import '../views/edit_calendar.dart';
 

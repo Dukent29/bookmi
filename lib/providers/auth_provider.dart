@@ -402,6 +402,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+
   Future<List<Map<String, dynamic>>> fetchBookings(int propertyId) async {
     final response = await http.get(
       Uri.parse('http://localhost:5000/api/bookings/property/$propertyId'),

@@ -7,7 +7,7 @@ import 'booking_details_page.dart';
 class MyBookingsPage extends StatefulWidget {
   final String guestId;
 
-  MyBookingsPage({required this.guestId, required String userId});
+  MyBookingsPage({required this.guestId});
 
   @override
   _MyBookingsPageState createState() => _MyBookingsPageState();
@@ -28,27 +28,45 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
+            print('Error: ${snapshot.error}'); // Debugging line
             return Center(child: Text('Failed to load bookings'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            print('No bookings found'); // Debugging line
             return Center(child: Text('No bookings found'));
           }
 
           final bookings = snapshot.data!;
+          print('Bookings received: $bookings'); // Debugging line
           return ListView.builder(
             itemCount: bookings.length,
             itemBuilder: (context, index) {
               final booking = bookings[index];
-              return ListTile(
-                title: Text('Booking ID: ${booking.id}'),
-                subtitle: Text('Property ID: ${booking.propertyId}\nFrom: ${booking.startDate}\nTo: ${booking.endDate}'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => BookingDetailPage(booking: booking),
-                    ),
-                  );
-                },
+              return Card(
+                color: Colors.grey[800]?.withOpacity(0.5), // Semi-transparent card
+                child: ListTile(
+                  title: Text(
+                    'Booking ID: ${booking.id}',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  subtitle: Text(
+                    'Property: ${booking.propertyTitle}\n'
+                        'Address: ${booking.propertyAddress}, ${booking.propertyCity}, ${booking.propertyCountry}\n'
+                        'From: ${booking.startDate}\n'
+                        'To: ${booking.endDate}\n'
+                        'Total Price: \$${booking.totalPrice}\n'
+                        'Number of People: ${booking.numPeople}\n'
+                        'Amenities: ${booking.propertyAmenities}',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => BookingDetailPage(booking: booking),
+                      ),
+                    );
+                  },
+                ),
               );
             },
           );

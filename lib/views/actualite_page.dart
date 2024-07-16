@@ -25,8 +25,10 @@ class _ActualitePageState extends State<ActualitePage> {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final bookings = await authProvider.fetchBookingsByUserProperties(widget.userId);
+      // Sort bookings by start date in descending order
+      bookings.sort((a, b) => b['start_date'].compareTo(a['start_date']));
       setState(() {
-        _bookings = bookings;
+        _bookings = bookings.take(4).toList(); // Limit to 4 most recent bookings
       });
     } catch (e) {
       setState(() {
@@ -64,7 +66,7 @@ class _ActualitePageState extends State<ActualitePage> {
               if (_bookings.isNotEmpty)
                 Expanded(
                   child: ListView.builder(
-                    itemCount: _bookings.length > 2 ? 2 : _bookings.length,
+                    itemCount: _bookings.length,
                     itemBuilder: (context, index) {
                       final booking = _bookings[index];
                       return FutureBuilder<String>(

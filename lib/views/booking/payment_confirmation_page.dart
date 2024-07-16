@@ -27,7 +27,7 @@ class PaymentConfirmationPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(builder: (context) => MyBookingsPage(userId: userId, guestId: '',)),
+                  MaterialPageRoute(builder: (context) => MyBookingsPage(guestId: userId)),
                 );
               },
               child: Text('View My Bookings'),
