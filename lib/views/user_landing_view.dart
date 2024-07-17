@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'decouvrir_page.dart';
 import 'update_profile_view.dart';
-import 'booking/my_bookings_page.dart'; // Import MyBookingsPage
-import 'search_properties_view.dart'; // Import the search view
+import 'booking/my_bookings_page.dart';
+import 'search_properties_view.dart';
 
 class UserLandingView extends StatefulWidget {
   final String userId;
@@ -22,9 +21,9 @@ class _UserLandingViewState extends State<UserLandingView> {
   void initState() {
     super.initState();
     _widgetOptions = <Widget>[
-      DecouvrirPage(userId: widget.userId), // Display the DecouvrirPage here
-      SearchPropertiesView(userId: widget.userId), // Pass userId to SearchPropertiesView
-      MyBookingsPage(guestId: widget.userId), // Pass userId to MyBookingsPage as guestId
+      DecouvrirPage(userId: widget.userId),
+      SearchPropertiesView(userId: widget.userId),
+      MyBookingsPage(guestId: widget.userId),
       UpdateProfileView(),
     ];
   }
@@ -52,14 +51,14 @@ class _UserLandingViewState extends State<UserLandingView> {
         ),
       ),
       bottomNavigationBar: Container(
-        margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0), // Margin for top, right, left, and bottom
+        margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(10.0), // Border radius
           child: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed, // Ensures all items are displayed
-            backgroundColor: Color(0x1FFFFFFF), // Background color
-            unselectedItemColor: Colors.white, // Color of unselected items
-            selectedItemColor: Colors.amber[800], // Color of selected item
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Color(0x15FFFFFF),
+            unselectedItemColor: Colors.white,
+            selectedItemColor: Colors.amber[800],
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.explore),
@@ -67,11 +66,11 @@ class _UserLandingViewState extends State<UserLandingView> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: 'Home',
+                label: 'Accueil',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.book),
-                label: 'Reservations', // Update icon and label for reservations
+                label: 'Mes Reservations', // Update icon and label for reservations
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),

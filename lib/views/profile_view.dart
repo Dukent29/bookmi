@@ -15,13 +15,13 @@ class ProfileView extends StatelessWidget {
             title: Text('John Doe', style: TextStyle(color: Colors.white)),
           ),
           ListTile(
-            title: Text('Manage your account', style: TextStyle(color: Colors.white)),
+            title: Text('Gérer votre compte', style: TextStyle(color: Colors.white)),
             onTap: () {
               // Navigate to manage account page
             },
           ),
           ListTile(
-            title: Text('Reward & Wallet', style: TextStyle(color: Colors.white)),
+            title: Text('Récompense et portefeuille', style: TextStyle(color: Colors.white)),
             onTap: () {
               // Navigate to reward & wallet page
             },

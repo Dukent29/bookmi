@@ -20,7 +20,7 @@ class _RegisterViewState extends State<RegisterView> {
   Future<void> _register() async {
     if (_passwordController.text != _confirmPasswordController.text) {
       setState(() {
-        _message = 'Passwords do not match';
+        _message = 'Les mots de passe ne correspondent pas';
       });
       return;
     }
@@ -98,7 +98,7 @@ class _RegisterViewState extends State<RegisterView> {
           child: TextField(
             controller: _usernameController,
             decoration: InputDecoration(
-              labelText: 'Username',
+              labelText: 'Nom d\'utilisateur',
               labelStyle: TextStyle(fontFamily: 'Poppins'),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
@@ -130,7 +130,7 @@ class _RegisterViewState extends State<RegisterView> {
           child: TextField(
             controller: _passwordController,
             decoration: InputDecoration(
-              labelText: 'Password',
+              labelText: 'Mot de passe',
               labelStyle: TextStyle(fontFamily: 'Poppins'),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
@@ -147,7 +147,7 @@ class _RegisterViewState extends State<RegisterView> {
           child: TextField(
             controller: _confirmPasswordController,
             decoration: InputDecoration(
-              labelText: 'Confirm Password',
+              labelText: 'Confirmez le mot de passe',
               labelStyle: TextStyle(fontFamily: 'Poppins'),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(5.0),
@@ -164,7 +164,7 @@ class _RegisterViewState extends State<RegisterView> {
           child: ElevatedButton(
             onPressed: _register,
             child: Text(
-              'Register',
+              'Inscription',
               style: TextStyle(
                 fontFamily: 'Poppins',
                 fontWeight: FontWeight.bold,
@@ -191,7 +191,7 @@ class _RegisterViewState extends State<RegisterView> {
           Navigator.pushReplacementNamed(context, '/');
         },
         child: Text(
-          'Already have an account? Login',
+          'Vous avez déjà un compte? Se connecter',
           style: TextStyle(
             color: Colors.orange,
             decoration: TextDecoration.underline,

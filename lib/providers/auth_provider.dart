@@ -74,6 +74,24 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //fetch user connected username
+  Future<String> fetchUsernameById(String userId) async {
+    final response = await http.get(
+      Uri.parse('http://localhost:5000/api/users/username/$userId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return data['username'];
+    } else {
+      throw Exception('Failed to load username');
+    }
+  }
+
   //log out
   void logout() async {
     _token = null;

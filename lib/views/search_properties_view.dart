@@ -32,7 +32,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
       });
     } catch (e) {
       setState(() {
-        _message = 'Failed to load properties: ${e.toString()}';
+        _message = 'Échec du chargement des propriétés: ${e.toString()}';
       });
     }
   }
@@ -47,7 +47,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Home/Search Properties'),
+        title: Text('Accueil'),
         actions: [
           IconButton(
             icon: Icon(Icons.notifications),
@@ -70,7 +70,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                 children: [
                   ElevatedButton(
                     onPressed: _fetchRecentlyAddedProperties,
-                    child: Text('Recently Added'),
+                    child: Text('Récemment ajouté'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
                       foregroundColor: Colors.white,
@@ -85,7 +85,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                     onPressed: () {
                       // Handle Top Rates button tap
                     },
-                    child: Text('Top Rates 🔥'),
+                    child: Text('Meilleurs tarifs 🔥'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[850],
                       foregroundColor: Colors.white,
@@ -100,7 +100,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                     onPressed: () {
                       // Handle Best Offers button tap
                     },
-                    child: Text('Best Offers'),
+                    child: Text('Meilleures offres'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[850],
                       foregroundColor: Colors.white,
@@ -115,7 +115,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                     onPressed: () {
                       // Handle Popular button tap
                     },
-                    child: Text('Popular'),
+                    child: Text('Populaire'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[850],
                       foregroundColor: Colors.white,
@@ -130,7 +130,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Recently Added Properties',
+              'Récemment ajoutées',
               style: TextStyle(fontSize: 24, color: Colors.black),
             ),
             SizedBox(height: 16.0),
@@ -200,7 +200,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                                             style: TextStyle(color: Colors.white70)),
                                         Text('1.8 km',
                                             style: TextStyle(color: Colors.white70)),
-                                        Text('${property.pricePerNight}€/night',
+                                        Text('${property.pricePerNight}€/nuit',
                                             style: TextStyle(color: Colors.white70)),
                                       ],
                                     ),
@@ -226,7 +226,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                                           ),
                                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                                         ),
-                                        child: Text('Book Now', style: TextStyle(color: Colors.white)),
+                                        child: Text('Reserve maintenant', style: TextStyle(color: Colors.white)),
                                       ),
                                     ],
                                   ),

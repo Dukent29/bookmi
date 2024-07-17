@@ -43,11 +43,11 @@ class _CustomDatePickerState extends State<CustomDatePicker> {
           calendarFormat: CalendarFormat.month,
           startingDayOfWeek: StartingDayOfWeek.monday,
           availableCalendarFormats: const {
-            CalendarFormat.month: 'Month',
+            CalendarFormat.month: 'Mois',
           },
         ),
         if (_startDate != null && _endDate != null)
-          Text('Selected dates: ${_startDate!.toLocal()} - ${_endDate!.toLocal()}'),
+          Text('Dates sélectionnées: ${_startDate!.toLocal()} - ${_endDate!.toLocal()}'),
       ],
     );
   }

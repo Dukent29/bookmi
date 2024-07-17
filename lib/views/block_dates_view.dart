@@ -23,7 +23,7 @@ class _BlockDatesViewState extends State<BlockDatesView> {
   Future<void> _blockDates() async {
     if (_startDate == null || _endDate == null) {
       setState(() {
-        _message = 'Please select start and end dates';
+        _message = 'Veuillez sélectionner les dates de début et de fin';
       });
       return;
     }
@@ -73,7 +73,7 @@ class _BlockDatesViewState extends State<BlockDatesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Block Dates')),
+      appBar: AppBar(title: Text('Dates de blocage')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -89,19 +89,19 @@ class _BlockDatesViewState extends State<BlockDatesView> {
             ),
             ElevatedButton(
               onPressed: () => _selectStartDate(context),
-              child: Text('Select Start Date'),
+              child: Text('Sélectionnez la date de début'),
             ),
-            Text(_startDate == null ? 'No start date selected' : _startDate.toString()),
+            Text(_startDate == null ? 'Aucune date de début sélectionnée' : _startDate.toString()),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () => _selectEndDate(context),
-              child: Text('Select End Date'),
+              child: Text('Sélectionnez la date de fin'),
             ),
-            Text(_endDate == null ? 'No end date selected' : _endDate.toString()),
+            Text(_endDate == null ? 'Aucune date de fin sélectionnée' : _endDate.toString()),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _blockDates,
-              child: Text('Block Dates'),
+              child: Text('Dates de blocage'),
             ),
             SizedBox(height: 16.0),
             if (_message.isNotEmpty)

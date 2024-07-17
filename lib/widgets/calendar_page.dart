@@ -55,7 +55,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Booking Calendar'),
+        title: Text('Calendrier de réservation'),
       ),
       body: Column(
         children: [

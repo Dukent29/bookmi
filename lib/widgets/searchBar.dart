@@ -40,7 +40,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         TextField(
           controller: _addressController,
           decoration: InputDecoration(
-            labelText: 'Address',
+            labelText: 'Addresse',
             border: OutlineInputBorder(),
             suffixIcon: IconButton(
               icon: Icon(Icons.search),

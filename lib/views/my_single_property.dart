@@ -28,7 +28,7 @@ class _MySinglePropertyState extends State<MySingleProperty> {
       final propertyDetails = await authProvider.fetchPropertyDetails(widget.propertyId);
       return propertyDetails;
     } catch (e) {
-      throw Exception('Failed to fetch property details: $e');
+      throw Exception('Échec de la récupération des détails de la propriété: $e');
     }
   }
 
@@ -41,7 +41,7 @@ class _MySinglePropertyState extends State<MySingleProperty> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Property Details'),
+        title: Text('Détails de la propriété'),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -51,9 +51,9 @@ class _MySinglePropertyState extends State<MySingleProperty> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Failed to load property details: ${snapshot.error}'));
+            return Center(child: Text('Échec du chargement des détails de la propriété: ${snapshot.error}'));
           } else if (!snapshot.hasData) {
-            return Center(child: Text('No property details found'));
+            return Center(child: Text('Aucun détail de propriété trouvé'));
           } else {
             final property = Property.fromJson(snapshot.data!);
             return SingleChildScrollView(
@@ -107,17 +107,17 @@ class _MySinglePropertyState extends State<MySingleProperty> {
                         SizedBox(height: 10),
                         Text(property.description),
                         SizedBox(height: 10),
-                        Text('Address: ${property.address}, ${property.city}, ${property.country}'),
+                        Text('Addresse: ${property.address}, ${property.city}, ${property.country}'),
                         SizedBox(height: 10),
-                        Text('Price per night: \$${property.pricePerNight}'),
+                        Text('Prix par nuit: \€${property.pricePerNight}'),
                         SizedBox(height: 10),
-                        Text('Max guests: ${property.maxGuests}'),
+                        Text('Nombre maximum d\'invités: ${property.maxGuests}'),
                         SizedBox(height: 10),
-                        Text('Bedrooms: ${property.numBedrooms}'),
+                        Text('Chambres: ${property.numBedrooms}'),
                         SizedBox(height: 10),
-                        Text('Bathrooms: ${property.numBathrooms}'),
+                        Text('Salles de bains: ${property.numBathrooms}'),
                         SizedBox(height: 10),
-                        Text('Amenities: ${property.amenities}'),
+                        Text('Agréments: ${property.amenities}'),
                         SizedBox(height: 20),
                         ElevatedButton(
                           onPressed: () {

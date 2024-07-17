@@ -76,7 +76,7 @@ class PropertyDetailPage extends StatelessWidget {
               // Price
               RichText(
                 text: TextSpan(
-                  text: 'Price per night: ',
+                  text: 'Prix par nuit: ',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
                   children: <TextSpan>[
                     TextSpan(
@@ -103,7 +103,7 @@ class PropertyDetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Bedrooms',
+                        'Chambres',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
                       ),
                       Text(
@@ -116,7 +116,7 @@ class PropertyDetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Guests',
+                        'Invitées',
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
                       ),
                       Text(
@@ -131,14 +131,14 @@ class PropertyDetailPage extends StatelessWidget {
               SizedBox(height: 8),
               // Amenities
               Text(
-                'Amenities: ${property.amenities}',
+                'Agréments: ${property.amenities}',
                 style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white),
               ),
               Divider(color: Colors.grey[400]), // Divider
               SizedBox(height: 16),
               // Reviews Section
               Text(
-                'Reviews:',
+                'Commentaires:',
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
               ),
               // Fetch and display reviews
@@ -148,9 +148,9 @@ class PropertyDetailPage extends StatelessWidget {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
                   } else if (snapshot.hasError) {
-                    return Center(child: Text('Failed to load reviews', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)));
+                    return Center(child: Text('Échec du chargement des avis', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No reviews found', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)));
+                    return Center(child: Text('Aucun avis trouvé', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)));
                   }
 
                   final reviews = snapshot.data!;

@@ -99,7 +99,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                           _properties = _recentlyAddedProperties;
                         });
                       },
-                      child: Text('Recently Added'),
+                      child: Text('Récemment ajouté'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.orange,
                         foregroundColor: Colors.white,
@@ -114,7 +114,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                       onPressed: () {
                         // Handle Top Rates button tap
                       },
-                      child: Text('Top Rates 🔥'),
+                      child: Text('Meilleurs tarifs 🔥'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
                         foregroundColor: Colors.white,
@@ -129,7 +129,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                       onPressed: () {
                         // Handle Best Offers button tap
                       },
-                      child: Text('Best Offers'),
+                      child: Text('Meilleures offres'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
                         foregroundColor: Colors.white,
@@ -144,7 +144,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                       onPressed: () {
                         // Handle Popular button tap
                       },
-                      child: Text('Popular'),
+                      child: Text('Populaire'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
                         foregroundColor: Colors.white,
@@ -250,7 +250,7 @@ class PropertyCard extends StatelessWidget {
                         ),
                         Text(property.address,
                             style: TextStyle(color: Colors.white70)),
-                        Text('1.8 km',
+                        Text('1.8 km²',
                             style: TextStyle(color: Colors.white70)),
                         Text('${property.pricePerNight}€/nuit',
                             style: TextStyle(color: Colors.white70)),
@@ -267,11 +267,11 @@ class PropertyCard extends StatelessWidget {
                               try {
                                 await authProvider.updatePropertyStatusToFavoris(property.id);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Property added to favoris')),
+                                  SnackBar(content: Text('Propriété ajoutée aux favoris')),
                                 );
                               } catch (e) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Failed to update property status')),
+                                  SnackBar(content: Text('Échec de la mise à jour du statut de la propriété')),
                                 );
                               }
                             },

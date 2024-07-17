@@ -40,7 +40,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         Text(widget.property.address, style: TextStyle(color: Colors.white)),
-        Text('Price per night: \$${widget.property.pricePerNight}', style: TextStyle(color: Colors.white)),
+        Text('Prix par nuit: \$${widget.property.pricePerNight}', style: TextStyle(color: Colors.white)),
         SizedBox(height: 16),
         Text(widget.property.description, style: TextStyle(color: Colors.white)),
         SizedBox(height: 16),
@@ -53,7 +53,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.orange, // Change button color if needed
           ),
-          child: Text('Book Now', style: TextStyle(color: Colors.white)),
+          child: Text('Reserve maintenant', style: TextStyle(color: Colors.white)),
         ),
       ],
     );

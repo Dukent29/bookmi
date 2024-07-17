@@ -24,7 +24,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
         _profilePictureController.text,
       );
       setState(() {
-        _message = 'Profile updated successfully';
+        _message = 'Mise à jour du profil réussie';
       });
     } catch (e) {
       setState(() {
@@ -54,7 +54,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
             TextField(
               controller: _firstNameController,
               decoration: InputDecoration(
-                labelText: 'First Name',
+                labelText: 'Prénom',
                 labelStyle: TextStyle(fontFamily: 'Poppins'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.0),
@@ -67,7 +67,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
             TextField(
               controller: _lastNameController,
               decoration: InputDecoration(
-                labelText: 'Last Name',
+                labelText: 'Nom de famille',
                 labelStyle: TextStyle(fontFamily: 'Poppins'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.0),
@@ -80,7 +80,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
             TextField(
               controller: _bioController,
               decoration: InputDecoration(
-                labelText: 'Bio',
+                labelText: 'Biographie',
                 labelStyle: TextStyle(fontFamily: 'Poppins'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.0),
@@ -93,7 +93,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
             TextField(
               controller: _profilePictureController,
               decoration: InputDecoration(
-                labelText: 'Profile Picture URL',
+                labelText: 'Photo de profil',
                 labelStyle: TextStyle(fontFamily: 'Poppins'),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.0),
@@ -106,7 +106,7 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
             ElevatedButton(
               onPressed: _updateProfile,
               child: Text(
-                'Update Profile',
+                'Mettre à jour le profil',
                 style: TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.bold,

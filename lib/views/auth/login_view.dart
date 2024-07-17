@@ -104,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
                   child: TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      labelText: 'Password',
+                      labelText: 'Mot de passe',
                       labelStyle: TextStyle(fontFamily: 'Poppins'),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -148,7 +148,7 @@ class _LoginViewState extends State<LoginView> {
                     Navigator.pushNamed(context, '/register');
                   },
                   child: Text(
-                    'No account? Register',
+                    'Pas de compte? s\'inscrir',
                     style: TextStyle(
                       color: Colors.orange,
                       decoration: TextDecoration.underline,

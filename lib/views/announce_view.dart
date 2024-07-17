@@ -32,7 +32,7 @@ class _AnnounceViewState extends State<AnnounceView> {
       });
     } catch (e) {
       setState(() {
-        _message = 'Failed to load properties: ${e.toString()}';
+        _message = 'Échec du chargement des propriétés: ${e.toString()}';
       });
     }
   }
@@ -76,7 +76,7 @@ class _AnnounceViewState extends State<AnnounceView> {
                           style: TextStyle(color: Colors.white),
                         ),
                         subtitle: Text(
-                          'Location: ${property['city']}, ${property['country']}',
+                          'Emplacement: ${property['city']}, ${property['country']}',
                           style: TextStyle(color: Colors.white),
                         ),
                         onTap: () {
@@ -101,7 +101,7 @@ class _AnnounceViewState extends State<AnnounceView> {
                     MaterialPageRoute(builder: (context) => AddPropertyView()),
                   );
                 },
-                child: Text('Add Property'),
+                child: Text('Ajouter une propriété'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.orange,
                 ),

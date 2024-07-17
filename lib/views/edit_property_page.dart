@@ -74,7 +74,7 @@ class _EditPropertyPageState extends State<EditPropertyPage> {
       setState(() {
         _message = 'Propriété mise à jour avec succès';
       });
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Property updated successfully')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Propriété mise à jour avec succès')));
     } catch (e) {
       setState(() {
         _message = e.toString();
@@ -86,7 +86,7 @@ class _EditPropertyPageState extends State<EditPropertyPage> {
   List<Step> _getSteps() {
     return [
       Step(
-        title: Text('Details'),
+        title: Text('Détails'),
         content: Column(
           children: [
             buildTextField(_titleController, 'Titre'),
