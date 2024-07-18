@@ -21,57 +21,84 @@ class _PaymentPageState extends State<PaymentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment'),
+        title: Text('Paiement', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Total Price: \$${widget.booking.totalPrice}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            SizedBox(height: 16),
-            Text('Select Payment Method', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-            DropdownButton<String>(
-              value: _paymentMethod,
-              onChanged: (String? newValue) {
-                setState(() {
-                  _paymentMethod = newValue!;
-                });
-              },
-              items: <String>['Credit Card', 'PayPal', 'Bank Transfer']
-                  .map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-            ),
-            Spacer(),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  await Provider.of<AuthProvider>(context, listen: false).createPayment(
-                    bookingId: widget.booking.id,
-                    amount: widget.booking.totalPrice,
-                    paymentMethod: _paymentMethod,
-                    paymentStatus: 'Completed',
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF000000), Color(0xFF292A32)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Prix Total: \$${widget.booking.totalPrice}',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Sélectionner le mode de paiement',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
+              ),
+              DropdownButton<String>(
+                value: _paymentMethod,
+                dropdownColor: Colors.grey[800],
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _paymentMethod = newValue!;
+                  });
+                },
+                items: <String>['Credit Card', 'PayPal', 'Bank Transfer']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
                   );
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Payment successful!')),
-                  );
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => PaymentConfirmationPage(userId: widget.userId)),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Payment failed: ${e.toString()}')),
-                  );
-                }
-              },
-              child: Text('Confirm Payment'),
-            ),
-          ],
+                }).toList(),
+              ),
+              Spacer(),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await Provider.of<AuthProvider>(context, listen: false).createPayment(
+                      bookingId: widget.booking.id,
+                      amount: widget.booking.totalPrice,
+                      paymentMethod: _paymentMethod,
+                      paymentStatus: 'Completed',
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Paiement réussi!')),
+                    );
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => PaymentConfirmationPage(userId: widget.userId)),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Échec du paiement: ${e.toString()}')),
+                    );
+                  }
+                },
+                child: Text('Confirmer le paiement', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFF7B818),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  minimumSize: Size(double.infinity, 50), // Full width button
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

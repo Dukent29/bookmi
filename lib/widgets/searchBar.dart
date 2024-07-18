@@ -37,30 +37,46 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
-          controller: _addressController,
-          decoration: InputDecoration(
-            labelText: 'Addresse',
-            border: OutlineInputBorder(),
-            suffixIcon: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: _searchProperties,
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _addressController,
+                decoration: InputDecoration(
+                  labelText: 'Addresse',
+                  labelStyle: TextStyle(color: Color(0xFFF7B818), fontFamily: 'Poppins'),
+                  filled: true,
+                  fillColor: Colors.white,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide(
+                      color: Color(0xFFF7B818),
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+                style: TextStyle(fontFamily: 'Poppins'),
+              ),
             ),
-          ),
-        ),
-        SizedBox(height: 16.0),
-        ElevatedButton(
-          onPressed: _searchProperties,
-          child: Text('Search'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.orange,
-          ),
+            SizedBox(width: 8.0),
+            ElevatedButton(
+              onPressed: _searchProperties,
+              child: Text('Rechercher', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFF7B818),
+                padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+              ),
+            ),
+          ],
         ),
         SizedBox(height: 16.0),
         if (_message.isNotEmpty) ...[
           Text(
             _message,
-            style: TextStyle(color: Colors.red),
+            style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
           ),
           SizedBox(height: 16.0),
         ],

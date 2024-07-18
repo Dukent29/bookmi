@@ -47,17 +47,27 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Accueil'),
+        title: Text('Accueil', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white),
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications),
+            icon: Icon(Icons.notifications, color: Colors.white),
             onPressed: () {
               // Handle notification icon tap
             },
           ),
         ],
       ),
-      body: Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF000000), Color(0xFF292A32)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,9 +80,9 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                 children: [
                   ElevatedButton(
                     onPressed: _fetchRecentlyAddedProperties,
-                    child: Text('Récemment ajouté'),
+                    child: Text('Récemment ajouté', style: TextStyle(fontFamily: 'Poppins')),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Color(0xFFF7B818),
                       foregroundColor: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
@@ -85,7 +95,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                     onPressed: () {
                       // Handle Top Rates button tap
                     },
-                    child: Text('Meilleurs tarifs 🔥'),
+                    child: Text('Meilleurs tarifs 🔥', style: TextStyle(fontFamily: 'Poppins')),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[850],
                       foregroundColor: Colors.white,
@@ -100,7 +110,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                     onPressed: () {
                       // Handle Best Offers button tap
                     },
-                    child: Text('Meilleures offres'),
+                    child: Text('Meilleures offres', style: TextStyle(fontFamily: 'Poppins')),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[850],
                       foregroundColor: Colors.white,
@@ -115,7 +125,7 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                     onPressed: () {
                       // Handle Popular button tap
                     },
-                    child: Text('Populaire'),
+                    child: Text('Populaire', style: TextStyle(fontFamily: 'Poppins')),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[850],
                       foregroundColor: Colors.white,
@@ -131,13 +141,13 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
             SizedBox(height: 16.0),
             Text(
               'Récemment ajoutées',
-              style: TextStyle(fontSize: 24, color: Colors.black),
+              style: TextStyle(fontSize: 24, color: Colors.white, fontFamily: 'Poppins'),
             ),
             SizedBox(height: 16.0),
             if (_message.isNotEmpty) ...[
               Text(
                 _message,
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
               ),
               SizedBox(height: 16.0),
             ],
@@ -192,16 +202,24 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                                         Text(
                                           property.title,
                                           style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                            fontFamily: 'Poppins',
+                                          ),
                                         ),
-                                        Text(property.address,
-                                            style: TextStyle(color: Colors.white70)),
-                                        Text('1.8 km',
-                                            style: TextStyle(color: Colors.white70)),
-                                        Text('${property.pricePerNight}€/nuit',
-                                            style: TextStyle(color: Colors.white70)),
+                                        Text(
+                                          property.address,
+                                          style: TextStyle(color: Colors.white70, fontFamily: 'Poppins'),
+                                        ),
+                                        Text(
+                                          '1.8 km',
+                                          style: TextStyle(color: Colors.white70, fontFamily: 'Poppins'),
+                                        ),
+                                        Text(
+                                          '${property.pricePerNight}€/nuit',
+                                          style: TextStyle(color: Colors.white70, fontFamily: 'Poppins'),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -219,14 +237,14 @@ class _SearchPropertiesViewState extends State<SearchPropertiesView> {
                                           );
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.orange,
+                                          backgroundColor: Color(0xFFF7B818),
                                           foregroundColor: Colors.white,
                                           shape: RoundedRectangleBorder(
                                             borderRadius: BorderRadius.circular(20.0),
                                           ),
                                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                                         ),
-                                        child: Text('Reserve maintenant', style: TextStyle(color: Colors.white)),
+                                        child: Text('Réserver maintenant', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
                                       ),
                                     ],
                                   ),

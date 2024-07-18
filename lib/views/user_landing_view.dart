@@ -95,7 +95,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profil', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Profil', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

@@ -30,7 +30,7 @@ class _BookingListPageState extends State<BookingListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Bookings List'),
+        title: Text('Liste des réservations'),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: _bookings,
@@ -40,7 +40,7 @@ class _BookingListPageState extends State<BookingListPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No bookings found'));
+            return Center(child: Text('Aucune réservation trouvée'));
           } else {
             return ListView.builder(
               itemCount: snapshot.data!.length,

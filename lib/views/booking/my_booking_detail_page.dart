@@ -15,12 +15,12 @@ class MyBookingDetailPage extends StatelessWidget {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       await authProvider.cancelBooking(booking.id);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Booking canceled successfully')),
+        SnackBar(content: Text('Réservation annulée avec succès')),
       );
       Navigator.pop(context); // Go back to the previous page
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to cancel booking: $e')),
+        SnackBar(content: Text('Échec de l\'annulation de la réservation: $e')),
       );
     }
   }
@@ -52,7 +52,7 @@ class MyBookingDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Booking Details', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Détails de ma réservation', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -106,7 +106,7 @@ class MyBookingDetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'start',
+                          'À partir de:',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -124,7 +124,7 @@ class MyBookingDetailPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'end',
+                          'Jusqu\'a',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -143,7 +143,7 @@ class MyBookingDetailPage extends StatelessWidget {
               ),
               buildSection(
                 Text(
-                  'Price: \$${booking.totalPrice.toStringAsFixed(2)}',
+                  'Prix: \€${booking.totalPrice.toStringAsFixed(2)}',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -160,20 +160,20 @@ class MyBookingDetailPage extends StatelessWidget {
               ),
               buildSection(
                 Text(
-                  'Amenities: ${booking.propertyAmenities}',
+                  'Agréments: ${booking.propertyAmenities}',
                   style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Poppins'),
                 ),
               ),
               buildSection(
                 Text(
-                  'Number of Guests: ${booking.numPeople}',
+                  'Nombre d\'invités: ${booking.numPeople}',
                   style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Poppins'),
                 ),
               ),
               SizedBox(height: 16.0),
               ElevatedButton(
                 onPressed: () => _cancelBooking(context),
-                child: Text('Cancel Reservation'),
+                child: Text('Annuler une réservation'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, backgroundColor: Colors.red,
                   shape: RoundedRectangleBorder(
@@ -188,7 +188,7 @@ class MyBookingDetailPage extends StatelessWidget {
               SizedBox(height: 8.0),
               ElevatedButton(
                 onPressed: () => _editBooking(context),
-                child: Text('Edit My Booking'),
+                child: Text('Modifier ma réservation'),
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, backgroundColor: Color(0xFFF7B818),
                   shape: RoundedRectangleBorder(

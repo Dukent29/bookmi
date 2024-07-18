@@ -98,7 +98,12 @@ class _CreateBookingViewState extends State<CreateBookingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Créer une réservation pour ${widget.property.title}', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text(
+          'Créer une réservation pour ${widget.property.title}',
+          style: TextStyle(fontFamily: 'Poppins', color: Colors.white),
+        ),
+        backgroundColor: Colors.transparent, // Set background color to transparent
+        elevation: 0, // Remove the shadow/elevation
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),

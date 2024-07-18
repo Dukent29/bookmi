@@ -61,7 +61,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
       appBar: AppBar(
         title: Text(
           'Decouvrir',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -99,9 +99,9 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                           _properties = _recentlyAddedProperties;
                         });
                       },
-                      child: Text('Récemment ajouté'),
+                      child: Text('Récemment ajouté', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
+                        backgroundColor: Color(0xFFF7B818),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -114,7 +114,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                       onPressed: () {
                         // Handle Top Rates button tap
                       },
-                      child: Text('Meilleurs tarifs 🔥'),
+                      child: Text('Meilleurs tarifs 🔥', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
                         foregroundColor: Colors.white,
@@ -129,7 +129,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                       onPressed: () {
                         // Handle Best Offers button tap
                       },
-                      child: Text('Meilleures offres'),
+                      child: Text('Meilleures offres', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
                         foregroundColor: Colors.white,
@@ -144,7 +144,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
                       onPressed: () {
                         // Handle Popular button tap
                       },
-                      child: Text('Populaire'),
+                      child: Text('Populaire', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
                         foregroundColor: Colors.white,
@@ -160,7 +160,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
               SizedBox(height: 16.0),
               Expanded(
                 child: _properties.isEmpty
-                    ? Center(child: Text('No properties found'))
+                    ? Center(child: Text('No properties found', style: TextStyle(fontFamily: 'Poppins')))
                     : ListView.builder(
                   itemCount: _properties.length,
                   itemBuilder: (context, index) {
@@ -246,14 +246,15 @@ class PropertyCard extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              color: Colors.white,
+                              fontFamily: 'Poppins'),
                         ),
                         Text(property.address,
-                            style: TextStyle(color: Colors.white70)),
+                            style: TextStyle(color: Colors.white70, fontFamily: 'Poppins')),
                         Text('1.8 km²',
-                            style: TextStyle(color: Colors.white70)),
+                            style: TextStyle(color: Colors.white70, fontFamily: 'Poppins')),
                         Text('${property.pricePerNight}€/nuit',
-                            style: TextStyle(color: Colors.white70)),
+                            style: TextStyle(color: Colors.white70, fontFamily: 'Poppins')),
                       ],
                     ),
                   ),
@@ -289,14 +290,14 @@ class PropertyCard extends StatelessWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.orange,
+                          backgroundColor: Color(0xFFF7B818),
                           foregroundColor: Colors.white,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20.0),
                           ),
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                         ),
-                        child: Text('Réserver maintenant'),
+                        child: Text('Réserver maintenant', style: TextStyle(fontFamily: 'Poppins')),
                       ),
                     ],
                   ),

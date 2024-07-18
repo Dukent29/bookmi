@@ -15,7 +15,9 @@ class PaymentReviewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Payment Review'),
+        title: Text('Review Payment', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: Provider.of<AuthProvider>(context, listen: false).getPropertyById(booking.propertyId),
@@ -23,9 +25,9 @@ class PaymentReviewPage extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Failed to load property details'));
+            return Center(child: Text('Failed to load property details', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')));
           } else if (!snapshot.hasData) {
-            return Center(child: Text('Property not found'));
+            return Center(child: Text('Property not found', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')));
           }
 
           final property = Property.fromJson(snapshot.data!['property']);
@@ -35,9 +37,9 @@ class PaymentReviewPage extends StatelessWidget {
               if (photoSnapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (photoSnapshot.hasError) {
-                return Center(child: Text('Failed to load property photo'));
+                return Center(child: Text('Failed to load property photo', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')));
               } else if (!photoSnapshot.hasData) {
-                return Center(child: Text('No photo available'));
+                return Center(child: Text('No photo available', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')));
               }
 
               final photoUrl = photoSnapshot.data!;
@@ -50,24 +52,27 @@ class PaymentReviewPage extends StatelessWidget {
                     SizedBox(height: 16),
                     Text(
                       property.title,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
                     ),
                     Text(
                       '${property.address}, ${property.city}, ${property.state}, ${property.country}',
-                      style: TextStyle(fontSize: 16, color: Colors.grey),
+                      style: TextStyle(fontSize: 16, color: Colors.grey, fontFamily: 'Poppins'),
                     ),
                     SizedBox(height: 16),
-                    Text('Price per night: \$${property.pricePerNight}', style: TextStyle(fontSize: 16)),
-                    Text('Total price: \$${booking.totalPrice}', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                    Text('Price per night:', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white)),
+                    Text('\$${property.pricePerNight}', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Color(0xFFF7B818))),
+                    Text('Total price:', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', fontWeight: FontWeight.bold, color: Colors.white)),
+                    Text('\$${booking.totalPrice}', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Color(0xFFF7B818))),
                     SizedBox(height: 16),
-                    Text('Amenities: ${property.amenities}', style: TextStyle(fontSize: 16)),
-                    Divider(),
-                    Text('Booking Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    Text('Check-in: ${booking.startDate}', style: TextStyle(fontSize: 16)),
-                    Text('Check-out: ${booking.endDate}', style: TextStyle(fontSize: 16)),
-                    Text('Number of guests: ${booking.numPeople}', style: TextStyle(fontSize: 16)),
+                    Text('Amenities:', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white)),
+                    Text('${property.amenities}', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white)),
+                    Divider(color: Colors.grey),
+                    Text('Booking Details', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+                    Text('Check-in: ${booking.startDate}', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white)),
+                    Text('Check-out: ${booking.endDate}', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white)),
+                    Text('Number of guests: ${booking.numPeople}', style: TextStyle(fontSize: 16, fontFamily: 'Poppins', color: Colors.white)),
                     Spacer(),
-                    ElevatedButton(
+                    ElevatedButton.icon(
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -76,7 +81,15 @@ class PaymentReviewPage extends StatelessWidget {
                           ),
                         );
                       },
-                      child: Text('Proceed to Payment'),
+                      icon: Icon(Icons.payment, color: Colors.white),
+                      label: Text('Procéder au paiement', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFFF7B818),
+                        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                      ),
                     ),
                   ],
                 ),

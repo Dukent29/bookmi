@@ -38,7 +38,7 @@ class _EditMyBookingPageState extends State<EditMyBookingPage> {
         numPeople: _numPeople,
       );
       setState(() {
-        _message = 'Booking updated successfully';
+        _message = 'Réservation mise à jour avec succès';
       });
 
       // Show success animation and navigate back to MyBookingsPage
@@ -63,7 +63,7 @@ class _EditMyBookingPageState extends State<EditMyBookingPage> {
                 Icon(Icons.check_circle, color: Colors.green, size: 50),
                 SizedBox(height: 16),
                 Text(
-                  'Booking Updated Successfully!',
+                  'Réservation mise à jour avec succès!',
                   style: TextStyle(
                     color: Colors.green,
                     fontWeight: FontWeight.bold,
@@ -78,7 +78,7 @@ class _EditMyBookingPageState extends State<EditMyBookingPage> {
       );
     } catch (e) {
       setState(() {
-        _message = 'Failed to update booking: $e';
+        _message = 'Échec de la mise à jour de la réservation: $e';
       });
     }
   }
@@ -94,7 +94,7 @@ class _EditMyBookingPageState extends State<EditMyBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Booking', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Modifier la réservation', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -104,7 +104,7 @@ class _EditMyBookingPageState extends State<EditMyBookingPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Edit Booking for ${widget.booking.propertyTitle}',
+              'Modifier la réservation pour ${widget.booking.propertyTitle}',
               style: TextStyle(
                 color: Color(0xFFF7B818),
                 fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class _EditMyBookingPageState extends State<EditMyBookingPage> {
             ),
             SizedBox(height: 16.0),
             Text(
-              'Current Dates: ${DateFormat('yyyy-MM-dd').format(_startDate)} - ${DateFormat('yyyy-MM-dd').format(_endDate)}',
+              'Dates actuelles: ${DateFormat('yyyy-MM-dd').format(_startDate)} - ${DateFormat('yyyy-MM-dd').format(_endDate)}',
               style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'Poppins'),
             ),
             SizedBox(height: 16.0),
@@ -130,12 +130,12 @@ class _EditMyBookingPageState extends State<EditMyBookingPage> {
                   _onDateSelected(picked);
                 }
               },
-              child: Text('Select New Dates'),
+              child: Text('Sélectionnez de nouvelles dates'),
             ),
             SizedBox(height: 16.0),
             TextField(
               decoration: InputDecoration(
-                labelText: 'Number of People',
+                labelText: 'Nombre de personnes',
                 labelStyle: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.white),
@@ -156,7 +156,7 @@ class _EditMyBookingPageState extends State<EditMyBookingPage> {
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _updateBooking,
-              child: Text('Update Booking'),
+              child: Text('Mettre à jour la réservation'),
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white, backgroundColor: Color(0xFFF7B818),
                 shape: RoundedRectangleBorder(
