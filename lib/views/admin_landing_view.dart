@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../providers/auth_provider.dart';
 import '../views/update_profile_view.dart';
 import '../views/announce_view.dart';
 import '../views/actualite_page.dart';
 import '../views/edit_calendar.dart';
+import '../views/auth/login_view.dart'; // Assuming you have a LoginView to navigate after logout
 
 class AdminLandingView extends StatefulWidget {
   @override
@@ -33,8 +36,17 @@ class _AdminLandingViewState extends State<AdminLandingView> {
       ActualitePage(userId: _userId), // Pass userId to ActualitePage
       EditCalendarPage(), // Navigate to EditCalendarPage
       AnnounceView(),
-      Text('Messagerie'),
-      UpdateProfileView(),
+      Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.message, size: 50, color: Colors.grey),
+            SizedBox(height: 10),
+            Text('Arrive bientôt', style: TextStyle(color: Colors.white, fontSize: 24, fontFamily: 'Poppins')),
+          ],
+        ),
+      ),
+      ProfilePage(), // Updated ProfilePage
     ];
 
     void _onItemTapped(int index) {
@@ -45,10 +57,6 @@ class _AdminLandingViewState extends State<AdminLandingView> {
 
     return Scaffold(
       backgroundColor: Colors.transparent, // Add this line
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text('Administratif'),
-      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -99,6 +107,162 @@ class _AdminLandingViewState extends State<AdminLandingView> {
               type: BottomNavigationBarType.fixed,
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Profil', style: TextStyle(fontFamily: 'Poppins')),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF000000), Color(0xFF292A32)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildProfileOption(
+                context,
+                icon: Icons.person,
+                label: 'Gérer votre compte',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => UpdateProfileView()),
+                  );
+                },
+              ),
+              _buildProfileOption(
+                context,
+                icon: Icons.card_giftcard,
+                label: 'Récompense et portefeuille',
+                onTap: () => _navigateToComingSoon(context),
+              ),
+              _buildProfileOption(
+                context,
+                icon: Icons.favorite,
+                label: 'Sauvegardé',
+                onTap: () => _navigateToComingSoon(context),
+              ),
+              _buildProfileOption(
+                context,
+                icon: Icons.rate_review,
+                label: 'Commentaires',
+                onTap: () => _navigateToComingSoon(context),
+              ),
+              _buildProfileOption(
+                context,
+                icon: Icons.question_answer,
+                label: 'FAQ',
+                onTap: () => _navigateToComingSoon(context),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Aide et soutien',
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+              ),
+              _buildProfileOption(
+                context,
+                icon: Icons.contact_support,
+                label: 'Contacter le service client',
+                onTap: () => _navigateToComingSoon(context),
+              ),
+              _buildProfileOption(
+                context,
+                icon: Icons.security,
+                label: 'Centre de ressources sur la sécurité',
+                onTap: () => _navigateToComingSoon(context),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Paramètres et légal',
+                style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+              ),
+              _buildProfileOption(
+                context,
+                icon: Icons.settings,
+                label: 'Paramètres',
+                onTap: () => _navigateToComingSoon(context),
+              ),
+              _buildProfileOption(
+                context,
+                icon: Icons.gavel,
+                label: 'Légal',
+                onTap: () => _navigateToComingSoon(context),
+              ),
+              Spacer(),
+              GestureDetector(
+                onTap: () {
+                  Provider.of<AuthProvider>(context, listen: false).logout();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginView()), // Assuming you have a LoginView to navigate after logout
+                  );
+                },
+                child: Text(
+                  'Déconnexion',
+                  style: TextStyle(color: Colors.red, fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProfileOption(BuildContext context, {required IconData icon, required String label, required Function() onTap}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Row(
+          children: [
+            Icon(icon, color: Colors.white),
+            SizedBox(width: 10),
+            Text(
+              label,
+              style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _navigateToComingSoon(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ComingSoonPage()),
+    );
+  }
+}
+
+class ComingSoonPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Arrive bientôt', style: TextStyle(fontFamily: 'Poppins')),
+      ),
+      body: Center(
+        child: Text(
+          'Arrive bientôt :)',
+          style: TextStyle(fontSize: 24, fontFamily: 'Poppins'),
         ),
       ),
     );

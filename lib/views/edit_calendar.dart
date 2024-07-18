@@ -40,7 +40,7 @@ class _EditCalendarPageState extends State<EditCalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Calendar'),
+        title: Text('Edit Calendar', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -58,7 +58,7 @@ class _EditCalendarPageState extends State<EditCalendarPage> {
               Center(
                 child: Text(
                   _message,
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
                 ),
               ),
             if (_properties.isNotEmpty)
@@ -67,17 +67,24 @@ class _EditCalendarPageState extends State<EditCalendarPage> {
                   itemCount: _properties.length,
                   itemBuilder: (context, index) {
                     final property = _properties[index];
-                    return Card(
-                      color: Colors.grey[800]?.withOpacity(0.5), // Semi-transparent card
+                    return Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                      padding: const EdgeInsets.all(12.8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[800]?.withOpacity(0.5), // Semi-transparent background
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: ListTile(
+                        contentPadding: EdgeInsets.all(8.0),
                         title: Text(
                           property['title'],
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
                         ),
                         subtitle: Text(
                           'Location: ${property['city']}, ${property['country']}',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
                         ),
+                        trailing: Icon(Icons.chevron_right, color: Color(0xFFF7B818)),
                         onTap: () {
                           Navigator.push(
                             context,

@@ -12,6 +12,13 @@ class ActualitePage extends StatefulWidget {
 }
 
 class _ActualitePageState extends State<ActualitePage> {
+  void _navigateToComingSoon(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ComingSoonPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -105,36 +112,63 @@ class _ActualitePageState extends State<ActualitePage> {
                 child: BookingsListWidget(userId: widget.userId),  // Use BookingsListWidget here
               ),
               SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      // Navigate to Contact Customer Service
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Icons.contact_support, color: Colors.white),
-                        Text('Contactez le service à la clientèle', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
-                      ],
+              Container(
+                margin: EdgeInsets.only(top: 20),
+                child: Column(
+                  children: [
+                    InkWell(
+                      onTap: () => _navigateToComingSoon(context),
+                      child: Row(
+                        children: [
+                          Icon(Icons.contact_support, color: Colors.white),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'Contactez le service à la clientèle',
+                              style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  VerticalDivider(color: Colors.white),
-                  InkWell(
-                    onTap: () {
-                      // Navigate to Safety Resource Centre
-                    },
-                    child: Column(
-                      children: [
-                        Icon(Icons.security, color: Colors.white),
-                        Text('Centre de ressources sur la sécurité', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
-                      ],
+                    SizedBox(height: 16),
+                    InkWell(
+                      onTap: () => _navigateToComingSoon(context),
+                      child: Row(
+                        children: [
+                          Icon(Icons.security, color: Colors.white),
+                          SizedBox(width: 8),
+                          Expanded(
+                            child: Text(
+                              'Centre de ressources sur la sécurité',
+                              style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ComingSoonPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Arrive bientôt', style: TextStyle(fontFamily: 'Poppins')),
+      ),
+      body: Center(
+        child: Text(
+          'Arrive bientôt :)',
+          style: TextStyle(fontSize: 24, fontFamily: 'Poppins'),
         ),
       ),
     );

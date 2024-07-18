@@ -66,45 +66,53 @@ class BookingDetailPage extends StatelessWidget {
               ),
               SizedBox(height: 16),
               // Property Title
-              Text(
-                booking.propertyTitle,
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  booking.propertyTitle,
+                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white),
+                ),
               ),
-              Divider(color: Colors.grey[400]), // Divider
-              SizedBox(height: 8),
+              Divider(color: Colors.grey[400]),
               // Guest Info
-              Row(
-                children: [
-                  Icon(Icons.person, color: Colors.white),
-                  SizedBox(width: 8),
-                  Text(
-                    'Guest: $guestUsername', // Using guestUsername instead of guestId
-                    style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.person, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      'Guest: $guestUsername',
+                      style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    ),
+                  ],
+                ),
               ),
-              Divider(color: Colors.grey[400]), // Divider
-              SizedBox(height: 8),
+              Divider(color: Colors.grey[400]),
               // Amount Paid
-              Text(
-                'Amount Paid: \$${booking.totalPrice.toStringAsFixed(2)}',
-                style: TextStyle(fontSize: 20, color: Color(0xFFF7B818), fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Text(
+                  'Amount Paid: \$${booking.totalPrice.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 20, color: Color(0xFFF7B818), fontFamily: 'Poppins', fontWeight: FontWeight.bold),
+                ),
               ),
-              Divider(color: Colors.grey[400]), // Divider
-              SizedBox(height: 8),
+              Divider(color: Colors.grey[400]),
               // Dates of Stay
-              Row(
-                children: [
-                  Icon(Icons.calendar_today, color: Colors.white),
-                  SizedBox(width: 8),
-                  Text(
-                    'Stay: ${DateFormat('yyyy-MM-dd').format(DateTime.parse(booking.startDate))} - ${DateFormat('yyyy-MM-dd').format(DateTime.parse(booking.endDate))}',
-                    style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
-                  ),
-                ],
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Row(
+                  children: [
+                    Icon(Icons.calendar_today, color: Colors.white),
+                    SizedBox(width: 8),
+                    Text(
+                      'Stay: ${DateFormat('yyyy-MM-dd').format(DateTime.parse(booking.startDate))} - ${DateFormat('yyyy-MM-dd').format(DateTime.parse(booking.endDate))}',
+                      style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    ),
+                  ],
+                ),
               ),
-              Divider(color: Colors.grey[400]), // Divider
-              SizedBox(height: 16),
+              SizedBox(height: 24),
               // Confirm and Decline Buttons
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -113,9 +121,9 @@ class BookingDetailPage extends StatelessWidget {
                     onPressed: () {
                       // Add functionality for confirm button
                     },
-                    child: Text('Confirm', style: TextStyle(fontFamily: 'Poppins')),
+                    child: Text('Approuver', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green, // Background color
+                      backgroundColor: Colors.yellow[700], // Background color
                       padding: EdgeInsets.symmetric(vertical: 16.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -127,10 +135,10 @@ class BookingDetailPage extends StatelessWidget {
                     onPressed: () {
                       // Add functionality for decline button
                     },
-                    child: Text('Decline', style: TextStyle(fontFamily: 'Poppins')),
+                    child: Text('Décliner', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red, // Background color
-                      padding: EdgeInsets.symmetric(vertical: 16.0),
+                      padding: EdgeInsets.symmetric(vertical: 18.0),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),

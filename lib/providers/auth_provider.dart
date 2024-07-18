@@ -510,6 +510,22 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  //delete property
+  Future<void> deleteProperty(int propertyId) async {
+    final url = Uri.parse('http://localhost:5000/api/properties/$propertyId');
+    final response = await http.delete(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token', // Add authentication token if needed
+      },
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception('Failed to delete property');
+    }
+  }
+
   //if admin wants to see his/properties
   Future<List<Map<String, dynamic>>> fetchMyProperties(String userId) async {
     final response = await http.get(

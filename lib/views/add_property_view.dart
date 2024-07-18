@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:typed_data';
 import '../../providers/auth_provider.dart';
 import '../../models/property.dart';
+import 'announce_view.dart'; // Make sure this import points to the correct path
 
 class AddPropertyView extends StatefulWidget {
   @override
@@ -70,6 +71,7 @@ class _AddPropertyViewState extends State<AddPropertyView> {
       setState(() {
         _message = 'Propriété ajoutée avec succès';
       });
+      _showSuccessDialog();
     } catch (e) {
       setState(() {
         _message = e.toString();
@@ -77,10 +79,31 @@ class _AddPropertyViewState extends State<AddPropertyView> {
     }
   }
 
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Succès', style: TextStyle(fontFamily: 'Poppins')),
+        content: Text('Propriété ajoutée avec succès', style: TextStyle(fontFamily: 'Poppins')),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => AnnounceView()), // Adjust userId as needed
+              );
+            },
+            child: Text('OK', style: TextStyle(fontFamily: 'Poppins', color: Color(0xFFF7B818))),
+          ),
+        ],
+      ),
+    );
+  }
+
   List<Step> _getSteps() {
     return [
       Step(
-        title: Text('Détails'),
+        title: Text('Détails', style: TextStyle(fontFamily: 'Poppins', color: Color(0xFFF7B818))),
         content: Column(
           children: [
             buildTextField(_titleController, 'Titre'),
@@ -89,9 +112,10 @@ class _AddPropertyViewState extends State<AddPropertyView> {
           ],
         ),
         isActive: _currentStep >= 0,
+        state: _currentStep >= 0 ? StepState.complete : StepState.indexed,
       ),
       Step(
-        title: Text('Emplacement'),
+        title: Text('Emplacement', style: TextStyle(fontFamily: 'Poppins', color: Color(0xFFF7B818))),
         content: Column(
           children: [
             buildTextField(_addressController, 'Adresse'),
@@ -106,20 +130,22 @@ class _AddPropertyViewState extends State<AddPropertyView> {
           ],
         ),
         isActive: _currentStep >= 1,
+        state: _currentStep >= 1 ? StepState.complete : StepState.indexed,
       ),
       Step(
-        title: Text('Tarifs'),
+        title: Text('Tarifs', style: TextStyle(fontFamily: 'Poppins', color: Color(0xFFF7B818))),
         content: Column(
           children: [
             buildTextField(_pricePerNightController, 'Prix par nuit', TextInputType.number),
             SizedBox(height: 10.0),
-            buildTextField(_maxGuestsController, 'Nombre maximum d\'invités\', TextInputType.number'),
+            buildTextField(_maxGuestsController, 'Nombre maximum d\'invités', TextInputType.number),
           ],
         ),
         isActive: _currentStep >= 2,
+        state: _currentStep >= 2 ? StepState.complete : StepState.indexed,
       ),
       Step(
-        title: Text('Agréments'),
+        title: Text('Agréments', style: TextStyle(fontFamily: 'Poppins', color: Color(0xFFF7B818))),
         content: Column(
           children: [
             buildTextField(_numBedroomsController, 'Nombre de chambres', TextInputType.number),
@@ -127,10 +153,18 @@ class _AddPropertyViewState extends State<AddPropertyView> {
             buildTextField(_numBathroomsController, 'Nombre de salles de bains', TextInputType.number),
             SizedBox(height: 10.0),
             buildTextField(_amenitiesController, 'Agréments'),
-            SizedBox(height: 10.0),
-            ElevatedButton(
+            SizedBox(height: 20.0),
+            ElevatedButton.icon(
               onPressed: _pickImages,
-              child: Text('Choisir des images'),
+              icon: Icon(Icons.image, color: Colors.white),
+              label: Text('Choisir des images', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Color(0xFFF7B818),
+                padding: EdgeInsets.all(16.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
             ),
             if (_images.isNotEmpty)
               Wrap(
@@ -144,6 +178,7 @@ class _AddPropertyViewState extends State<AddPropertyView> {
           ],
         ),
         isActive: _currentStep >= 3,
+        state: _currentStep >= 3 ? StepState.complete : StepState.indexed,
       ),
     ];
   }
@@ -152,7 +187,7 @@ class _AddPropertyViewState extends State<AddPropertyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ajouter une propriété'),
+        title: Text('Ajouter une propriété', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -211,6 +246,38 @@ class _AddPropertyViewState extends State<AddPropertyView> {
                           _currentStep -= 1;
                         });
                       }
+                    },
+                    controlsBuilder: (BuildContext context, ControlsDetails details) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            ElevatedButton(
+                              onPressed: details.onStepContinue,
+                              child: Text('Suivant', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFFF7B818), // Yellow color for next button
+                                padding: EdgeInsets.all(16.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: details.onStepCancel,
+                              child: Text('Précédent', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.grey[700], // Grey color for back button
+                                padding: EdgeInsets.all(16.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
                     },
                   ),
                   if (_message.isNotEmpty) ...[

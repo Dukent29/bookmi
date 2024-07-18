@@ -50,42 +50,46 @@ class BookingsListWidget extends StatelessWidget {
                   color: Colors.grey[800]?.withOpacity(0.5), // Semi-transparent card
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: Row(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         FutureBuilder<String>(
                           future: Provider.of<AuthProvider>(context, listen: false)
                               .fetchPropertyPhotoUrl(booking['property_id']),
                           builder: (context, snapshot) {
                             if (snapshot.connectionState == ConnectionState.waiting) {
-                              return CircularProgressIndicator();
+                              return Center(child: CircularProgressIndicator());
                             } else if (snapshot.hasError) {
-                              return Icon(Icons.error, color: Colors.red);
+                              return Center(child: Icon(Icons.error, color: Colors.red));
                             } else {
                               return snapshot.hasData
-                                  ? Image.network(snapshot.data!, width: 100, height: 100, fit: BoxFit.cover)
-                                  : Icon(Icons.image, color: Colors.white);
+                                  ? Image.network(snapshot.data!, width: double.infinity, height: 200, fit: BoxFit.cover)
+                                  : Center(child: Icon(Icons.image, color: Colors.white));
                             }
                           },
                         ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                booking['property_title'],
-                                style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                'Invitée: ${booking['guest_username']}',
-                                style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
-                              ),
-                            ],
-                          ),
+                        SizedBox(height: 8),
+                        Text(
+                          booking['property_title'],
+                          style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold, fontSize: 18),
                         ),
-                        Icon(
-                          Icons.chevron_right,
-                          color: Color(0xFFF7B818),
+                        SizedBox(height: 4),
+                        Text(
+                          'Invitée: ${booking['guest_username']}',
+                          style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontSize: 16),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Stay: ${booking['start_date']} - ${booking['end_date']}',
+                          style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontSize: 16),
+                        ),
+                        SizedBox(height: 8),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Icon(
+                            Icons.chevron_right,
+                            color: Color(0xFFF7B818),
+                          ),
                         ),
                       ],
                     ),

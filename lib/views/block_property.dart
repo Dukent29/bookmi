@@ -73,6 +73,7 @@ class _BlockPropertyState extends State<BlockProperty> {
         _message = 'Dates blocked successfully';
         _fetchBlockedDates();
       });
+      _showSuccessDialog();
     } catch (e) {
       setState(() {
         _message = 'Failed to block dates: ${e.toString()}';
@@ -95,74 +96,136 @@ class _BlockPropertyState extends State<BlockProperty> {
     }
   }
 
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Success', style: TextStyle(fontFamily: 'Poppins')),
+        content: Text('Dates blocked successfully', style: TextStyle(fontFamily: 'Poppins')),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pop(); // Navigate back to the previous page
+            },
+            child: Text('OK', style: TextStyle(fontFamily: 'Poppins', color: Color(0xFFF7B818))),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Calendar'),
+        title: Text('Edit Calendar', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            TableCalendar(
-              firstDay: DateTime.utc(2020, 1, 1),
-              lastDay: DateTime.utc(2030, 1, 1),
-              focusedDay: DateTime.now(),
-              selectedDayPredicate: (day) {
-                return (_startDate != null && isSameDay(_startDate, day)) ||
-                    (_endDate != null && isSameDay(_endDate, day));
-              },
-              onDaySelected: _onDateSelected,
-              rangeStartDay: _startDate,
-              rangeEndDay: _endDate,
-              calendarStyle: CalendarStyle(
-                rangeHighlightColor: Colors.orange.withOpacity(0.5),
-                rangeStartDecoration: BoxDecoration(
-                  color: Colors.orange,
-                  shape: BoxShape.circle,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFF000000), Color(0xFF292A32)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // Background color of the calendar
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                rangeEndDecoration: BoxDecoration(
-                  color: Colors.orange,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            if (_startDate != null && _endDate != null)
-              Text('Selected dates: ${DateFormat('yyyy-MM-dd').format(_startDate!)} - ${DateFormat('yyyy-MM-dd').format(_endDate!)}'),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _blockDate,
-              child: Text('Block Dates'),
-            ),
-            SizedBox(height: 16.0),
-            if (_message.isNotEmpty)
-              Text(
-                _message,
-                style: TextStyle(color: Colors.red),
-              ),
-            SizedBox(height: 16.0),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _blockedDates.length,
-                itemBuilder: (context, index) {
-                  final blockedDate = _blockedDates[index];
-                  return ListTile(
-                    title: Text('From: ${blockedDate['start_date']} To: ${blockedDate['end_date']}'),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        _unblockDate(blockedDate['id']);
-                      },
+                padding: const EdgeInsets.all(16.0),
+                child: TableCalendar(
+                  firstDay: DateTime.utc(2020, 1, 1),
+                  lastDay: DateTime.utc(2030, 1, 1),
+                  focusedDay: DateTime.now(),
+                  selectedDayPredicate: (day) {
+                    return (_startDate != null && isSameDay(_startDate, day)) ||
+                        (_endDate != null && isSameDay(_endDate, day));
+                  },
+                  onDaySelected: _onDateSelected,
+                  rangeStartDay: _startDate,
+                  rangeEndDay: _endDate,
+                  calendarStyle: CalendarStyle(
+                    rangeHighlightColor: Colors.orange.withOpacity(0.5),
+                    rangeStartDecoration: BoxDecoration(
+                      color: Colors.orange,
+                      shape: BoxShape.circle,
                     ),
-                  );
-                },
+                    rangeEndDecoration: BoxDecoration(
+                      color: Colors.orange,
+                      shape: BoxShape.circle,
+                    ),
+                    todayTextStyle: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    selectedTextStyle: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    defaultTextStyle: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+                  ),
+                  headerStyle: HeaderStyle(
+                    titleTextStyle: TextStyle(color: Colors.black, fontFamily: 'Poppins'),
+                    formatButtonTextStyle: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                    formatButtonDecoration: BoxDecoration(
+                      color: Colors.blue, // Change this color to your preferred one
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    leftChevronIcon: Icon(Icons.chevron_left, color: Colors.black),
+                    rightChevronIcon: Icon(Icons.chevron_right, color: Colors.black),
+                  ),
+                ),
               ),
-            ),
-          ],
+              SizedBox(height: 16.0),
+              if (_startDate != null && _endDate != null)
+                Text(
+                  'Selected dates: ${DateFormat('yyyy-MM-dd').format(_startDate!)} - ${DateFormat('yyyy-MM-dd').format(_endDate!)}',
+                  style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                ),
+              SizedBox(height: 16.0),
+              ElevatedButton.icon(
+                onPressed: _blockDate,
+                icon: Icon(Icons.block, color: Colors.white),
+                label: Text('Block Dates', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFF7B818), // Background color
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              if (_message.isNotEmpty)
+                Text(
+                  _message,
+                  style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
+                ),
+              SizedBox(height: 16.0),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _blockedDates.length,
+                  itemBuilder: (context, index) {
+                    final blockedDate = _blockedDates[index];
+                    return ListTile(
+                      title: Text(
+                        'A partir de: ${blockedDate['start_date']} jusqu\'à: ${blockedDate['end_date']}',
+                        style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
+                      ),
+                      trailing: IconButton(
+                        icon: Icon(Icons.delete, color: Colors.red),
+                        onPressed: () {
+                          _unblockDate(blockedDate['id']);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

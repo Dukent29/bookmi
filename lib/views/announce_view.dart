@@ -41,7 +41,7 @@ class _AnnounceViewState extends State<AnnounceView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Announce'),
+        title: Text('Announce', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -59,7 +59,7 @@ class _AnnounceViewState extends State<AnnounceView> {
               Center(
                 child: Text(
                   _message,
-                  style: TextStyle(color: Colors.red),
+                  style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
                 ),
               ),
             if (_properties.isNotEmpty)
@@ -69,16 +69,19 @@ class _AnnounceViewState extends State<AnnounceView> {
                   itemBuilder: (context, index) {
                     final property = _properties[index];
                     return Card(
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                       color: Colors.grey[800]?.withOpacity(0.5), // Semi-transparent card
                       child: ListTile(
+                        contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                         title: Text(
                           property['title'],
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontWeight: FontWeight.bold),
                         ),
                         subtitle: Text(
                           'Emplacement: ${property['city']}, ${property['country']}',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
                         ),
+                        trailing: Icon(Icons.chevron_right, color: Color(0xFFF7B818)),
                         onTap: () {
                           Navigator.push(
                             context,
@@ -94,16 +97,21 @@ class _AnnounceViewState extends State<AnnounceView> {
               ),
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: ElevatedButton(
+              child: ElevatedButton.icon(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AddPropertyView()),
                   );
                 },
-                child: Text('Ajouter une propriété'),
+                icon: Icon(Icons.add, color: Colors.white),
+                label: Text('Ajouter une propriété', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
+                  backgroundColor: Color(0xFFF7B818),
+                  padding: EdgeInsets.all(16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
                 ),
               ),
             ),
