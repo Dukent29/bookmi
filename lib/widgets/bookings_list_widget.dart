@@ -24,9 +24,9 @@ class BookingsListWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Text('Failed to load bookings: ${snapshot.error}', style: TextStyle(color: Colors.red, fontFamily: 'Poppins'));
+          return Text('Échec du chargement des réservations: ${snapshot.error}', style: TextStyle(color: Colors.red, fontFamily: 'Poppins'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Text('No bookings found', style: TextStyle(color: Colors.white, fontFamily: 'Poppins'));
+          return Text('Aucune réservation trouvée', style: TextStyle(color: Colors.white, fontFamily: 'Poppins'));
         } else {
           final bookings = snapshot.data!;
           return ListView.builder(
@@ -80,7 +80,7 @@ class BookingsListWidget extends StatelessWidget {
                         ),
                         SizedBox(height: 4),
                         Text(
-                          'Stay: ${booking['start_date']} - ${booking['end_date']}',
+                          'Jours de reservation: ${booking['start_date']} - ${booking['end_date']}',
                           style: TextStyle(color: Colors.white, fontFamily: 'Poppins', fontSize: 16),
                         ),
                         SizedBox(height: 8),

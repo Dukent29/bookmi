@@ -78,7 +78,7 @@ class _UserLandingViewState extends State<UserLandingView> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: 'Profile',
+                label: 'Profil',
               ),
             ],
             currentIndex: _selectedIndex,

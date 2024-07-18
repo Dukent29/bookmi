@@ -40,7 +40,7 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         Text(widget.property.address, style: TextStyle(color: Colors.white)),
-        Text('Prix par nuit: \$${widget.property.pricePerNight}', style: TextStyle(color: Colors.white)),
+        Text('Prix par nuit: \€${widget.property.pricePerNight}', style: TextStyle(color: Colors.white)),
         SizedBox(height: 16),
         Text(widget.property.description, style: TextStyle(color: Colors.white)),
         SizedBox(height: 16),
@@ -60,6 +60,6 @@ class _PropertyDetailPageState extends State<PropertyDetailPage> {
   }
 
   Widget _buildBookingForm() {
-    return CreateBookingView(property: widget.property, userId: widget.userId); // Pass userId to CreateBookingView
+    return CreateBookingView(property: widget.property, userId: widget.userId);
   }
 }

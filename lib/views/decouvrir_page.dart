@@ -160,7 +160,7 @@ class _DecouvrirPageState extends State<DecouvrirPage> {
               SizedBox(height: 16.0),
               Expanded(
                 child: _properties.isEmpty
-                    ? Center(child: Text('No properties found', style: TextStyle(fontFamily: 'Poppins')))
+                    ? Center(child: Text('Aucune propriété trouvée', style: TextStyle(fontFamily: 'Poppins')))
                     : ListView.builder(
                   itemCount: _properties.length,
                   itemBuilder: (context, index) {

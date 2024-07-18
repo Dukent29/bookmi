@@ -31,7 +31,7 @@ class _EditCalendarPageState extends State<EditCalendarPage> {
       });
     } catch (e) {
       setState(() {
-        _message = 'Failed to load properties: ${e.toString()}';
+        _message = 'Échec du chargement des propriétés: ${e.toString()}';
       });
     }
   }
@@ -40,7 +40,7 @@ class _EditCalendarPageState extends State<EditCalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Calendar', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Modifier le calendrier', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

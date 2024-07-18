@@ -62,7 +62,7 @@ class _ActualitePageState extends State<ActualitePage> {
                     SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
-                        // Logic for En attente button
+
                       },
                       child: Text('En attente', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
@@ -77,9 +77,9 @@ class _ActualitePageState extends State<ActualitePage> {
                     SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
-                        // Logic for Reser passé button
+
                       },
-                      child: Text('Reser passé', style: TextStyle(fontFamily: 'Poppins')),
+                      child: Text('Reserv passé', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
                         foregroundColor: Colors.white,
@@ -92,7 +92,7 @@ class _ActualitePageState extends State<ActualitePage> {
                     SizedBox(width: 8),
                     ElevatedButton(
                       onPressed: () {
-                        // Logic for Annulées button
+
                       },
                       child: Text('Annulées', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(

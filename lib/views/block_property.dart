@@ -57,7 +57,7 @@ class _BlockPropertyState extends State<BlockProperty> {
   Future<void> _blockDate() async {
     if (_startDate == null || _endDate == null || !_startDate!.isBefore(_endDate!)) {
       setState(() {
-        _message = 'Please select a valid start and end date';
+        _message = 'Veuillez sélectionner une date de début et de fin valide';
       });
       return;
     }
@@ -70,13 +70,13 @@ class _BlockPropertyState extends State<BlockProperty> {
         endDate: _endDate!,
       );
       setState(() {
-        _message = 'Dates blocked successfully';
+        _message = 'Dates bloquées avec succès';
         _fetchBlockedDates();
       });
       _showSuccessDialog();
     } catch (e) {
       setState(() {
-        _message = 'Failed to block dates: ${e.toString()}';
+        _message = 'Échec du blocage des dates: ${e.toString()}';
       });
     }
   }
@@ -86,12 +86,12 @@ class _BlockPropertyState extends State<BlockProperty> {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       await authProvider.unblockDate(blockedDateId);
       setState(() {
-        _message = 'Date unblocked successfully';
+        _message = 'Date de déblocage réussie';
         _fetchBlockedDates();
       });
     } catch (e) {
       setState(() {
-        _message = 'Failed to unblock date: ${e.toString()}';
+        _message = 'Échec du déblocage de la date: ${e.toString()}';
       });
     }
   }
@@ -100,8 +100,8 @@ class _BlockPropertyState extends State<BlockProperty> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Success', style: TextStyle(fontFamily: 'Poppins')),
-        content: Text('Dates blocked successfully', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Succès', style: TextStyle(fontFamily: 'Poppins')),
+        content: Text('Dates bloquées avec succès', style: TextStyle(fontFamily: 'Poppins')),
         actions: [
           TextButton(
             onPressed: () {
@@ -119,7 +119,7 @@ class _BlockPropertyState extends State<BlockProperty> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edit Calendar', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Modifier le calendrier', style: TextStyle(fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -181,14 +181,14 @@ class _BlockPropertyState extends State<BlockProperty> {
               SizedBox(height: 16.0),
               if (_startDate != null && _endDate != null)
                 Text(
-                  'Selected dates: ${DateFormat('yyyy-MM-dd').format(_startDate!)} - ${DateFormat('yyyy-MM-dd').format(_endDate!)}',
+                  'Modifier le calendrierDates sélectionnées: ${DateFormat('yyyy-MM-dd').format(_startDate!)} - ${DateFormat('yyyy-MM-dd').format(_endDate!)}',
                   style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
                 ),
               SizedBox(height: 16.0),
               ElevatedButton.icon(
                 onPressed: _blockDate,
                 icon: Icon(Icons.block, color: Colors.white),
-                label: Text('Block Dates', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+                label: Text('Dates de blocage', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFFF7B818), // Background color
                   shape: RoundedRectangleBorder(

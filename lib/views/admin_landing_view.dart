@@ -33,8 +33,8 @@ class _AdminLandingViewState extends State<AdminLandingView> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> _widgetOptions = <Widget>[
-      ActualitePage(userId: _userId), // Pass userId to ActualitePage
-      EditCalendarPage(), // Navigate to EditCalendarPage
+      ActualitePage(userId: _userId),
+      EditCalendarPage(),
       AnnounceView(),
       Center(
         child: Column(
@@ -46,7 +46,7 @@ class _AdminLandingViewState extends State<AdminLandingView> {
           ],
         ),
       ),
-      ProfilePage(), // Updated ProfilePage
+      ProfilePage(),
     ];
 
     void _onItemTapped(int index) {
@@ -70,11 +70,11 @@ class _AdminLandingViewState extends State<AdminLandingView> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: Colors.transparent, // Apply background color to the whole container
+        color: Colors.transparent,
         child: Container(
-          margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0), // Margin for all sides
+          margin: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
           child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0), // Border radius
+            borderRadius: BorderRadius.circular(10.0),
             child: BottomNavigationBar(
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
@@ -102,8 +102,8 @@ class _AdminLandingViewState extends State<AdminLandingView> {
               selectedItemColor: Colors.amber[800],
               unselectedItemColor: Colors.white,
               onTap: _onItemTapped,
-              backgroundColor: Colors.grey.withOpacity(0.5), // Semi-transparent background
-              elevation: 0, // Remove shadow/elevation
+              backgroundColor: Colors.grey.withOpacity(0.5),
+              elevation: 0,
               type: BottomNavigationBarType.fixed,
             ),
           ),
@@ -210,7 +210,7 @@ class ProfilePage extends StatelessWidget {
                   Provider.of<AuthProvider>(context, listen: false).logout();
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => LoginView()), // Assuming you have a LoginView to navigate after logout
+                    MaterialPageRoute(builder: (context) => LoginView()),
                   );
                 },
                 child: Text(
