@@ -28,7 +28,7 @@ class _CreateBookingViewState extends State<CreateBookingView> {
   Future<void> _createBooking() async {
     if (_startDate == null || _endDate == null || !_startDate!.isBefore(_endDate!)) {
       setState(() {
-        _message = 'Please select a start and end date';
+        _message = 'Veuillez sélectionner une date de début et de fin';
       });
       return;
     }
@@ -70,7 +70,7 @@ class _CreateBookingViewState extends State<CreateBookingView> {
       );
 
       setState(() {
-        _message = 'Booking created successfully';
+        _message = 'Réservation créée avec succès';
       });
 
       // Navigate to PaymentReviewPage
@@ -82,7 +82,7 @@ class _CreateBookingViewState extends State<CreateBookingView> {
       );
     } catch (e) {
       setState(() {
-        _message = 'Booking failed: ${e.toString()}';
+        _message = 'Échec de la réservation: ${e.toString()}';
       });
     }
   }
@@ -98,48 +98,79 @@ class _CreateBookingViewState extends State<CreateBookingView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Booking for ${widget.property.title}'),
+        title: Text('Créer une réservation pour ${widget.property.title}', style: TextStyle(fontFamily: 'Poppins')),
       ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            CustomDatePicker(onDateSelected: _onDateSelected),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white, // Set background color for the date picker
+                borderRadius: BorderRadius.circular(8.0), // Rounded corners
+              ),
+              child: CustomDatePicker(onDateSelected: _onDateSelected),
+            ),
             SizedBox(height: 16.0),
             if (_startDate != null && _endDate != null)
-              Text('Selected dates: ${DateFormat('yyyy-MM-dd').format(_startDate!)} - ${DateFormat('yyyy-MM-dd').format(_endDate!)}'),
+              Text(
+                'Dates sélectionnées: ${DateFormat('yyyy-MM-dd').format(_startDate!)} - ${DateFormat('yyyy-MM-dd').format(_endDate!)}',
+                style: TextStyle(color: Color(0xFFF7B818), fontFamily: 'Poppins'),
+              ),
             SizedBox(height: 16.0),
             TextField(
-              decoration: InputDecoration(labelText: 'Number of People'),
+              decoration: InputDecoration(
+                labelText: 'Nombre d\'invités',
+                labelStyle: TextStyle(color: Color(0xFFF7B818), fontFamily: 'Poppins'), // Set label color and font
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0), // Rounded corners
+                  borderSide: BorderSide(
+                    color: Color(0xFFF7B818), // Set border color
+                  ),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+              ),
               keyboardType: TextInputType.number,
               onChanged: (value) {
                 setState(() {
                   _numPeople = int.parse(value);
                 });
               },
+              style: TextStyle(fontFamily: 'Poppins'), // Set font
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _createBooking,
-              child: Text('Validate Reservation'),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _createBooking,
+                child: Text('Valider la réservation', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFF7B818), // Set background color
+                  padding: EdgeInsets.symmetric(vertical: 16.0),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 16.0),
-            ElevatedButton(
+            TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SearchPropertiesView(userId: '',),
+                    builder: (context) => SearchPropertiesView(userId: widget.userId), // Pass userId
                   ),
                 );
               },
-              child: Text('Cancel'),
+              child: Text('Annuler', style: TextStyle(color: Colors.red, fontFamily: 'Poppins')),
             ),
             SizedBox(height: 16.0),
             if (_message.isNotEmpty)
               Text(
                 _message,
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: Colors.red, fontFamily: 'Poppins'),
               ),
           ],
         ),
