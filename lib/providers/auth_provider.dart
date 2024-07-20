@@ -8,7 +8,6 @@ import '../models/review.dart';
 import 'dart:typed_data';
 import 'package:http_parser/http_parser.dart';
 import '../models/booking.dart';
-import '../models/payment.dart';
 
 class AuthProvider with ChangeNotifier {
   String? _token;
@@ -650,4 +649,5 @@ class AuthProvider with ChangeNotifier {
       throw Exception('Failed to create payment');
     }
   }
+
 }

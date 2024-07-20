@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../providers/auth_provider.dart';// Adjust the import according to your project structure
+import '../providers/auth_provider.dart'; // Adjust the import according to your project structure
 import 'decouvrir_page.dart';
 import 'update_profile_view.dart';
 import 'booking/my_bookings_page.dart';
@@ -184,11 +183,7 @@ class ProfilePage extends StatelessWidget {
               Spacer(),
               GestureDetector(
                 onTap: () {
-                  Provider.of<AuthProvider>(context, listen: false).logout();
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => LoginView()), // Assuming you have a LoginView to navigate after logout
-                  );
+                  _showLogoutConfirmation(context);
                 },
                 child: Text(
                   'Déconnexion',
@@ -225,6 +220,37 @@ class ProfilePage extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ComingSoonPage()),
+    );
+  }
+
+  void _showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Color(0xFF292A32),
+          title: Text('Confirmation', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+          content: Text('Êtes-vous sûr de vouloir vous déconnecter ?', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Annuler', style: TextStyle(fontFamily: 'Poppins', color: Color(0xFFF7B818))),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Déconnexion', style: TextStyle(fontFamily: 'Poppins', color: Colors.red)),
+              onPressed: () {
+                Provider.of<AuthProvider>(context, listen: false).logout();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginView()),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
