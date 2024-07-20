@@ -187,7 +187,7 @@ class _AddPropertyViewState extends State<AddPropertyView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ajouter une propriété', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Ajouter une propriété', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

@@ -41,7 +41,7 @@ class _AnnounceViewState extends State<AnnounceView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Announce', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Announce', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

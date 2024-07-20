@@ -73,7 +73,7 @@ class _BlockDatesViewState extends State<BlockDatesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dates de blocage')),
+      appBar: AppBar(title: Text('Blocker les dates', style: TextStyle(color: Colors.white, fontFamily: 'Poppins'))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

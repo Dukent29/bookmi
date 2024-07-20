@@ -83,7 +83,7 @@ class _MySinglePropertyState extends State<MySingleProperty> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détails de la propriété', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Détails de la propriété', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [

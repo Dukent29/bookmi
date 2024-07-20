@@ -25,7 +25,7 @@ class _ActualitePageState extends State<ActualitePage> {
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: Text('Actualité', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Actualité', style: TextStyle(fontFamily: 'Poppins', color: Colors.white),),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -40,18 +40,16 @@ class _ActualitePageState extends State<ActualitePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              GreetingWidget(userId: widget.userId),  // Use GreetingWidget here
+              GreetingWidget(userId: widget.userId),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        // Logic for Actualités button
-                      },
+                      onPressed: () {},
                       child: Text('Actualités', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange,
+                        backgroundColor: Color(0xFFF7B818),
                         foregroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20.0),
@@ -61,9 +59,7 @@ class _ActualitePageState extends State<ActualitePage> {
                     ),
                     SizedBox(width: 8),
                     ElevatedButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       child: Text('En attente', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
@@ -76,9 +72,7 @@ class _ActualitePageState extends State<ActualitePage> {
                     ),
                     SizedBox(width: 8),
                     ElevatedButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       child: Text('Reserv passé', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],
@@ -91,9 +85,7 @@ class _ActualitePageState extends State<ActualitePage> {
                     ),
                     SizedBox(width: 8),
                     ElevatedButton(
-                      onPressed: () {
-
-                      },
+                      onPressed: () {},
                       child: Text('Annulées', style: TextStyle(fontFamily: 'Poppins')),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.grey[850],

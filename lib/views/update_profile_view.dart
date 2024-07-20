@@ -37,7 +37,8 @@ class _UpdateProfileViewState extends State<UpdateProfileView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Modifier profile'),
+          backgroundColor: Colors.transparent,
+          title: Text('Modifier profile',style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
           actions: [
             IconButton(
               icon: Icon(Icons.notifications),

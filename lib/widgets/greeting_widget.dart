@@ -15,13 +15,13 @@ class GreetingWidget extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
         } else if (snapshot.hasError) {
-          return Text('Failed to load username', style: TextStyle(color: Colors.red));
+          return Text('Échec du chargement du nom d\'utilisateur', style: TextStyle(color: Colors.red));
         } else {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hello, ${snapshot.data}',
+                'Bonjour, ${snapshot.data}',
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -29,9 +29,9 @@ class GreetingWidget extends StatelessWidget {
                   fontFamily: 'Poppins',
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: 32),
               Text(
-                'How are you today?',
+                'Comment allez vous aujourd\'hui?',
                 style: TextStyle(fontSize: 16, color: Colors.white, fontFamily: 'Poppins'),
               ),
               SizedBox(height: 16),

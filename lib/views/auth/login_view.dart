@@ -46,7 +46,7 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Se connecter'),
+        title: Text('Se connecter', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -77,7 +77,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       TextSpan(
                         text: 'mi',
-                        style: TextStyle(color: Colors.orange),
+                        style: TextStyle(color: Color(0xFFF7B818)),
                       ),
                     ],
                   ),
@@ -129,7 +129,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Color(0xFFF7B818),
                       padding: EdgeInsets.symmetric(vertical: 20.0), // Padding top and bottom
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -148,9 +148,9 @@ class _LoginViewState extends State<LoginView> {
                     Navigator.pushNamed(context, '/register');
                   },
                   child: Text(
-                    'Pas de compte? s\'inscrir',
+                    'Pas de compte? s\'inscrire',
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: Color(0xFFF7B818),
                       decoration: TextDecoration.underline,
                       fontFamily: 'Poppins',
                     ),

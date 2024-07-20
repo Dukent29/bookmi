@@ -40,7 +40,7 @@ class _EditCalendarPageState extends State<EditCalendarPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Modifier le calendrier', style: TextStyle(fontFamily: 'Poppins')),
+        title: Text('Modifier le calendrier', style: TextStyle(fontFamily: 'Poppins', color: Colors.white)),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),

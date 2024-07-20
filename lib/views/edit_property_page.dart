@@ -86,7 +86,7 @@ class _EditPropertyPageState extends State<EditPropertyPage> {
   List<Step> _getSteps() {
     return [
       Step(
-        title: Text('Détails'),
+        title: Text('Détails', style: TextStyle(color: _currentStep == 0 ? Color(0xFFF7B818) : Colors.white, fontFamily: 'Poppins')),
         content: Column(
           children: [
             buildTextField(_titleController, 'Titre'),
@@ -97,7 +97,7 @@ class _EditPropertyPageState extends State<EditPropertyPage> {
         isActive: _currentStep >= 0,
       ),
       Step(
-        title: Text('Emplacement'),
+        title: Text('Emplacement', style: TextStyle(color: _currentStep == 1 ? Color(0xFFF7B818) : Colors.white, fontFamily: 'Poppins')),
         content: Column(
           children: [
             buildTextField(_addressController, 'Adresse'),
@@ -114,18 +114,18 @@ class _EditPropertyPageState extends State<EditPropertyPage> {
         isActive: _currentStep >= 1,
       ),
       Step(
-        title: Text('Tarifs'),
+        title: Text('Tarifs', style: TextStyle(color: _currentStep == 2 ? Color(0xFFF7B818) : Colors.white, fontFamily: 'Poppins')),
         content: Column(
           children: [
             buildTextField(_pricePerNightController, 'Prix par nuit', TextInputType.number),
             SizedBox(height: 10.0),
-            buildTextField(_maxGuestsController, 'Nombre maximum d\'invités\', TextInputType.number'),
+            buildTextField(_maxGuestsController, 'Nombre maximum d\'invités', TextInputType.number),
           ],
         ),
         isActive: _currentStep >= 2,
       ),
       Step(
-        title: Text('Agréments'),
+        title: Text('Agréments', style: TextStyle(color: _currentStep == 3 ? Color(0xFFF7B818) : Colors.white, fontFamily: 'Poppins')),
         content: Column(
           children: [
             buildTextField(_numBedroomsController, 'Nombre de chambres', TextInputType.number),
@@ -144,7 +144,7 @@ class _EditPropertyPageState extends State<EditPropertyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Modifier la propriété'),
+        title: Text('Modifier la propriété', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
@@ -203,6 +203,47 @@ class _EditPropertyPageState extends State<EditPropertyPage> {
                           _currentStep -= 1;
                         });
                       }
+                    },
+                    controlsBuilder: (BuildContext context, ControlsDetails controls) {
+                      return Column(
+                        children: [
+                          Row(
+                            children: <Widget>[
+                              ElevatedButton(
+                                onPressed: controls.onStepContinue,
+                                child: Text(
+                                  _currentStep < _getSteps().length - 1 ? 'Continuer' : 'Mettre à jour',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFF7B818),
+                                  padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.0),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              TextButton(
+                                onPressed: controls.onStepCancel,
+                                child: Text(
+                                  'Annuler',
+                                  style: TextStyle(
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 15),  // Added space between fields and buttons
+                        ],
+                      );
                     },
                   ),
                   if (_message.isNotEmpty) ...[
