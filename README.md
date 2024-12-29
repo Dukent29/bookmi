@@ -1,16 +1,35 @@
-# bookmi_app
+# BookMi - Front-End
 
-A new Flutter project.
+## Description
 
-## Getting Started
+Ce projet contient le code du front-end de l'application BookMe. Le front-end est construit en utilisant Flutter, un framework open-source pour le développement d'applications mobiles.
 
-This project is a starting point for a Flutter application.
+## Prérequis
 
-A few resources to get you started if this is your first Flutter project:
+- Flutter (v2.5 ou supérieur)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Installation
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. Clonez le dépôt :
+
+
+git clone https://github.com/Dukent29/bookmi
+
+## Accédez au répertoire du projet 
+
+- cd bookme-frontend
+
+## Installez les dépendances nécessaires :
+
+- flutter pub get
+
+## Exécution
+
+- Assurez-vous d'avoir un émulateur ou un appareil connecté.
+
+- Démarrez l'application :
+
+- flutter run
+
+
+

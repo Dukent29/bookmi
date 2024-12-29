@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../providers/auth_provider.dart';
-import 'update_profile_view.dart';
+import '../../providers/auth_provider.dart';
+import '../admin_landing_view.dart';
+import '../user_landing_view.dart';
 
 class LoginView extends StatefulWidget {
   @override
@@ -20,13 +21,23 @@ class _LoginViewState extends State<LoginView> {
         _emailController.text,
         _passwordController.text,
       );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => UpdateProfileView()),
-      );
+
+      final userId = Provider.of<AuthProvider>(context, listen: false).userId;
+
+      if (Provider.of<AuthProvider>(context, listen: false).isAdmin) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => AdminLandingView()),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => UserLandingView(userId: userId ?? '')),
+        );
+      }
     } catch (e) {
       setState(() {
-        _message = e.toString();
+        _message = 'Échec de la connexion: ${e.toString()}';
       });
     }
   }
@@ -34,6 +45,11 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Se connecter', style: TextStyle(color: Colors.white, fontFamily: 'Poppins')),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -61,7 +77,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       TextSpan(
                         text: 'mi',
-                        style: TextStyle(color: Colors.orange),
+                        style: TextStyle(color: Color(0xFFF7B818)),
                       ),
                     ],
                   ),
@@ -88,7 +104,7 @@ class _LoginViewState extends State<LoginView> {
                   child: TextField(
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      labelText: 'Password',
+                      labelText: 'Mot de passe',
                       labelStyle: TextStyle(fontFamily: 'Poppins'),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -113,7 +129,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.orange,
+                      backgroundColor: Color(0xFFF7B818),
                       padding: EdgeInsets.symmetric(vertical: 20.0), // Padding top and bottom
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(5.0),
@@ -132,9 +148,9 @@ class _LoginViewState extends State<LoginView> {
                     Navigator.pushNamed(context, '/register');
                   },
                   child: Text(
-                    'Pas de compte ? Inscription',
+                    'Pas de compte? s\'inscrire',
                     style: TextStyle(
-                      color: Colors.orange,
+                      color: Color(0xFFF7B818),
                       decoration: TextDecoration.underline,
                       fontFamily: 'Poppins',
                     ),
